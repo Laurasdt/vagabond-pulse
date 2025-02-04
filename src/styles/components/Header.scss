@@ -1,6 +1,4 @@
-$primary-color: #0adee4;
-$secondary-color: #19191a;
-$hover-color: #ffdb58;
+@import "../variables.scss";
 
 .header {
   display: flex;
