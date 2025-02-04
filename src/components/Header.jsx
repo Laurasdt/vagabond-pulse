@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import "./Header.css";
+import "./Header.scss";
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Toggle ouvert/fermé
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };

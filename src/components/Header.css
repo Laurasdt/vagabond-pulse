@@ -17,36 +17,33 @@
   width: 30px;
   height: 25px;
 }
-
-.bar {
+.burger-icon .bar {
   width: 30px;
   height: 4px;
   background-color: #0adee4;
   border-radius: 5px;
 }
 
-/* Menu de navigation */
 .nav-links {
   display: flex;
   list-style-type: none;
 }
-
 .nav-links ul {
   display: flex;
   margin: 0;
   padding: 0;
 }
-
 .nav-links li {
   margin-right: 20px;
 }
-
 .nav-links a {
   color: #0adee4;
   text-decoration: none;
   font-size: 16px;
 }
-
+.nav-links a:hover {
+  color: #ffdb58;
+}
 .nav-links.open {
   display: block;
 }
@@ -55,7 +52,6 @@
   .burger-icon {
     display: flex;
   }
-
   .nav-links {
     position: absolute;
     top: 0;
@@ -68,15 +64,12 @@
     align-items: center;
     display: none;
   }
-
   .nav-links.open {
     display: flex;
   }
-
   .nav-links li {
     margin: 20px 0;
   }
-
   .nav-links a {
     color: #0adee4;
   }
