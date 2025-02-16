@@ -4,9 +4,12 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import { useAuth } from "./context/AuthContext";
 import "./App.scss";
 
 function App() {
+  const { isAuthenticated } = useAuth();
+
   return (
     <Router>
       <Header />

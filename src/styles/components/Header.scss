@@ -1,88 +1,120 @@
 @import "../variables.scss";
 
 .header {
+  background-color: $secondary-color;
+  color: $text-color;
+  padding: 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
-  background-color: $secondary-color;
-  color: $primary-color;
-}
 
-.burger-icon {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 30px;
-  height: 25px;
-
-  .bar {
-    width: 30px;
-    height: 4px;
-    background-color: $primary-color;
-    border-radius: 5px;
-  }
-}
-
-.nav-links {
-  display: flex;
-  list-style-type: none;
-
-  ul {
-    display: flex;
-    margin: 0;
-    padding: 0;
+  h1 {
+    font-size: 24px;
   }
 
-  li {
-    margin-right: 20px;
-  }
+  .nav-desktop {
+    ul {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
 
-  a {
-    color: $primary-color;
-    text-decoration: none;
-    font-size: 16px;
+      li {
 
-    &:hover {
-      color: $hover-color;
+        a,
+        .logout-btn {
+          color: $primary-color;
+          text-decoration: none;
+          font-size: 16px;
+          transition: color 0.3s;
+
+          &:hover {
+            color: $hover-color;
+          }
+        }
+
+        .logout-btn {
+          background: none;
+          border: none;
+          cursor: pointer;
+          font-weight: bold;
+        }
+      }
     }
   }
 
-  &.open {
-    display: block;
-  }
-}
 
-@media (max-width: 768px) {
   .burger-icon {
-    display: flex;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: none;
+
+    .bar {
+      display: block;
+      width: 25px;
+      height: 3px;
+      margin: 5px auto;
+      background-color: $text-color;
+    }
   }
 
-  .nav-links {
+  .nav-mobile {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 60px;
+    right: 0;
     background-color: $secondary-color;
     width: 100%;
-    height: 100vh;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    max-width: 250px;
+    padding: 10px;
     display: none;
 
     &.open {
+      display: block;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
       display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      li {
+        padding: 10px;
+        text-align: center;
+
+        a,
+        .logout-btn {
+          color: $primary-color;
+          text-decoration: none;
+          font-size: 16px;
+          transition: color 0.3s;
+
+          &:hover {
+            color: $hover-color;
+          }
+        }
+
+        .logout-btn {
+          background: none;
+          border: none;
+          cursor: pointer;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .nav-desktop {
+      display: none;
     }
 
-    li {
-      margin: 20px 0;
-    }
-
-    a {
-      color: $primary-color;
+    .burger-icon {
+      display: block;
     }
   }
 }
