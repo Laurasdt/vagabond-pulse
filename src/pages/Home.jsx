@@ -25,7 +25,7 @@ const Home = () => {
 
   return (
     <main className="home">
-      <h2>Événements à venir</h2>
+      <h2>Événements</h2>
       <ul className="events-list">
         {events.map((event) => (
           <li key={event.id} className="event-card">
