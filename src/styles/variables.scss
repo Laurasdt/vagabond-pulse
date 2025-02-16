@@ -1,5 +1,10 @@
-$primary-color: #0adee4;
-$secondary-color: #19191a;
-$hover-color: #ffdb58;
+// Palette de couleurs adoucies
+$primary-color: #0adee4; // Bleu clair (Garde l'identité)
+$secondary-color: #2a2a2a; // Gris foncé au lieu de noir profond
+$hover-color: #ffd166; // Jaune adouci pour hover
 
-
+// Couleurs générales
+$text-color: #f4f4f4; // Texte clair sur fond sombre
+$background-color: #1e1e1e; // Gris foncé pour le fond général
+$card-bg: #333333; // Fond des cartes d’événements pour un meilleur contraste
+$card-text: #ffffff;
