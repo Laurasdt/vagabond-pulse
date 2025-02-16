@@ -45,9 +45,6 @@ function Header() {
             <li>
               <Link to="#">Profile</Link>
             </li>
-            <li>
-              <Link to="#">Contact</Link>
-            </li>
 
             {isAuthenticated ? (
               <>

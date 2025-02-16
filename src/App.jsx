@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import CreateEvent from "./pages/CreateEvent";
 import { useAuth } from "./context/AuthContext";
 import "./App.scss";
 
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/create-event" element={<CreateEvent />} />
       </Routes>
       <Footer />
     </Router>
