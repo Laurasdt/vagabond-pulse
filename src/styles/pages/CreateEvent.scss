@@ -45,22 +45,7 @@
         }
 
         button {
-            background: $primary-color;
-            color: $secondary-color;
-            border: none;
-            padding: 10px 15px;
-            margin-top: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 14px;
-            font-weight: bold;
-            transition: background 0.3s, transform 0.2s;
-
-            &:hover {
-                background: $hover-color;
-                color: #000;
-                transform: scale(1.05);
-            }
+            @include button-style();
         }
     }
 }
