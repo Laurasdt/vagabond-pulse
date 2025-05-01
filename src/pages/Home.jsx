@@ -23,6 +23,21 @@ const Home = () => {
     fetchEvents();
   }, []); // s'exécute une seule fois au chargement du composant
 
+  // supprime un événement
+  const handleDelete = async (eventId) => {
+    if (window.confirm("Voulez-vous vraiment supprimer cet événement ?")) {
+      try {
+        await axios.delete(`http://localhost:5000/api/events/${eventId}`);
+        alert("Événement supprimé avec succès !");
+        // reload les event
+        setEvents(events.filter((event) => event.id !== eventId));
+      } catch (error) {
+        console.error("Erreur lors de la suppression de l'événement :", error);
+        alert("Erreur lors de la suppression de l'événement.");
+      }
+    }
+  };
+
   if (loading) {
     return <p>Chargement des événements...</p>;
   }
@@ -46,6 +61,12 @@ const Home = () => {
               <Link to={`/event/${event.id}`} className="details-btn">
                 En savoir +
               </Link>
+              <button
+                onClick={() => handleDelete(event.id)}
+                className="delete-btn"
+              >
+                Supprimer
+              </button>
             </li>
           ))}
         </ul>

@@ -25,6 +25,7 @@ const CreateEvent = () => {
     e.preventDefault();
 
     try {
+      // envoi de données via axios vers le back
       const response = await axios.post(
         "http://localhost:5000/api/events",
         eventData

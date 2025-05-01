@@ -54,4 +54,24 @@ router.get("/:eventId", (req, res) => {
   });
 });
 
+// supp un évent
+router.delete("/:eventId", (req, res) => {
+  const { eventId } = req.params;
+
+  const sql = "DELETE FROM events WHERE id = ?";
+
+  db.query(sql, [eventId], (err, result) => {
+    if (err) {
+      console.error("Une erreur est survenue :", err);
+      return res.status(500).json({ error: "Erreur serveur" });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: "Événement non trouvé." });
+    }
+
+    res.status(200).json({ message: "Événement supprimé avec succès !" });
+  });
+});
+
 module.exports = router;
