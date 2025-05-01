@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import axios from "axios";
 import "../styles/pages/CreateEvent.scss";
 
 const CreateEvent = () => {
@@ -20,10 +21,20 @@ const CreateEvent = () => {
     setEventData({ ...eventData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Événement créé avec succès !");
-    setEventData({ title: "", date: "", location: "", description: "" });
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/events",
+        eventData
+      );
+      alert("Super, l'événement a été crée avec succès !!");
+      setEventData({ title: "", date: "", location: "", description: "" });
+    } catch (error) {
+      console.error("Erreur lors de la création de l'événement :", error);
+      alert("Erreur lors de la création de l'événement.");
+    }
   };
 
   return (
