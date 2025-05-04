@@ -21,10 +21,15 @@ router.post("/", (req, res) => {
   });
 });
 
+// Pagination
 router.get("/", (req, res) => {
-  const sql = "SELECT * FROM events";
+  const page = parseInt(req.query.page) || 1; // page 1 par défaut
+  const limit = parseInt(req.query.limit) || 10; // Limite par défaut 10 événements/page
+  const offset = (page - 1) * limit;
 
-  db.query(sql, (err, result) => {
+  const sql = "SELECT * FROM events LIMIT ? OFFSET ?";
+
+  db.query(sql, [limit, offset], (err, result) => {
     if (err) {
       console.error("Erreur lors de la récupération des événements :", err);
       return res.status(500).json({ error: "Erreur serveur" });
@@ -72,6 +77,32 @@ router.delete("/:eventId", (req, res) => {
 
     res.status(200).json({ message: "Événement supprimé avec succès !" });
   });
+});
+
+// Mettre un event à jour
+router.put("/:eventId", (req, res) => {
+  const { eventId } = req.params; // récup ID event
+  const { title, date, location, description } = req.body; // récup les données à mettre à jour
+
+  const sql =
+    "UPDATE events SET title = ?, date = ?, location = ?, description = ? WHERE id = ?";
+
+  db.query(
+    sql,
+    [title, date, location, description, eventId],
+    (err, result) => {
+      if (err) {
+        console.error("Erreur lors de la mise à jour de l'événement :", err);
+        return res.status(500).json({ error: "Erreur serveur" });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: "Événement non trouvé" });
+      }
+
+      res.status(200).json({ message: "Événement mis à jour avec succès" });
+    }
+  );
 });
 
 module.exports = router;

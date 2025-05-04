@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import CreateEvent from "./pages/CreateEvent";
 import EventDetails from "./pages/EventDetails";
+import EditEvent from "./pages/EditEvent";
 import { useAuth } from "./context/AuthContext";
 import "./App.scss";
 
@@ -20,6 +21,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/create-event" element={<CreateEvent />} />
         <Route path="/event/:eventId" element={<EventDetails />} />
+        <Route path="/edit-event/:eventId" element={<EditEvent />} />{" "}
       </Routes>
       <Footer />
     </Router>
