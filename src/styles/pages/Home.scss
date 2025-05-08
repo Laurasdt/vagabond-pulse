@@ -42,6 +42,40 @@
             .details-btn {
                 @include button-style(14px);
             }
+
+            .update-btn,
+            .delete-btn {
+                margin-left: 10px;
+                @include button-style(14px);
+            }
+        }
+    }
+
+    .pagination {
+        margin-top: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+
+        .pagination-btn {
+            padding: 8px 15px;
+            background-color: $primary-color;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &:disabled {
+                background-color: lighten($primary-color, 20%);
+                cursor: not-allowed;
+            }
+        }
+
+        .pageNumber {
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
         }
     }
 }

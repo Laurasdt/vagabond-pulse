@@ -3,12 +3,15 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import "../styles/pages/CreateEvent.scss";
+import { format } from "date-fns";
+import { fr } from "date-fns/locale";
 
 const CreateEvent = () => {
   const { isAuthenticated } = useAuth();
   const [eventData, setEventData] = useState({
     title: "",
     date: "",
+    time: "",
     location: "",
     description: "",
   });
@@ -21,17 +24,47 @@ const CreateEvent = () => {
     setEventData({ ...eventData, [e.target.name]: e.target.value });
   };
 
+  // validation de la date et de l'heure => max un an plus tard
+  const validateDate = (date, time) => {
+    const today = new Date();
+    const maxDate = new Date(today);
+    maxDate.setFullYear(today.getFullYear() + 1);
+
+    const eventDate = new Date(`${date}T${time}:00`);
+
+    // Vérifie que la date n'est pas déjà passée
+    if (eventDate < today) {
+      alert("Tu ne peux pas prévoir d'évènement dans le passé ;)");
+      return false;
+    }
+    if (eventDate > maxDate) {
+      alert("L'événement ne peut pas être prévu plus d'un an à l'avance.");
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validation de la date et de l'heure
+    if (!validateDate(eventData.date, eventData.time)) {
+      return;
+    }
+
     try {
-      // envoi de données via axios vers le back
       const response = await axios.post(
         "http://localhost:5000/api/events",
         eventData
       );
-      alert("Super, l'événement a été crée avec succès !!");
-      setEventData({ title: "", date: "", location: "", description: "" });
+      alert("Super, l'événement a été créé avec succès !!");
+      setEventData({
+        title: "",
+        date: "",
+        time: "",
+        location: "",
+        description: "",
+      });
     } catch (error) {
       console.error("Erreur lors de la création de l'événement :", error);
       alert("Erreur lors de la création de l'événement.");
@@ -58,6 +91,21 @@ const CreateEvent = () => {
             type="date"
             name="date"
             value={eventData.date}
+            onChange={handleChange}
+            required
+            min={format(new Date(), "yyyy-MM-dd")} // La date minimum est aujourd'hui
+            max={format(
+              new Date().setFullYear(new Date().getFullYear() + 1),
+              "yyyy-MM-dd"
+            )} // La date maximum est un an après
+          />
+        </label>
+        <label>
+          Heure :
+          <input
+            type="time"
+            name="time"
+            value={eventData.time}
             onChange={handleChange}
             required
           />

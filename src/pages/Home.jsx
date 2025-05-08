@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "../styles/pages/Home.scss";
+import { format } from "date-fns";
+import { fr } from "date-fns/locale";
 
 const Home = () => {
   const [events, setEvents] = useState([]); // state pour stocker les événements
@@ -35,7 +37,7 @@ const Home = () => {
       try {
         await axios.delete(`http://localhost:5000/api/events/${eventId}`);
         alert("Événement supprimé avec succès !");
-        // reload les event
+        // reload les événements
         setEvents(events.filter((event) => event.id !== eventId));
       } catch (error) {
         console.error("Erreur lors de la suppression de l'événement :", error);
@@ -55,48 +57,58 @@ const Home = () => {
         <p>Aucun événement disponible</p>
       ) : (
         <ul className="events-list">
-          {events.map((event) => (
-            <li key={event.id} className="event-card">
-              <h3>{event.title}</h3>
-              <p>
-                <strong>Lieu :</strong> {event.location}
-              </p>
-              <p>
-                <strong>Date :</strong> {event.date}
-              </p>
-              <Link to={`/event/${event.id}`} className="details-btn">
-                En savoir +
-              </Link>
-              <Link to={`/edit-event/${event.id}`} className="update-btn">
-                Mettre à jour{" "}
-              </Link>
-              <button
-                onClick={() => handleDelete(event.id)}
-                className="delete-btn"
-              >
-                Supprimer
-              </button>
-            </li>
-          ))}
+          {events.map((event) => {
+            // Formate la date avec date-fns
+            const eventDate = new Date(event.date); // Crée un objet Date à partir de la date de l'événement
+            const formattedDate = format(eventDate, "eeee d MMMM yyyy", {
+              locale: fr,
+            }); // format français "Vendredi 3 avril 2025"
+            const formattedTime = format(eventDate, "HH:mm"); //  format "10h30"
+
+            return (
+              <li key={event.id} className="event-card">
+                <h3>{event.title}</h3>
+                <p>
+                  <strong>Lieu :</strong> {event.location}
+                </p>
+                <p>
+                  <strong>Date :</strong> {formattedDate}{" "}
+                </p>
+                <p>
+                  <strong>Heure :</strong> {formattedTime}{" "}
+                </p>
+                <Link to={`/event/${event.id}`} className="details-btn">
+                  En savoir +
+                </Link>
+                <Link to={`/edit-event/${event.id}`} className="update-btn">
+                  Mettre à jour{" "}
+                </Link>
+                <button
+                  onClick={() => handleDelete(event.id)}
+                  className="delete-btn"
+                >
+                  Supprimer
+                </button>
+              </li>
+            );
+          })}
         </ul>
       )}
 
-      {/* Pagination */}
       <div className="pagination">
         <button
           onClick={() => setPage(page - 1)}
-          disabled={page === 1} // Désactive le bouton Précédent si on est à la première page
+          disabled={page === 1}
           className="pagination-btn"
         >
           Précédent
         </button>
-        <span>
+        <div class="pageNumber">
           Page {page} sur {totalPages}
-        </span>{" "}
-        {/*numéro de la page actuelle */}
+        </div>{" "}
         <button
           onClick={() => setPage(page + 1)}
-          disabled={page === totalPages} // Désactive le bouton Suivant si on est à la dernière page
+          disabled={page === totalPages}
           className="pagination-btn"
         >
           Suivant
