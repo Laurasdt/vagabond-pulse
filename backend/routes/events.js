@@ -104,3 +104,5 @@ router.put("/:eventId", (req, res) => {
     }
   );
 });
+
+module.exports = router;
