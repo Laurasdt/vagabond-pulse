@@ -7,6 +7,8 @@ $background-color: #1e1e1e;
 $card-bg: #333333;
 $card-text: #ffffff;
 
+$font-primary: 'Montserrat', sans-serif;
+
 @mixin button-style($font-size: 14px) {
     background: $primary-color;
     color: $secondary-color;

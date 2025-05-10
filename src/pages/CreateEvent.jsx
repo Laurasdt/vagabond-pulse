@@ -52,10 +52,18 @@ const CreateEvent = () => {
       return;
     }
 
+    const dateTime = `${eventData.date}T${eventData.time}:00`;
+    const payload = {
+      title: eventData.title,
+      date: dateTime,
+      location: eventData.location,
+      description: eventData.description,
+    };
+
     try {
       const response = await axios.post(
         "http://localhost:5000/api/events",
-        eventData
+        payload
       );
       alert("Super, l'événement a été créé avec succès !!");
       setEventData({

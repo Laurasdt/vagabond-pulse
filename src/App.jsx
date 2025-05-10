@@ -8,6 +8,7 @@ import CreateEvent from "./pages/CreateEvent";
 import EventDetails from "./pages/EventDetails";
 import EditEvent from "./pages/EditEvent";
 import { useAuth } from "./context/AuthContext";
+import Register from "./pages/Register";
 import "./App.scss";
 
 function App() {
@@ -19,9 +20,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/create-event" element={<CreateEvent />} />
         <Route path="/event/:eventId" element={<EventDetails />} />
-        <Route path="/edit-event/:eventId" element={<EditEvent />} />{" "}
+        <Route path="/edit-event/:eventId" element={<EditEvent />} />
       </Routes>
       <Footer />
     </Router>

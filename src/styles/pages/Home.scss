@@ -1,4 +1,4 @@
-@import "../variables.scss";
+@use "../variables" as *;
 
 .home {
     padding: 20px;
@@ -67,7 +67,7 @@
             cursor: pointer;
 
             &:disabled {
-                background-color: lighten($primary-color, 20%);
+                background-color: $primary-color;
                 cursor: not-allowed;
             }
         }

@@ -2,29 +2,33 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "../styles/pages/EventDetails.scss";
+import { format, parseISO } from "date-fns";
+import { fr } from "date-fns/locale";
 
 const EventDetails = () => {
-  const { eventId } = useParams(); // récupère l'ID de l'évent depuis l'URL
-  const [event, setEvent] = useState(null); // stocke les données de l'évent
+  const { eventId } = useParams();
+  const [event, setEvent] = useState(null);
 
   useEffect(() => {
-    const fetchEventDetails = async () => {
+    const fetchEvent = async () => {
       try {
-        const response = await axios.get(
+        const { data } = await axios.get(
           `http://localhost:5000/api/events/${eventId}`
         );
-        setEvent(response.data); // stocke les détails de l'évent
+        setEvent(data);
       } catch (error) {
-        console.error("Erreur lors de la récupération de l'événement :", error);
+        console.error("Erreur récupération détails :", error);
       }
     };
+    fetchEvent();
+  }, [eventId]);
 
-    fetchEventDetails();
-  }, [eventId]); // la fonction se réexécute si l'ID de l'évent change
+  if (!event) return <p>Chargement...</p>;
 
-  if (!event) {
-    return <p>Chargement des détails de l'événement...</p>;
-  }
+  const iso = event.date.includes("T")
+    ? event.date
+    : event.date.replace(" ", "T");
+  const dateObj = parseISO(iso);
 
   return (
     <main className="event-details">
@@ -33,7 +37,11 @@ const EventDetails = () => {
         <strong>Lieu :</strong> {event.location}
       </p>
       <p>
-        <strong>Date :</strong> {event.date}
+        <strong>Date :</strong>{" "}
+        {format(dateObj, "eeee d MMMM yyyy", { locale: fr })}
+      </p>
+      <p>
+        <strong>Heure :</strong> {format(dateObj, "HH:mm")}
       </p>
       <p>
         <strong>Description :</strong> {event.description}
