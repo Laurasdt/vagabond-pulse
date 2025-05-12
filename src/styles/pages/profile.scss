@@ -1,0 +1,86 @@
+@use "../variables" as *;
+
+.profile-page {
+    min-height: 100vh;
+    padding: 2rem;
+    background: $background-color;
+    color: $text-color;
+    font-family: $font-primary;
+
+    h1 {
+        @include h1-style;
+    }
+
+    section {
+        max-width: 720px;
+        margin: 0 auto 2rem;
+        background: $card-bg;
+        padding: 1.5rem;
+        border-radius: 8px;
+
+        h2 {
+            @include h2-style(26px);
+        }
+    }
+
+    .memory-form {
+        .form-group {
+            margin-bottom: 1rem;
+
+            input[type="file"] {
+                display: block;
+            }
+
+            input[type="text"] {
+                width: 100%;
+                padding: 0.6rem;
+                border: 1px solid $card-bg;
+                border-radius: 4px;
+                background: $card-bg;
+                color: $text-color;
+                font-size: 0.95rem;
+                font-family: $font-primary;
+            }
+        }
+
+        .btn {
+            @include button-style;
+        }
+    }
+
+    .memories-gallery {
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        .memory-item {
+            background: $card-bg;
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+
+            img {
+                width: 100%;
+                height: auto;
+                display: block;
+            }
+
+            .memory-info {
+                padding: 0.8rem;
+
+                p {
+                    margin: 0 0 0.5rem;
+                    color: $card-text;
+                }
+
+                small {
+                    color: lighten($card-text, 20%);
+                }
+            }
+        }
+    }
+}

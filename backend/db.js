@@ -15,7 +15,7 @@ db.connect((err) => {
   if (err) {
     console.error(err);
   } else {
-    console.log("Connexion BDB MySQL réussie !!");
+    console.log("Connexion BDD MySQL réussie !!");
   }
 });
 

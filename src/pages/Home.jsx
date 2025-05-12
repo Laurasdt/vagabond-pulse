@@ -30,7 +30,6 @@ const Home = () => {
 
     fetchEvents();
   }, [page]);
-
   const handleDelete = async (eventId) => {
     if (window.confirm("Voulez-vous vraiment supprimer cet événement ?")) {
       try {
@@ -48,7 +47,7 @@ const Home = () => {
 
   return (
     <main className="home">
-      <h2>Événements</h2>
+      <h1>Événements</h1>
       {events.length === 0 ? (
         <p>Aucun événement disponible</p>
       ) : (
@@ -65,7 +64,7 @@ const Home = () => {
 
             return (
               <li key={event.id} className="event-card">
-                <h3>{event.title}</h3>
+                <h2>{event.title}</h2>
                 <p>
                   <strong>Lieu :</strong> {event.location}
                 </p>

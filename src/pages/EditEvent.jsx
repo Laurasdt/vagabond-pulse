@@ -54,6 +54,7 @@ const EditEvent = () => {
         location: eventData.location,
         description: eventData.description,
       };
+      // Mettre patch
       await axios.put(`http://localhost:5000/api/events/${eventId}`, payload);
       alert("Événement mis à jour !");
       navigate("/");
@@ -65,7 +66,7 @@ const EditEvent = () => {
 
   return (
     <main className="edit-event">
-      <h2>Modifier l'événement</h2>
+      <h1>Modifier l'événement</h1>
       <form onSubmit={handleSubmit} className="event-form">
         <label>
           Titre

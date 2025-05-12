@@ -8,10 +8,10 @@ const Footer = () => {
       <a href="https://3wacademy.fr/" target="_blank" rel="noopener noreferrer">
         <img src={logo} alt="3WA Logo" className="footer-logo" />
       </a>
-      <div className="links">
+      <nav className="links">
         <a href="#">Mentions légales</a>
         <a href="#">Politique de confidentialité</a>
-      </div>
+      </nav>
       <p className="credits">
         Réalisé par{" "}
         <a

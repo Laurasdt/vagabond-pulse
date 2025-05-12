@@ -1,47 +1,64 @@
+// src/pages/Login.jsx
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "../styles/pages/Login.scss";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, isAuthenticated } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    login();
-    console.log("Connexion réussie !");
 
-    navigate("/");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await login(email, password);
+      navigate("/profile");
+    } catch (err) {
+      console.error("Échec du login :", err);
+      alert(err.response?.data?.error || "Erreur lors de la connexion");
+    }
   };
 
   return (
     <main className="login-page">
-      <h2>Connexion</h2>
-      <form onSubmit={handleSubmit} className="login-form">
-        <label>
-          Email :
+      <h1>Connexion</h1>
+
+      <form className="login-form" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="email">E-mail</label>
           <input
+            id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </label>
-        <label>
-          Mot de passe :
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="password">Mot de passe</label>
           <input
+            id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </label>
-        <button type="submit" className="login-btn">
+        </div>
+
+        <button type="submit" className="btn">
           Se connecter
         </button>
       </form>
+
+      <p className="login-footer">
+        Pas encore de compte ?{" "}
+        <Link to="/register" className="signup-link">
+          Créer un compte
+        </Link>
+      </p>
     </main>
   );
 };

@@ -3,6 +3,8 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const eventRoutes = require("./routes/events");
 const authRouter = require("./routes/auth");
+const memoryRoutes = require("./routes/memories");
+const path = require("path");
 
 dotenv.config();
 
@@ -15,6 +17,8 @@ app.use(express.json());
 // Routes
 app.use("/api", authRouter);
 app.use("/api/events", eventRoutes);
+app.use("/api/memories", memoryRoutes);
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Lancement du serveur
 const PORT = process.env.PORT || 5000;

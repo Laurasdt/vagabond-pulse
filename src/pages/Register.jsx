@@ -53,7 +53,7 @@ const Register = () => {
 
   return (
     <main className="register-page">
-      <h2>Inscription</h2>
+      <h1>Inscription</h1>
       <form onSubmit={handleSubmit} className="register-form">
         <label htmlFor="email">Email</label>
         <input
