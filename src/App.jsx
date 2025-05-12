@@ -9,6 +9,7 @@ import EventDetails from "./pages/EventDetails";
 import EditEvent from "./pages/EditEvent";
 import { useAuth } from "./context/AuthContext";
 import Register from "./pages/Register";
+import Profile from "./pages/Profile";
 import "./App.scss";
 
 function App() {
@@ -24,6 +25,11 @@ function App() {
         <Route path="/create-event" element={<CreateEvent />} />
         <Route path="/event/:eventId" element={<EventDetails />} />
         <Route path="/edit-event/:eventId" element={<EditEvent />} />
+        <Route
+          path="/profile"
+          element={isAuthenticated ? <Profile /> : <Login />}
+        />
+        {/* Redirige vers la page de connexion si l'utilisateur n'est pas authentifié */}
       </Routes>
       <Footer />
     </Router>

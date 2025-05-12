@@ -7,7 +7,6 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
-
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
 
   useEffect(() => {
@@ -42,9 +41,11 @@ function Header() {
             <li>
               <Link to="/">Home</Link>
             </li>
-            <li>
-              <Link to="#">Profile</Link>
-            </li>
+            {isAuthenticated && (
+              <li>
+                <Link to="/profile">Profile</Link>
+              </li>
+            )}
 
             {isAuthenticated ? (
               <>
@@ -74,6 +75,7 @@ function Header() {
           </ul>
         </nav>
       )}
+
       {isMobile && (
         <>
           <button className="burger-icon" onClick={toggleMenu}>
@@ -89,11 +91,13 @@ function Header() {
                   Home
                 </Link>
               </li>
-              <li>
-                <Link to="#" onClick={toggleMenu}>
-                  Profile
-                </Link>
-              </li>
+              {isAuthenticated && (
+                <li>
+                  <Link to="/profile" onClick={toggleMenu}>
+                    Profile
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link to="#" onClick={toggleMenu}>
                   Contact
