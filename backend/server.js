@@ -10,7 +10,7 @@ const app = express();
 
 // Middlewares
 app.use(cors());
-app.use(express.json()); // parse JSON bodies from React
+app.use(express.json());
 
 // Routes
 app.use("/api", authRouter);

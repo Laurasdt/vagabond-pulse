@@ -5,7 +5,7 @@ import "../styles/components/Header.scss";
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { isAuthenticated, login, logout } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
@@ -58,11 +58,18 @@ function Header() {
                 </li>
               </>
             ) : (
-              <li>
-                <button className="login-btn" onClick={handleLoginClick}>
-                  Se connecter
-                </button>
-              </li>
+              <>
+                <li>
+                  <Link to="/register" className="register-btn">
+                    S'inscrire
+                  </Link>
+                </li>
+                <li>
+                  <button className="login-btn" onClick={handleLoginClick}>
+                    Se connecter
+                  </button>
+                </li>
+              </>
             )}
           </ul>
         </nav>
@@ -113,17 +120,24 @@ function Header() {
                   </li>
                 </>
               ) : (
-                <li>
-                  <button
-                    className="login-btn"
-                    onClick={() => {
-                      handleLoginClick();
-                      toggleMenu();
-                    }}
-                  >
-                    Se connecter
-                  </button>
-                </li>
+                <>
+                  <li>
+                    <Link to="/register" onClick={toggleMenu}>
+                      S'inscrire
+                    </Link>
+                  </li>
+                  <li>
+                    <button
+                      className="login-btn"
+                      onClick={() => {
+                        handleLoginClick();
+                        toggleMenu();
+                      }}
+                    >
+                      Se connecter
+                    </button>
+                  </li>
+                </>
               )}
             </ul>
           </nav>
