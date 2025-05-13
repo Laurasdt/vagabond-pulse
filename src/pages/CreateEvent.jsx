@@ -7,7 +7,7 @@ import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 
 const CreateEvent = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const [eventData, setEventData] = useState({
     title: "",
     date: "",
@@ -54,6 +54,7 @@ const CreateEvent = () => {
 
     const dateTime = `${eventData.date}T${eventData.time}:00`;
     const payload = {
+      userId: user.id,
       title: eventData.title,
       date: dateTime,
       location: eventData.location,
@@ -61,10 +62,7 @@ const CreateEvent = () => {
     };
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/events",
-        payload
-      );
+      await axios.post("http://localhost:5000/api/events", payload);
       alert("Super, l'événement a été créé avec succès !!");
       setEventData({
         title: "",
@@ -142,5 +140,4 @@ const CreateEvent = () => {
     </main>
   );
 };
-
 export default CreateEvent;

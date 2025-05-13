@@ -4,7 +4,7 @@ const db = require("../db");
 
 // création nouvel event
 router.post("/", (req, res) => {
-  const { title, date: dateIso, location, description } = req.body;
+  const { userId, title, date: dateIso, location, description } = req.body;
 
   const jsDate = new Date(dateIso);
   if (isNaN(jsDate.getTime())) {
@@ -14,11 +14,11 @@ router.post("/", (req, res) => {
   const mysqlDateTime = jsDate.toISOString().slice(0, 19).replace("T", " ");
 
   const sql =
-    "INSERT INTO events (title, date, location, description) VALUES (?, ?, ?, ?)";
+    "INSERT INTO events (user_id, title, date, location, description) VALUES (?, ?, ?, ?, ?)";
 
   db.query(
     sql,
-    [title, mysqlDateTime, location, description],
+    [userId, title, mysqlDateTime, location, description],
     (err, result) => {
       if (err) {
         console.error(err);
@@ -39,7 +39,7 @@ router.get("/", (req, res) => {
   const offset = (page - 1) * limit;
 
   const listSql =
-    "SELECT id, title, date, location, description FROM events ORDER BY date LIMIT ? OFFSET ?";
+    "SELECT id, user_id AS userId, title, date, location, description FROM events ORDER BY date LIMIT ? OFFSET ?";
   const countSql = "SELECT COUNT(*) AS count FROM events";
 
   db.query(listSql, [limit, offset], (err, rows) => {
@@ -68,7 +68,7 @@ router.get("/", (req, res) => {
 router.get("/:eventId", (req, res) => {
   const { eventId } = req.params;
   const sql =
-    "SELECT id, title, date, location, description FROM events WHERE id = ?";
+    "SELECT id, user_id AS userId, title, date, location, description FROM events WHERE id = ?";
   db.query(sql, [eventId], (err, rows) => {
     if (err) {
       console.error("Erreur lors de la récupération de l'événement :", err);
@@ -84,14 +84,17 @@ router.get("/:eventId", (req, res) => {
 // Suppression
 router.delete("/:eventId", (req, res) => {
   const { eventId } = req.params;
-  const sql = "DELETE FROM events WHERE id = ?";
-  db.query(sql, [eventId], (err, result) => {
+  const { userId } = req.body;
+  const sql = "DELETE FROM events WHERE id = ? AND user_id = ?";
+  db.query(sql, [eventId, userId], (err, result) => {
     if (err) {
       console.error("Erreur lors de la suppression :", err);
       return res.status(500).json({ error: "Erreur serveur" });
     }
     if (result.affectedRows === 0) {
-      return res.status(404).json({ error: "Événement non trouvé." });
+      return res
+        .status(404)
+        .json({ error: "Événement non trouvé ou accès refusé." });
     }
     res.status(200).json({ message: "Événement supprimé avec succès !" });
   });
@@ -100,7 +103,7 @@ router.delete("/:eventId", (req, res) => {
 // Mettre un événement à jour
 router.put("/:eventId", (req, res) => {
   const { eventId } = req.params;
-  const { title, date: dateIso, location, description } = req.body;
+  const { userId, title, date: dateIso, location, description } = req.body;
 
   const jsDate = new Date(dateIso);
   if (isNaN(jsDate.getTime())) {
@@ -109,17 +112,19 @@ router.put("/:eventId", (req, res) => {
   const mysqlDateTime = jsDate.toISOString().slice(0, 19).replace("T", " ");
 
   const sql =
-    "UPDATE events SET title = ?, date = ?, location = ?, description = ? WHERE id = ?";
+    "UPDATE events SET title = ?, date = ?, location = ?, description = ? WHERE id = ? AND user_id = ?";
   db.query(
     sql,
-    [title, mysqlDateTime, location, description, eventId],
+    [title, mysqlDateTime, location, description, eventId, userId],
     (err, result) => {
       if (err) {
         console.error("Erreur lors de la mise à jour de l'événement :", err);
         return res.status(500).json({ error: "Erreur serveur" });
       }
       if (result.affectedRows === 0) {
-        return res.status(404).json({ error: "Événement non trouvé" });
+        return res
+          .status(404)
+          .json({ error: "Événement non trouvé ou accès refusé." });
       }
       res.status(200).json({ message: "Événement mis à jour avec succès" });
     }

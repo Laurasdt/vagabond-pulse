@@ -7,7 +7,7 @@ import { format, parseISO } from "date-fns";
 import { fr } from "date-fns/locale";
 
 const Home = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -30,10 +30,13 @@ const Home = () => {
 
     fetchEvents();
   }, [page]);
+
   const handleDelete = async (eventId) => {
     if (window.confirm("Voulez-vous vraiment supprimer cet événement ?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/events/${eventId}`);
+        await axios.delete(`http://localhost:5000/api/events/${eventId}`, {
+          data: { userId: user.id },
+        });
         alert("Événement supprimé avec succès !");
         setEvents(events.filter((e) => e.id !== eventId));
       } catch (error) {
@@ -77,7 +80,7 @@ const Home = () => {
                 <Link to={`/event/${event.id}`} className="details-btn">
                   En savoir +
                 </Link>
-                {isAuthenticated && (
+                {isAuthenticated && event.userId === user.id && (
                   <>
                     <Link to={`/edit-event/${event.id}`} className="update-btn">
                       Mettre à jour
@@ -117,5 +120,4 @@ const Home = () => {
     </main>
   );
 };
-
 export default Home;

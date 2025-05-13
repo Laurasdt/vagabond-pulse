@@ -3,10 +3,12 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { format, parseISO } from "date-fns";
 import "../styles/pages/EditEvent.scss";
+import { useAuth } from "../context/AuthContext";
 
 const EditEvent = () => {
   const { eventId } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [eventData, setEventData] = useState({
     title: "",
     date: "",
@@ -49,6 +51,7 @@ const EditEvent = () => {
     e.preventDefault();
     try {
       const payload = {
+        userId: user.id,
         title: eventData.title,
         date: `${eventData.date}T${eventData.time}:00`,
         location: eventData.location,
