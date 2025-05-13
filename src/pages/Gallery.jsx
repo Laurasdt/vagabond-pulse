@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-// import "../styles/pages/Gallery.scss";
+import "../styles/pages/Gallery.scss";
 
 const Gallery = () => {
   const [photos, setPhotos] = useState([]);

@@ -1,0 +1,82 @@
+@use "../variables" as *;
+
+.gallery-page {
+    background: $background-color;
+    color: $text-color;
+    font-family: $font-primary;
+    padding: 0.5rem;
+
+    h1 {
+        @include h1-style(2rem);
+    }
+
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: 1fr; // 1 image par ligne sur mobile
+        gap: 0.5rem;
+    }
+
+    .photo-item {
+        position: relative;
+        overflow: hidden;
+        background: $card-bg;
+        border-radius: 4px;
+
+        img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s;
+        }
+
+        &:hover img {
+            transform: scale(1.05);
+        }
+
+        .overlay {
+            @include h2-style(0.75rem);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            margin: 0; // annule margin-bottom du mixin
+            background: rgba(42, 42, 42, 0.8);
+            color: $card-text;
+            padding: 0.5rem;
+            display: flex;
+            flex-direction: column;
+
+            .owner {
+                font-weight: bold;
+                margin-bottom: 0.25rem;
+            }
+
+            p {
+                margin: 0;
+                font-size: 0.75rem;
+            }
+        }
+    }
+
+    // Tablettes : 2 colonnes
+    @media (min-width: 600px) {
+        .gallery-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    // Petit desktop : 3 colonnes
+    @media (min-width: 900px) {
+        .gallery-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    // Grand desktop : 4 colonnes
+    @media (min-width: 1200px) {
+        .gallery-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+}
