@@ -12,14 +12,16 @@ function Header() {
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 1024);
+      if (window.innerWidth > 1024) {
+        setIsMenuOpen(false);
+      }
     };
-
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+    setIsMenuOpen((open) => !open);
   };
 
   const handleLoginClick = () => {
@@ -27,8 +29,8 @@ function Header() {
   };
 
   const handleLogoutClick = () => {
-    console.log("Tu es déconnecté !");
     logout();
+    navigate("/");
   };
 
   return (
@@ -49,7 +51,6 @@ function Header() {
                 <Link to="/profile">Profile</Link>
               </li>
             )}
-
             {isAuthenticated ? (
               <>
                 <li>
@@ -81,7 +82,11 @@ function Header() {
 
       {isMobile && (
         <>
-          <button className="burger-icon" onClick={toggleMenu}>
+          <button
+            className="burger-icon"
+            onClick={toggleMenu}
+            aria-label="Menu"
+          >
             <span className="bar"></span>
             <span className="bar"></span>
             <span className="bar"></span>
@@ -94,6 +99,11 @@ function Header() {
                   Home
                 </Link>
               </li>
+              <li>
+                <Link to="/gallery" onClick={toggleMenu}>
+                  Galerie
+                </Link>
+              </li>
               {isAuthenticated && (
                 <li>
                   <Link to="/profile" onClick={toggleMenu}>
@@ -101,12 +111,6 @@ function Header() {
                   </Link>
                 </li>
               )}
-              <li>
-                <Link to="#" onClick={toggleMenu}>
-                  Contact
-                </Link>
-              </li>
-
               {isAuthenticated ? (
                 <>
                   <li>

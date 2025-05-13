@@ -1,6 +1,10 @@
 @use "../variables" as *;
 
 .header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
   background-color: $secondary-color;
   color: $text-color;
   padding: 15px;
@@ -10,6 +14,7 @@
 
   h1 {
     font-size: 24px;
+    margin: 0;
   }
 
   .nav-desktop {
@@ -43,7 +48,6 @@
       }
     }
   }
-
 
   .burger-icon {
     background: none;
