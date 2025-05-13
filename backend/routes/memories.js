@@ -1,4 +1,3 @@
-// routes/memories.js
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
@@ -7,7 +6,7 @@ const util = require("util");
 const db = require("../db");
 const router = express.Router();
 
-// 0) Prépare le dossier uploads/memories
+//  Prépare le dossier uploads/memories
 const uploadsBase = path.join(__dirname, "..", "uploads");
 const memoriesDir = path.join(uploadsBase, "memories");
 if (!fs.existsSync(memoriesDir)) {
@@ -28,7 +27,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// 2) POST /api/memories
+//POST /api/memories
 router.post("/", upload.single("file"), async (req, res) => {
   console.log("==== POST /api/memories reçu ====");
   console.log("req.file =", req.file);

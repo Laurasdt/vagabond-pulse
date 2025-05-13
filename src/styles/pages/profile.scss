@@ -78,7 +78,7 @@
                 }
 
                 small {
-                    color: lighten($card-text, 20%);
+                    color: $card-text;
                 }
             }
         }

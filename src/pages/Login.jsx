@@ -14,7 +14,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await login(email, password);
-      navigate("/profile");
+      navigate("/");
     } catch (err) {
       console.error("Échec du login :", err);
       alert(err.response?.data?.error || "Erreur lors de la connexion");
