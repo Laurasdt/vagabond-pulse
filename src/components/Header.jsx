@@ -41,6 +41,9 @@ function Header() {
             <li>
               <Link to="/">Home</Link>
             </li>
+            <li>
+              <Link to="/gallery">Galerie</Link>
+            </li>
             {isAuthenticated && (
               <li>
                 <Link to="/profile">Profile</Link>

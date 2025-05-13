@@ -17,7 +17,7 @@ if (!fs.existsSync(memoriesDir)) {
 // Promisify pour async/await
 const query = util.promisify(db.query).bind(db);
 
-// 1) Configuration Multer
+//  Configuration Multer
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, memoriesDir),
   filename: (req, file, cb) => {
@@ -27,7 +27,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-//POST /api/memories
+// POST /api/memories
 router.post("/", upload.single("file"), async (req, res) => {
   console.log("==== POST /api/memories reçu ====");
   console.log("req.file =", req.file);
@@ -67,6 +67,31 @@ router.post("/", upload.single("file"), async (req, res) => {
   } catch (err) {
     console.error("Erreur interne POST /api/memories :", err);
     return res.status(500).json({ error: "Erreur serveur interne" });
+  }
+});
+
+// **GET /api/memories** → toutes les photos de tous les users
+router.get("/", async (req, res) => {
+  console.log("==== GET /api/memories reçu ====");
+  try {
+    const sql = `
+      SELECT
+        m.id,
+        m.photo_url   AS photoUrl,
+        m.description,
+        m.created_at  AS createdAt,
+        u.pseudo      AS owner
+      FROM memories m
+      JOIN users u ON u.id = m.user_id
+      ORDER BY m.created_at DESC
+    `;
+    const rows = await query(sql);
+    return res.json(rows);
+  } catch (err) {
+    console.error("Erreur GET /api/memories :", err);
+    return res
+      .status(500)
+      .json({ error: "Erreur serveur lors du fetch global" });
   }
 });
 

@@ -10,6 +10,7 @@ import EditEvent from "./pages/EditEvent";
 import { useAuth } from "./context/AuthContext";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
+import Gallery from "./pages/Gallery";
 import "./App.scss";
 
 function App() {
@@ -30,7 +31,9 @@ function App() {
           element={isAuthenticated ? <Profile /> : <Login />}
         />
         {/* Redirige vers la page de connexion si l'utilisateur n'est pas authentifié */}
+        <Route path="/gallery" element={<Gallery />} />
       </Routes>
+
       <Footer />
     </Router>
   );
