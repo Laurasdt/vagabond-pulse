@@ -83,4 +83,31 @@
             }
         }
     }
+
+    .user-events {
+        h2 {
+            @include h2-style(26px);
+        }
+
+        .events-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+
+            .event-card {
+                @include event-card-style;
+
+                .details-btn {
+                    @include button-style(14px);
+                }
+
+                .update-btn,
+                .delete-btn {
+                    @include button-style(14px);
+                }
+            }
+        }
+    }
 }

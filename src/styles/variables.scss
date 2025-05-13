@@ -43,3 +43,13 @@ $font-primary: 'Montserrat', sans-serif;
 }
 
 @mixin form-field {}
+
+@mixin event-card-style {
+    background: $card-bg;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.3);
+    color: $card-text;
+    text-align: left;
+    transition: transform 0.2s ease-in-out;
+}

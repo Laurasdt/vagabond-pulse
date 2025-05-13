@@ -3,8 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "../styles/pages/Home.scss";
-import { format, parseISO } from "date-fns";
-import { fr } from "date-fns/locale";
+import EventCard from "../components/EventCard";
 
 const Home = () => {
   const { isAuthenticated, user } = useAuth();
@@ -55,47 +54,14 @@ const Home = () => {
         <p>Aucun événement disponible</p>
       ) : (
         <ul className="events-list">
-          {events.map((event) => {
-            const iso = event.date.includes("T")
-              ? event.date
-              : event.date.replace(" ", "T");
-            const eventDate = parseISO(iso);
-            const formattedDate = format(eventDate, "eeee d MMMM yyyy", {
-              locale: fr,
-            });
-            const formattedTime = format(eventDate, "HH:mm");
-
-            return (
-              <li key={event.id} className="event-card">
-                <h2>{event.title}</h2>
-                <p>
-                  <strong>Lieu :</strong> {event.location}
-                </p>
-                <p>
-                  <strong>Date :</strong> {formattedDate}
-                </p>
-                <p>
-                  <strong>Heure :</strong> {formattedTime}
-                </p>
-                <Link to={`/event/${event.id}`} className="details-btn">
-                  En savoir +
-                </Link>
-                {isAuthenticated && event.userId === user.id && (
-                  <>
-                    <Link to={`/edit-event/${event.id}`} className="update-btn">
-                      Mettre à jour
-                    </Link>
-                    <button
-                      onClick={() => handleDelete(event.id)}
-                      className="delete-btn"
-                    >
-                      Supprimer
-                    </button>
-                  </>
-                )}
-              </li>
-            );
-          })}
+          {events.map((event) => (
+            <EventCard
+              key={event.id}
+              event={event}
+              currentUserId={isAuthenticated ? user.id : null}
+              onDelete={handleDelete}
+            />
+          ))}
         </ul>
       )}
       <div className="pagination">
@@ -120,4 +86,5 @@ const Home = () => {
     </main>
   );
 };
+
 export default Home;
