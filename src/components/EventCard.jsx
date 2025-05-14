@@ -1,43 +1,56 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { parseISO, format } from "date-fns";
-import { fr } from "date-fns/locale";
 
-const EventCard = ({ event, currentUserId, onDelete }) => {
-  // pour gérer le format MySQL ou ISO
-  const iso = event.date.includes("T")
-    ? event.date
-    : event.date.replace(" ", "T");
-  const eventDate = parseISO(iso);
-  const formattedDate = format(eventDate, "eeee d MMMM yyyy", { locale: fr });
-  const formattedTime = format(eventDate, "HH:mm");
-  const isOwner = currentUserId && event.userId === currentUserId;
+const EventCard = ({ event, currentUserId, currentUserRole, onDelete }) => {
+  const isOwner =
+    currentUserId &&
+    (event.user_id === currentUserId || event.userId === currentUserId);
+  const isAdmin = currentUserRole === "admin";
+
+  // Formatage date et heure selon modèle
+  const evtDate = new Date(event.date);
+  const formattedDate = evtDate.toLocaleDateString("fr-FR", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  });
+  const formattedTime = evtDate
+    .toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })
+    .replace(":", "H");
 
   return (
-    <li key={event.id} className="event-card">
-      <h2>{event.title}</h2>
-      <p>
-        <strong>Lieu :</strong> {event.location}
-      </p>
-      <p>
-        <strong>Date :</strong> {formattedDate}
-      </p>
-      <p>
-        <strong>Heure :</strong> {formattedTime}
-      </p>
-      <Link to={`/event/${event.id}`} className="details-btn">
-        En savoir +
-      </Link>
-      {isOwner && (
-        <>
-          <Link to={`/edit-event/${event.id}`} className="update-btn">
-            Mettre à jour
-          </Link>
-          <button onClick={() => onDelete(event.id)} className="delete-btn">
-            Supprimer
-          </button>
-        </>
-      )}
+    <li className="event-card">
+      <h2 className="event-title">{event.title}</h2>
+      <div className="event-info">
+        <div>
+          <strong>Date :</strong> {formattedDate}
+        </div>
+        <div>
+          <strong>Heure :</strong> {formattedTime}
+        </div>
+        <div>
+          <strong>Lieu :</strong> {event.location}
+        </div>
+      </div>
+      <div className="event-description">
+        <strong>Description :</strong>
+        <p>{event.description}</p>
+      </div>
+      <div className="buttons">
+        <Link to={`/event/${event.id}`} className="details-btn">
+          Détails
+        </Link>
+        {(isOwner || isAdmin) && (
+          <>
+            <Link to={`/edit-event/${event.id}`} className="update-btn">
+              Modifier
+            </Link>
+            <button className="delete-btn" onClick={() => onDelete(event.id)}>
+              Supprimer
+            </button>
+          </>
+        )}
+      </div>
     </li>
   );
 };

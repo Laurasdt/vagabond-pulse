@@ -1,74 +1,63 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const db = require("../db");
 
-// Inscription
+// POST /api/auth/register
 router.post("/register", async (req, res) => {
-  const { email, password, pseudo } = req.body;
-  if (!email || !password || !pseudo) {
-    return res
-      .status(400)
-      .json({ message: "Email, pseudo et mot de passe requis." });
-  }
   try {
-    // Vérifier que l'email n'existe pas
-    const [existingEmail] = await db
+    const { email, password, pseudo } = req.body;
+    const [exists] = await db
       .promise()
       .query("SELECT id FROM users WHERE email = ?", [email]);
-    if (existingEmail.length) {
-      return res.status(409).json({ message: "Cet email est déjà utilisé." });
+    if (exists.length) {
+      return res.status(400).json({ error: "Email déjà utilisé." });
     }
-    // Vérifier que le pseudo n'existe pas
-    const [existingPseudo] = await db
-      .promise()
-      .query("SELECT id FROM users WHERE pseudo = ?", [pseudo]);
-    if (existingPseudo.length) {
-      return res.status(409).json({ message: "Ce pseudo est déjà pris." });
-    }
-    // Hasher le mot de passe
     const hash = await bcrypt.hash(password, 10);
-    // Insérer en base
     await db
       .promise()
-      .query("INSERT INTO users (email, pseudo, password) VALUES (?, ?, ?)", [
-        email,
-        pseudo,
-        hash,
-      ]);
+      .query(
+        "INSERT INTO users (email, pseudo, password, role) VALUES (?, ?, ?, 'user')",
+        [email, pseudo, hash]
+      );
     res.status(201).json({ message: "Inscription réussie." });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Erreur serveur." });
+    console.error("Register error:", err);
+    res.status(500).json({ error: "Erreur serveur." });
   }
 });
 
-// Connexion
+// POST /api/auth/login
 router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res.status(400).json({ message: "Email et mot de passe requis." });
-  }
   try {
+    const { email, password } = req.body;
     const [rows] = await db
       .promise()
-      .query("SELECT id, password, pseudo FROM users WHERE email = ?", [email]);
+      .query("SELECT id, password, pseudo, role FROM users WHERE email = ?", [
+        email,
+      ]);
     if (!rows.length) {
-      return res.status(401).json({ message: "Identifiants invalides." });
+      return res.status(400).json({ error: "Email introuvable." });
     }
     const user = rows[0];
-    const valid = await bcrypt.compare(password, user.password);
-    if (!valid) {
-      return res.status(401).json({ message: "Identifiants invalides." });
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+      return res.status(400).json({ error: "Mot de passe incorrect." });
     }
-    // génère un token JWT ou session, inclut le pseudo si besoin
+    const token = jwt.sign(
+      { id: user.id, pseudo: user.pseudo, role: user.role },
+      process.env.JWT_SECRET.replace(/"/g, ""),
+      { expiresIn: "2h" }
+    );
     res.json({
       message: "Connexion réussie.",
-      user: { id: user.id, pseudo: user.pseudo },
+      token,
+      user: { id: user.id, pseudo: user.pseudo, role: user.role },
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Erreur serveur." });
+    console.error("Login error:", err);
+    res.status(500).json({ error: "Erreur serveur." });
   }
 });
 

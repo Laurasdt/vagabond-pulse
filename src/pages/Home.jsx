@@ -37,7 +37,7 @@ const Home = () => {
           data: { userId: user.id },
         });
         alert("Événement supprimé avec succès !");
-        setEvents(events.filter((e) => e.id !== eventId));
+        setEvents((prev) => prev.filter((e) => e.id !== eventId));
       } catch (error) {
         console.error("Erreur lors de la suppression de l'événement :", error);
         alert("Erreur lors de la suppression de l'événement.");
@@ -59,6 +59,7 @@ const Home = () => {
               key={event.id}
               event={event}
               currentUserId={isAuthenticated ? user.id : null}
+              currentUserRole={isAuthenticated ? user.role : null}
               onDelete={handleDelete}
             />
           ))}

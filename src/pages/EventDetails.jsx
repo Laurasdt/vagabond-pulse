@@ -1,51 +1,69 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 import "../styles/pages/EventDetails.scss";
-import { format, parseISO } from "date-fns";
-import { fr } from "date-fns/locale";
 
 const EventDetails = () => {
   const { eventId } = useParams();
+  const { user, isAuthenticated } = useAuth();
   const [event, setEvent] = useState(null);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchEvent = async () => {
-      try {
-        const { data } = await axios.get(
-          `http://localhost:5000/api/events/${eventId}`
-        );
-        setEvent(data);
-      } catch (error) {
-        console.error("Erreur récupération détails :", error);
-      }
-    };
-    fetchEvent();
+    axios
+      .get(`http://localhost:5000/api/events/${eventId}`)
+      .then(({ data }) => setEvent(data))
+      .catch((err) => {
+        console.error("Erreur fetch event details :", err);
+        setError("Impossible de charger les détails de l'événement.");
+      });
   }, [eventId]);
 
+  if (error) return <p className="error">{error}</p>;
   if (!event) return <p>Chargement...</p>;
 
-  const iso = event.date.includes("T")
-    ? event.date
-    : event.date.replace(" ", "T");
-  const dateObj = parseISO(iso);
+  const evtDate = new Date(event.date);
+  const formattedDate = evtDate.toLocaleDateString("fr-FR", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  });
+  const formattedTime = evtDate
+    .toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })
+    .replace(":", "H");
+
+  const isOwner = isAuthenticated && event.user_id === user.id;
+  const isAdmin = isAuthenticated && user.role === "admin";
 
   return (
     <main className="event-details">
-      <h2>{event.title}</h2>
-      <p>
-        <strong>Lieu :</strong> {event.location}
-      </p>
-      <p>
-        <strong>Date :</strong>{" "}
-        {format(dateObj, "eeee d MMMM yyyy", { locale: fr })}
-      </p>
-      <p>
-        <strong>Heure :</strong> {format(dateObj, "HH:mm")}
-      </p>
-      <p>
-        <strong>Description :</strong> {event.description}
-      </p>
+      <h1>{event.title}</h1>
+      <div className="event-meta">
+        <div>
+          <strong>Date :</strong> {formattedDate}
+        </div>
+        <div>
+          <strong>Heure :</strong> {formattedTime}
+        </div>
+        <div>
+          <strong>Lieu :</strong> {event.location}
+        </div>
+      </div>
+      <div className="event-description">
+        <strong>Description :</strong>
+        <p>{event.description}</p>
+      </div>
+      <div className="buttons">
+        <Link to="/" className="btn">
+          Retour
+        </Link>
+        {(isOwner || isAdmin) && (
+          <Link to={`/edit-event/${event.id}`} className="update-btn">
+            Modifier
+          </Link>
+        )}
+      </div>
     </main>
   );
 };

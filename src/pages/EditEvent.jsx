@@ -1,131 +1,97 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { format, parseISO } from "date-fns";
+import axios from "axios";
 import "../styles/pages/EditEvent.scss";
-import { useAuth } from "../context/AuthContext";
 
 const EditEvent = () => {
   const { eventId } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuth();
-  const [eventData, setEventData] = useState({
+  const [form, setForm] = useState({
     title: "",
     date: "",
-    time: "",
     location: "",
     description: "",
   });
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchEvent = async () => {
-      try {
-        const { data } = await axios.get(
-          `http://localhost:5000/api/events/${eventId}`
-        );
-
-        const iso = data.date.includes("T")
-          ? data.date
-          : data.date.replace(" ", "T");
-        const jsDate = parseISO(iso);
-        setEventData({
-          title: data.title || "",
-          date: format(jsDate, "yyyy-MM-dd"),
-          time: format(jsDate, "HH:mm"),
-          location: data.location || "",
-          description: data.description || "",
+    axios
+      .get(`http://localhost:5000/api/events/${eventId}`)
+      .then(({ data }) => {
+        setForm({
+          title: data.title,
+          date: data.date,
+          location: data.location,
+          description: data.description,
         });
-      } catch (err) {
-        console.error("Erreur récupération événement :", err);
-      }
-    };
-    fetchEvent();
+      })
+      .catch((err) => {
+        console.error("Erreur fetch event:", err);
+        setError("Impossible de charger l'événement.");
+      });
   }, [eventId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setEventData((prev) => ({ ...prev, [name]: value }));
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const payload = {
-        userId: user.id,
-        title: eventData.title,
-        date: `${eventData.date}T${eventData.time}:00`,
-        location: eventData.location,
-        description: eventData.description,
-      };
-      // Mettre patch
-      await axios.put(`http://localhost:5000/api/events/${eventId}`, payload);
-      alert("Événement mis à jour !");
-      navigate("/");
+      await axios.put(`http://localhost:5000/api/events/${eventId}`, form);
+      navigate(`/event/${eventId}`);
     } catch (err) {
-      console.error("Erreur mise à jour :", err);
-      alert("Erreur lors de la mise à jour");
+      console.error("Erreur update event:", err);
+      setError("Échec de la mise à jour.");
     }
   };
+
+  if (error) return <p className="error">{error}</p>;
 
   return (
     <main className="edit-event">
       <h1>Modifier l'événement</h1>
-      <form onSubmit={handleSubmit} className="event-form">
+      <form onSubmit={handleSubmit} className="form-group">
         <label>
           Titre
           <input
-            type="text"
             name="title"
-            value={eventData.title}
+            value={form.title}
             onChange={handleChange}
-            required
+            placeholder="Titre"
           />
         </label>
         <label>
-          Date
+          Date & Heure
           <input
-            type="date"
+            type="datetime-local"
             name="date"
-            value={eventData.date}
+            value={form.date}
             onChange={handleChange}
-            required
-            min={format(new Date(), "yyyy-MM-dd")}
-            max={format(
-              new Date().setFullYear(new Date().getFullYear() + 1),
-              "yyyy-MM-dd"
-            )}
-          />
-        </label>
-        <label>
-          Heure
-          <input
-            type="time"
-            name="time"
-            value={eventData.time}
-            onChange={handleChange}
-            required
           />
         </label>
         <label>
           Lieu
           <input
-            type="text"
             name="location"
-            value={eventData.location}
+            value={form.location}
             onChange={handleChange}
-            required
+            placeholder="Lieu"
           />
         </label>
         <label>
           Description
           <textarea
             name="description"
-            value={eventData.description}
+            value={form.description}
             onChange={handleChange}
-            required
+            placeholder="Description"
           />
         </label>
-        <button type="submit">Mettre à jour</button>
+        <button type="submit" className="btn">
+          Enregistrer
+        </button>
       </form>
     </main>
   );

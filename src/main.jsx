@@ -1,12 +1,21 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import App from "./App.jsx";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
 import { AuthProvider } from "./context/AuthContext";
+import axios from "axios";
 
-createRoot(document.getElementById("root")).render(
-  <StrictMode>
+// Récupère le token depuis le localStorage et l'ajoute aux headers Axios
+const stored = localStorage.getItem("user");
+if (stored) {
+  const { token } = JSON.parse(stored);
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <React.StrictMode>
     <AuthProvider>
       <App />
     </AuthProvider>
-  </StrictMode>
+  </React.StrictMode>
 );

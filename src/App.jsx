@@ -30,10 +30,8 @@ function App() {
           path="/profile"
           element={isAuthenticated ? <Profile /> : <Login />}
         />
-        {/* Redirige vers la page de connexion si l'utilisateur n'est pas authentifié */}
         <Route path="/gallery" element={<Gallery />} />
       </Routes>
-
       <Footer />
     </Router>
   );

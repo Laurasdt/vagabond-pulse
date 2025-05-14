@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import "../styles/pages/profile.scss";
+import { Link } from "react-router-dom";
 import EventCard from "../components/EventCard";
+import "../styles/pages/profile.scss";
 
 const Profile = () => {
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const userId = user?.id;
 
   const [memories, setMemories] = useState([]);
@@ -14,7 +14,6 @@ const Profile = () => {
   const [file, setFile] = useState(null);
   const [description, setDescription] = useState("");
 
-  // Récupère les souvenirs existants
   useEffect(() => {
     if (!userId) return;
     axios
@@ -23,30 +22,29 @@ const Profile = () => {
       .catch((err) => console.error("Erreur fetch memories :", err));
   }, [userId]);
 
-  // Récupère les events créés par l'utilisateur
   useEffect(() => {
     if (!userId) return;
-    const fetchUserEvents = async () => {
-      try {
-        const { data } = await axios.get(
-          `http://localhost:5000/api/events?page=1&limit=100`
+    axios
+      .get("http://localhost:5000/api/events?page=1&limit=100")
+      .then(({ data }) => {
+        // Récupère le tableau d'événements, quel que soit le format
+        const list = Array.isArray(data)
+          ? data
+          : Array.isArray(data.events)
+          ? data.events
+          : [];
+        // Filtre par user_id ou userId selon ce que contient chaque objet
+        const myEvents = list.filter(
+          (e) => e.user_id === userId || e.userId === userId
         );
-        const myEvents = data.events.filter((e) => e.userId === userId);
         setEvents(myEvents);
-      } catch (err) {
-        console.error("Erreur fetch events :", err);
-      }
-    };
-    fetchUserEvents();
+      })
+      .catch((err) => console.error("Erreur fetch events :", err));
   }, [userId]);
 
-  // Upload d'un souvenir
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
-  const handleDescriptionChange = (e) => {
-    setDescription(e.target.value);
-  };
+  const handleFileChange = (e) => setFile(e.target.files[0]);
+  const handleDescriptionChange = (e) => setDescription(e.target.value);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!file) return alert("Veuillez sélectionner une image.");
@@ -55,13 +53,11 @@ const Profile = () => {
       formData.append("file", file);
       formData.append("description", description);
       formData.append("userId", userId);
-
       const res = await axios.post(
         "http://localhost:5000/api/memories",
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
-
       setMemories((prev) => [res.data, ...prev]);
       setFile(null);
       setDescription("");
@@ -71,27 +67,33 @@ const Profile = () => {
     }
   };
 
-  // Suppression d'un event de l'utilisateur
   const handleDeleteEvent = async (eventId) => {
-    if (window.confirm("Voulez-vous vraiment supprimer cet événement ?")) {
-      try {
-        await axios.delete(`http://localhost:5000/api/events/${eventId}`, {
-          data: { userId },
-        });
-        setEvents(events.filter((e) => e.id !== eventId));
-        alert("Événement supprimé avec succès !");
-      } catch (err) {
-        console.error("Erreur suppression event :", err);
-        alert("Erreur lors de la suppression de l'événement.");
-      }
+    if (!window.confirm("Voulez-vous vraiment supprimer cet événement ?"))
+      return;
+    try {
+      await axios.delete(`http://localhost:5000/api/events/${eventId}`);
+      setEvents((prev) => prev.filter((e) => e.id !== eventId));
+      alert("Événement supprimé !");
+    } catch (err) {
+      console.error("Erreur suppression event :", err);
+      alert("Erreur lors de la suppression.");
     }
   };
+
+  if (!isAuthenticated) {
+    return (
+      <main className="profile-page">
+        <h1>Mon Profil</h1>
+        <p>Veuillez vous connecter pour voir votre profil.</p>
+      </main>
+    );
+  }
 
   return (
     <main className="profile-page">
       <h1>Mon Profil</h1>
 
-      {/* Section souvenirs */}
+      {/* Section Souvenirs */}
       <section className="memories-upload">
         <h2>Ajouter un souvenir</h2>
         <form className="memory-form" onSubmit={handleSubmit}>
@@ -134,7 +136,7 @@ const Profile = () => {
         )}
       </section>
 
-      {/* Section Mes événements */}
+      {/* Section Événements */}
       <section className="user-events">
         <h2>Mes Événements</h2>
         {events.length === 0 ? (
@@ -155,4 +157,5 @@ const Profile = () => {
     </main>
   );
 };
+
 export default Profile;
