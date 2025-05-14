@@ -1,8 +1,9 @@
-const mysql = require("mysql2");
+const mysql = require("mysql2"); // mysql2 est une bibliothèque pour se connecter à MySQL
 const dotenv = require("dotenv");
 
 dotenv.config();
 
+// Connexion à la base de données MySQL
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   port: process.env.DB_PORT, // Port pour Mamp

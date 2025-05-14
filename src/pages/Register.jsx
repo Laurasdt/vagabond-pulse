@@ -38,7 +38,8 @@ const Register = () => {
     }
 
     try {
-      await axios.post("http://localhost:5000/api/register", {
+      // Appel vers la bonne route d'inscription
+      await axios.post("http://localhost:5000/api/auth/register", {
         email: formData.email,
         pseudo: formData.pseudo,
         password: formData.password,

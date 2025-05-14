@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "../styles/pages/Home.scss";
 import EventCard from "../components/EventCard";

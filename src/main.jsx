@@ -11,6 +11,7 @@ if (stored) {
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 }
 
+// Récupère l'URL de l'API depuis le fichier .env
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
