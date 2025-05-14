@@ -14,9 +14,10 @@ const EventCard = ({ event, currentUserId, currentUserRole, onDelete }) => {
     day: "numeric",
     month: "long",
   });
-  const formattedTime = evtDate
-    .toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })
-    .replace(":", "H");
+  const formattedTime = evtDate.toLocaleTimeString("fr-FR", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
   return (
     <li className="event-card">

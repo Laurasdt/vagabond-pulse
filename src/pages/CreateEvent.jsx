@@ -140,4 +140,5 @@ const CreateEvent = () => {
     </main>
   );
 };
+
 export default CreateEvent;
