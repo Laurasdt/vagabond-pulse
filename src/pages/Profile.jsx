@@ -48,6 +48,8 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!file) return alert("Veuillez sélectionner une image.");
+    // Validation : description obligatoire
+    if (!description.trim()) return alert("La description est obligatoire.");
     try {
       const formData = new FormData();
       formData.append("file", file);
@@ -98,7 +100,12 @@ const Profile = () => {
         <h2>Ajouter un souvenir</h2>
         <form className="memory-form" onSubmit={handleSubmit}>
           <label className="form-group">
-            <input type="file" accept="image/*" onChange={handleFileChange} />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              required
+            />
           </label>
           <label className="form-group">
             <input
@@ -106,6 +113,7 @@ const Profile = () => {
               placeholder="Petite description."
               value={description}
               onChange={handleDescriptionChange}
+              required // description obligatoire
             />
           </label>
           <button type="submit" className="btn">

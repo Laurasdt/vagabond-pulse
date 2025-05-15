@@ -26,16 +26,10 @@
                 display: block;
             }
 
-            input[type="text"] {
-                width: 100%;
-                padding: 0.6rem;
-                border: 1px solid $card-bg;
-                border-radius: 4px;
-                background: $card-bg;
-                color: $text-color;
-                font-size: 0.95rem;
-                font-family: $font-primary;
-            }
+       input[type="text"] {
+      @include input-style;
+      margin-top: 5px; 
+    }
         }
 
         .btn {

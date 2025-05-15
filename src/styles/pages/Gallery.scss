@@ -3,7 +3,7 @@
 .gallery-page {
 
     h1 {
-        @include h1-style(2rem);
+        @include h1-style();
     }
 
     .gallery-grid {
@@ -31,7 +31,7 @@
         }
 
         .overlay {
-            @include h2-style(0.75rem);
+            @include h2-style();
             position: absolute;
             bottom: 0;
             left: 0;

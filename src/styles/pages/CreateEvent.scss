@@ -1,7 +1,7 @@
 @use "../variables" as *;
 
 .create-event {
-    @include form-container();
+    @include page-container();
 
     h1 {
     @include h1-style();
@@ -18,11 +18,7 @@
 
         input,
         textarea {
-            padding: 10px;
-            border: 1px solid $primary-color;
-            border-radius: 5px;
-            background: #ffffff;
-            color: black;
+        @include input-style;
         }
 
         button {
