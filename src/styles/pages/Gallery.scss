@@ -1,10 +1,6 @@
 @use "../variables" as *;
 
 .gallery-page {
-    background: $background-color;
-    color: $text-color;
-    font-family: $font-primary;
-    padding: 0.5rem;
 
     h1 {
         @include h1-style(2rem);

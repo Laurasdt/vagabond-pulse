@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
-import "../styles/pages/Home.scss";
 import EventCard from "../components/EventCard";
+import "../styles/pages/Home.scss";
 
 const Home = () => {
   const { isAuthenticated, user } = useAuth();

@@ -1,11 +1,6 @@
 @use "../variables" as *;
 
 .profile-page {
-    min-height: 100vh;
-    padding: 2rem;
-    background: $background-color;
-    color: $text-color;
-    font-family: $font-primary;
 
     h1 {
         @include h1-style;

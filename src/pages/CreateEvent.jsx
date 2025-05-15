@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
-import "../styles/pages/CreateEvent.scss";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
+import "../styles/pages/CreateEvent.scss";
 
 const CreateEvent = () => {
   const { isAuthenticated, user } = useAuth();
@@ -79,7 +79,7 @@ const CreateEvent = () => {
 
   return (
     <main className="create-event">
-      <h2>Créer un événement</h2>
+      <h1>Créer un événement</h1>
       <form onSubmit={handleSubmit} className="event-form">
         <label>
           Nom de l'événement :

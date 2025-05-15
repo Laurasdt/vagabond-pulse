@@ -1,10 +1,6 @@
 @use "../variables" as *;
 
 .home {
-    padding: 20px;
-    background-color: $background-color;
-    text-align: center;
-
     h1 {
         @include h1-style(32px);
     }

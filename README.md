@@ -48,8 +48,11 @@ Configuration :
 
 Usage :
 
-- Inscription : Créer un nouveau compte via /register
-- Connexion : Se connecter via /login, récupérer un token JWT
-- Créer un événement : Accessible après authentification via /create-event
-- Consulter les événements : Liste et détails sur /events
-- Profil utilisateur : Gérer ses photos-souvenirs et ses événements sur /profile
+- Inscription : créer un nouveau compte via /register
+- Connexion : se connecter via /login, récupérer un token JWT
+- Créer un événement : accessible après authentification via /create-event
+- Consulter les événements : liste et détails sur /events
+- Profil utilisateur : gérer ses photos-souvenirs et ses événements sur /profile
+- Consulter la galerie générale sur /gallery
+- Modifier son (ou n'importe quel event si admin) événement si connecté, sur /edit-event
+- Supprimer son event (ou n'importe quel event si admin)

@@ -1,40 +1,35 @@
 @use "../variables" as *;
 
 .edit-event {
-    background-color: $card-bg;
-    color: $text-color;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    margin: 40px auto;
+    
+    @include form-container();
 
-    h1 {
-        @include h1-style(26px);
-    }
-
-    form {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .form-group {
-        display: flex;
-        flex-direction: column;
-    }
+  h1 {
+    @include h1-style();
+  }
+  .form-group {
+    @include event-card-style();
+    max-width: 500px;
+    width: 100%;
 
     label {
-        font-size: 1rem;
-        margin-bottom: 5px;
+        @include form-label();
     }
 
     input,
     textarea {
-        @include form-field;
+      padding: 10px;
+      border: 1px solid $primary-color;
+      border-radius: 5px;
+      background: #ffffff;
+      color: $secondary-color;
+      margin-top: 5px;
     }
 
-}
-
-button {
-    @include button-style;
+    button {
+      @include button-style();
+      width: 100%;
+      margin-top: 20px;
+    }
+  }
 }

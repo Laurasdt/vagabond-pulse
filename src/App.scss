@@ -3,4 +3,11 @@
 body {
     margin: 0;
     font-family: $font-primary;
+    background: $background-color; 
+    main {
+    min-height: 100vh;
+    padding: 2rem;
+    color: $text-color;
+    font-family: $font-primary;
+}
 }
