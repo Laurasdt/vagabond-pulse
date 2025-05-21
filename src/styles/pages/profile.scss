@@ -2,101 +2,169 @@
 
 .profile-page {
 
-    h1 {
-        @include h1-style;
+  h1 {
+    @include h1-style(28px);
+  }
+
+  section {
+    max-width: 720px;
+    margin: 0 auto 2rem;
+    background: $card-bg;
+    padding: 1.5rem;
+    border-radius: 8px;
+
+    h2 {
+      @include h2-style(26px);
+    }
+  }
+
+  .memory-form {
+    .form-group {
+      margin-bottom: 1rem;
+
+      input[type="file"] {
+        display: block;
+      }
+
+      input[type="text"] {
+        @include input-style;
+        margin-top: 5px;
+      }
     }
 
-    section {
-        max-width: 720px;
-        margin: 0 auto 2rem;
-        background: $card-bg;
-        padding: 1.5rem;
-        border-radius: 8px;
+    .btn {
+      @include button-style;
+    }
+  }
 
-        h2 {
-            @include h2-style(26px);
-        }
+  .memories-gallery {
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
     }
 
-    .memory-form {
-        .form-group {
-            margin-bottom: 1rem;
+    .memory-item {
+      background: $card-bg;
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 
-            input[type="file"] {
-                display: block;
-            }
+      img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
 
-       input[type="text"] {
-      @include input-style;
-      margin-top: 5px; 
+      .memory-info {
+        padding: 0.8rem;
+
+        p {
+          margin: 0 0 0.5rem;
+          color: $card-text;
+        }
+
+        small {
+          color: $card-text;
+        }
+      }
     }
-        }
+  }
 
-        .btn {
-            @include button-style;
-        }
+  .user-events {
+    h2 {
+      @include h2-style(26px);
     }
 
-    .memories-gallery {
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 1rem;
+    .events-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      .event-card {
+        @include event-card-style;
+
+        .buttons {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          margin-top: 10px;
+
+          .details-btn,
+          .update-btn,
+          .delete-btn {
+            @include button-style(14px);
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+          }
         }
-
-        .memory-item {
-            background: $card-bg;
-            border-radius: 6px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-
-            img {
-                width: 100%;
-                height: auto;
-                display: block;
-            }
-
-            .memory-info {
-                padding: 0.8rem;
-
-                p {
-                    margin: 0 0 0.5rem;
-                    color: $card-text;
-                }
-
-                small {
-                    color: $card-text;
-                }
-            }
-        }
+      }
     }
+  }
+
+  // Tablette
+  @media (min-width: 768px) and (max-width: 1023px) {
+    padding: 15px;
 
     .user-events {
-        h2 {
-            @include h2-style(26px);
-        }
-
-        .events-list {
-            list-style: none;
-            padding: 0;
+      .events-list {
+        .event-card {
+          .buttons {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 10px;
 
-            .event-card {
-                @include event-card-style;
-
-                .details-btn {
-                    @include button-style(14px);
-                }
-
-                .update-btn,
-                .delete-btn {
-                    @include button-style(14px);
-                }
+            .details-btn,
+            .update-btn,
+            .delete-btn {
+              @include button-style(14px);
+              box-sizing: border-box;
+              flex: 1;
+              min-width: 0;
+              text-align: center;
             }
+
+            > .details-btn:only-child {
+              flex: none;
+              width: auto;
+              margin: 0 auto;
+            }
+          }
         }
+      }
     }
+  }
+
+  // Desktop 
+  @media (min-width: 1024px) {
+    padding: 20px;
+
+    .user-events {
+      .events-list {
+        .event-card {
+          .buttons {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 10px;
+
+            .details-btn,
+            .update-btn,
+            .delete-btn {
+              @include button-style(14px);
+              box-sizing: content-box;
+              flex: 1;
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
+  }
 }

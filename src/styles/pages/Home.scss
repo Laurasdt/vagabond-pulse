@@ -1,60 +1,157 @@
 @use "../variables" as *;
 
 .home {
-    h1 {
-        @include h1-style(32px);
-    }
 
-    h2 {
-        @include h2-style(26px);
-    }
+  h1 {
+    @include h1-style(28px);
+  }
 
-    .events-list {
-        list-style: none;
-        padding: 0;
+  h2 {
+    @include h2-style(22px);
+  }
+
+  .events-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    .event-card {
+      @include event-card-style;
+
+      .buttons {
         display: flex;
         flex-direction: column;
-        gap: 15px;
+        gap: 10px;
+        margin-top: 10px;
 
-        .event-card {
-            @include event-card-style;
-
-            .details-btn {
-                @include button-style(14px);
-            }
-
-            .update-btn,
-            .delete-btn {
-                @include button-style(14px);
-            }
+        .details-btn,
+        .update-btn,
+        .delete-btn {
+          @include button-style(14px);
+          width: 100%;
+          box-sizing: border-box;
+          text-align: center;
         }
+      }
+    }
+  }
+
+  .pagination {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    .pagination-btn {
+      flex: 1;
+      padding: 8px;
+      background-color: $primary-color;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:disabled {
+        background-color: darken($primary-color, 10%);
+        cursor: not-allowed;
+      }
+    }
+
+    .pageNumber {
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      text-align: center;
+    }
+  }
+
+  // Tablette
+  @media (min-width: 768px) {
+    padding: 15px;
+
+    .events-list {
+      .event-card {
+        .buttons {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          gap: 10px;
+          margin-top: 10px;
+
+          .details-btn,
+          .update-btn,
+          .delete-btn {
+            @include button-style(14px);
+            box-sizing: border-box;
+            flex: 1;
+            min-width: 0;
+            text-align: center;
+          }
+
+          // Si un seul bouton (details) 
+          > .details-btn:only-child {
+            flex: none;
+            width: auto;
+            margin: 0 auto;
+          }
+        }
+      }
     }
 
     .pagination {
-        margin-top: 30px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 20px;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
 
-        .pagination-btn {
-            padding: 8px 15px;
-            background-color: $primary-color;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-
-            &:disabled {
-                background-color: $primary-color;
-                cursor: not-allowed;
-            }
-        }
-
-        .pageNumber {
-            color: white;
-            font-weight: bold;
-            font-size: 16px;
-        }
+      .pagination-btn {
+        width: auto;
+        flex: 1;
+        padding: 8px 12px;
+      }
     }
+  }
+
+  // Desktop 
+  @media (min-width: 1024px) {
+    padding: 20px;
+
+    .events-list {
+      flex-direction: column;
+
+      .event-card {
+        .buttons {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          gap: 10px;
+
+          .details-btn,
+          .update-btn,
+          .delete-btn {
+            @include button-style(14px);
+            box-sizing: content-box;
+            flex: 1;
+            text-align: center;
+          }
+        }
+      }
+    }
+
+    .pagination {
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+
+      .pagination-btn {
+        width: auto;
+        padding: 8px 15px;
+      }
+    }
+  }
 }

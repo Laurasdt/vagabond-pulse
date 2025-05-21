@@ -110,7 +110,7 @@ const Profile = () => {
           <label className="form-group">
             <input
               type="text"
-              placeholder="Petite description."
+              placeholder="Petite description..."
               value={description}
               onChange={handleDescriptionChange}
               required // description obligatoire
@@ -136,7 +136,6 @@ const Profile = () => {
                 />
                 <div className="memory-info">
                   <p>{mem.description}</p>
-                  <small>{new Date(mem.createdAt).toLocaleString()}</small>
                 </div>
               </article>
             ))}

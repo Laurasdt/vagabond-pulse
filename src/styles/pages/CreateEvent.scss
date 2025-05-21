@@ -1,6 +1,7 @@
 @use "../variables" as *;
 
 .create-event {
+ 
     @include page-container();
 
     h1 {

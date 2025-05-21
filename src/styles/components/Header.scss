@@ -7,7 +7,8 @@
   z-index: 1000;
   background-color: $secondary-color;
   color: $text-color;
-  padding: 15px;
+  padding: 15px 20px;
+  box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -26,13 +27,13 @@
       margin: 0;
 
       li {
-
         a,
         .logout-btn {
           color: $primary-color;
           text-decoration: none;
           font-size: 16px;
           transition: color 0.3s;
+          padding: 5px 10px;
 
           &:hover {
             color: $hover-color;
@@ -44,6 +45,7 @@
           border: none;
           cursor: pointer;
           font-weight: bold;
+          margin-left: 10px;
         }
       }
     }
@@ -54,6 +56,7 @@
     border: none;
     cursor: pointer;
     display: none;
+    padding: 5px;
 
     .bar {
       display: block;
@@ -67,12 +70,13 @@
   .nav-mobile {
     position: absolute;
     top: 60px;
-    right: 0;
+    right: 20px;
     background-color: $secondary-color;
-    width: 100%;
+    width: calc(100% - 40px);
     max-width: 250px;
     padding: 10px;
     display: none;
+    box-sizing: border-box;
 
     &.open {
       display: block;
@@ -107,6 +111,7 @@
           border: none;
           cursor: pointer;
           font-weight: bold;
+          margin-top: 5px;
         }
       }
     }

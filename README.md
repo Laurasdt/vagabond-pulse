@@ -1,34 +1,38 @@
 Vagabond Pulse est une application web de gestion d'événements et de souvenirs (photos), composée d'un backend Node.js/Express et d'un frontend React. Il s'agit du projet de fin d'année de la formation FSD de la 3wa.
 
-Les technos utilisées :
+# Les technos utilisées :
 
 - Backend : Node.js, Express.js
 - Base de données : MySQL avec MAMP
 - Frontend : React
 
-Prérequis :
+# Prérequis :
 
 - Node.js <= 14.x
 - npm ou yarn
 - Une base de données au choix (MongoDB, MySQL avec Mamp, PostgreSQL...)
 
-Installation :
+# Installation :
 
-        1) Cloner le dépôt :
-            git clone https://github.com/Laurasdt/vagabond-pulse.git
-            cd backend
-        2) Installer les dépendances :
-            npm install
-        3) Démarrer le serveur de production :
-            node server.js
-        4) Démarrer en mode développement (avec reload automatique) :
-            (dans un autre terminal, depuis la base du projet)
-            npm install
-            npm run dev
+1) Cloner le dépôt :
+```
+git clone https://github.com/Laurasdt/vagabond-pulse.git
+cd backend
+```
+1) Installer les dépendances :
+```npm install```
+1) Démarrer le serveur de production :
+```node server.js```
+1) Démarrer en mode développement (avec reload automatique) :
+(dans un autre terminal, depuis la base du projet)
+```
+npm install
+npm run dev
+```
 
 L'application sera accessible par défaut sur http://localhost:3000/ et communiquera avec le backend sur http://localhost:5000/.
 
-Configuration :
+# Configuration :
 
 - Backend :
 
@@ -46,7 +50,7 @@ Configuration :
         Assurez-vous de créer la base de données MySQL avant de démarrer le serveur :
             CREATE DATABASE `vagabondpulse` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-Usage :
+# Usage :
 
 - Inscription : créer un nouveau compte via /register
 - Connexion : se connecter via /login, récupérer un token JWT
