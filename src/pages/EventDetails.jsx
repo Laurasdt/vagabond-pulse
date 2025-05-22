@@ -59,7 +59,7 @@ const EventDetails = () => {
           Retour
         </Link>
         {(isOwner || isAdmin) && (
-          <Link to={`/edit-event/${event.id}`} className="update-btn">
+          <Link to={`/edit-event/${event.id}`} className="btn">
             Modifier
           </Link>
         )}
