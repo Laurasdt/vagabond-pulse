@@ -3,7 +3,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const util = require("util");
-const db = require("../db");
+const db = require("../config/db");
 const router = express.Router();
 
 //  Prépare le dossier uploads/memories
