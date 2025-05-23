@@ -17,7 +17,39 @@ const Login = () => {
       navigate("/");
     } catch (err) {
       console.error("Échec du login :", err);
-      alert(err.response?.data?.error || "Erreur lors de la connexion");
+      // Gestion du message custom du rate-limit
+      if (
+        err.message ===
+        "Trop de tentatives. Merci de patienter avant de réessayer."
+      ) {
+        alert(err.message);
+      }
+      // Gestion spécifique du status HTTP 429 (cache rare)
+      else if (err.response?.status === 429) {
+        alert("Trop de tentatives. Merci de patienter avant de réessayer.");
+      }
+      // Gestion des erreurs réseau
+      else if (
+        err.code === "ERR_NETWORK" ||
+        err.code === "ERR_CONNECTION_REFUSED" ||
+        err.message === "Network Error"
+      ) {
+        alert("Impossible de contacter le serveur. Vérifiez votre connexion.");
+      }
+      // Gestion des mauvaises requêtes (credentials invalides)
+      else if (err.response?.status === 400) {
+        alert(
+          err.response?.data?.message || "E-mail ou mot de passe incorrect."
+        );
+      } else if (
+        err.code === "ERR_NETWORK" ||
+        err.code === "ERR_CONNECTION_REFUSED" ||
+        err.message === "Network Error"
+      ) {
+        alert("Impossible de contacter le serveur. Vérifiez votre connexion.");
+      } else {
+        alert(err.response?.data?.error || "Erreur lors de la connexion");
+      }
     }
   };
 

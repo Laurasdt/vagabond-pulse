@@ -17,12 +17,17 @@ export const AuthProvider = ({ children }) => {
     }
   }, [user]);
 
+  // vérifie si l'utilisateur est authentifié
   const login = async (email, password) => {
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password,
-      });
+      const res = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        {
+          email,
+          password,
+        },
+        { withCredentials: true } // envoi des cookies si nécessaire
+      );
       const { token, user: userData } = res.data;
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       const stored = { ...userData, token };
@@ -31,17 +36,28 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated(true);
     } catch (err) {
       console.error("Échec du login :", err);
+      // gestion spécifique du rate-limit (429)
+      // si le serveur renvoie une erreur 429, on afficher un message spécifique
+      if (err.response?.status === 429) {
+        throw new Error(
+          "Trop de tentatives. Merci de patienter avant de réessayer."
+        );
+      }
       throw err;
     }
   };
 
   const register = async (email, password, pseudo) => {
     try {
-      await axios.post("http://localhost:5000/api/auth/register", {
-        email,
-        password,
-        pseudo,
-      });
+      await axios.post(
+        "http://localhost:5000/api/auth/register",
+        {
+          email,
+          password,
+          pseudo,
+        },
+        { withCredentials: true }
+      );
     } catch (err) {
       console.error("Échec de l'inscription :", err);
       throw err;
