@@ -49,8 +49,12 @@ app.use("/api/memories", memoryRoutes);
 
 app.use(
   "/uploads",
+  (req, res, next) => {
+    res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+    next();
+  },
   express.static(path.join(__dirname, "uploads"), {
-    index: false, // désactive listing des fichiers
+    index: false,
   })
 );
 
