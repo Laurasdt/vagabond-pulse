@@ -70,7 +70,7 @@ router.post("/", upload.single("file"), async (req, res) => {
   }
 });
 
-// **GET /api/memories** → toutes les photos de tous les users
+// GET /api/memories → toutes les photos de tous les users
 router.get("/", async (req, res) => {
   console.log("==== GET /api/memories reçu ====");
   try {
