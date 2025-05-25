@@ -3,8 +3,8 @@ const express = require("express");
 const fs = require("fs");
 const cors = require("cors");
 const helmet = require("helmet");
-const rateLimit = require("express-rate-limit"); //limite le nombre de tentatives de connexion pour mitiger le bruteforce
-const hsts = require("hsts"); //force le navigateur à ne communiquer qu’en HTTPS et protège contre les attaques de downgrade
+const rateLimit = require("express-rate-limit"); // limite le nombre de tentatives de connexion pour mitiger le bruteforce
+const hsts = require("hsts"); // force le navigateur à ne communiquer qu’en HTTPS et protège contre les attaques de downgrade
 const path = require("path");
 const authRouter = require("./routes/auth");
 const eventRoutes = require("./routes/events");
@@ -12,7 +12,13 @@ const memoryRoutes = require("./routes/memories");
 
 const app = express();
 
-const allowedOrigins = ["http://localhost:3000", "http://localhost:5173"];
+// Origines autorisées, inclut maintenant votre domaine Vercel
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:5173",
+  "https://vagabond-pulse-client-li5n4arre-lauras-projects-e43a85df.vercel.app",
+];
+
 app.use(
   cors({
     origin(orig, cb) {
