@@ -2,8 +2,9 @@
   "name": "vagabond-pulse",
   "private": true,
   "version": "1.0.0",
+  "workspaces": ["backend", "client"],
   "scripts": {
     "start": "node backend/server.js",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "railway-postbuild": "cd client && npm install && npm run build"
   }
 }
