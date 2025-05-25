@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import "../styles/pages/EditEvent.scss";
 
+// Permet à l'utilisateur de modifier un événement existant à condition qu'il soit authentifié et qu'il ait les droits nécessaires (propriétaire ou admin)
 const EditEvent = () => {
   const { isAuthenticated, user } = useAuth();
   const token = user?.token;
@@ -26,6 +27,7 @@ const EditEvent = () => {
     return <Navigate to="/login" />;
   }
 
+  // Vérification des droits de l'utilisateur
   useEffect(() => {
     if (!token) return;
     axios

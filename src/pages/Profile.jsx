@@ -94,8 +94,6 @@ const Profile = () => {
   return (
     <main className="profile-page">
       <h1>Mon Profil</h1>
-
-      {/* Section Souvenirs */}
       <section className="memories-upload">
         <h2>Ajouter un souvenir</h2>
         <form className="memory-form" onSubmit={handleSubmit}>
@@ -121,7 +119,6 @@ const Profile = () => {
           </button>
         </form>
       </section>
-
       <section className="memories-gallery">
         <h2>Mes Souvenirs</h2>
         {memories.length === 0 ? (
@@ -142,8 +139,6 @@ const Profile = () => {
           </div>
         )}
       </section>
-
-      {/* Section Événements */}
       <section className="user-events">
         <h2>Mes Événements</h2>
         {events.length === 0 ? (

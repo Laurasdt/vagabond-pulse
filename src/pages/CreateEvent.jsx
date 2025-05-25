@@ -51,7 +51,6 @@ const CreateEvent = () => {
     if (!validateDate(eventData.date, eventData.time)) {
       return;
     }
-
     const dateTime = `${eventData.date}T${eventData.time}:00`;
     const payload = {
       userId: user.id,
@@ -61,6 +60,7 @@ const CreateEvent = () => {
       description: eventData.description,
     };
 
+    // Envoi de la requête POST pour créer l'événement
     try {
       await axios.post("http://localhost:5000/api/events", payload);
       alert("Super, l'événement a été créé avec succès !!");

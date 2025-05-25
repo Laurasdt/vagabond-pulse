@@ -11,6 +11,7 @@ const Home = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
+  // Récupération des événements depuis l'API
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -29,6 +30,7 @@ const Home = () => {
     fetchEvents();
   }, [page]);
 
+  // Fonction pour supprimer un événement + vérifie si l'utilisateur a confirmé la suppression avant de procéder
   const handleDelete = async (eventId) => {
     if (window.confirm("Voulez-vous vraiment supprimer cet événement ?")) {
       try {

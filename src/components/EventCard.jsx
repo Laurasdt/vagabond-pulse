@@ -1,4 +1,3 @@
-// src/components/EventCard.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -37,11 +36,9 @@ const EventCard = ({ event, currentUserId, currentUserRole }) => {
       </div>
 
       <div className="buttons">
-        {/* Lien vers la page détails où la description (et le reste) sera affichée */}
         <Link to={`/event/${event.id}`} className="details-btn">
           Détails
         </Link>
-
         {(isOwner || isAdmin) && (
           <>
             <Link to={`/edit-event/${event.id}`} className="update-btn">

@@ -4,7 +4,7 @@ import "../styles/pages/Gallery.scss";
 
 const Gallery = () => {
   const [photos, setPhotos] = useState([]);
-
+  // Fetch les photos de la galerie depuis l'API
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/memories")
