@@ -30,6 +30,9 @@ const Gallery = () => {
               <img
                 src={`${backendRoot}${mem.photoUrl}`}
                 alt={mem.description || "Souvenir utilisateur"}
+                onError={(e) => {
+                  e.target.style.display = "none";
+                }}
               />
               <p className="description">{mem.description}</p>
             </div>
