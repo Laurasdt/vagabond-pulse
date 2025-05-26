@@ -1,39 +1,42 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../styles/pages/Gallery.scss";
+import { useAuth } from "../context/AuthContext";
+import "../styles/components/gallery.scss";
 
 const Gallery = () => {
-  const [photos, setPhotos] = useState([]);
-  // Fetch les photos de la galerie depuis l'API
+  const { user } = useAuth();
+  const userId = user?.id;
+  const [memories, setMemories] = useState([]);
+
   useEffect(() => {
+    if (!userId) return;
     axios
-      .get(import.meta.env.VITE_API_URL + "/memories")
-      .then(({ data }) => setPhotos(data))
-      .catch((err) => console.error("Erreur fetch gallery :", err));
-  }, []);
+      .get(`${import.meta.env.VITE_API_URL}/memories/${userId}`)
+      .then((res) => setMemories(res.data))
+      .catch((err) => console.error("Erreur fetch memories :", err));
+  }, [userId]);
 
   return (
-    <main className="gallery-page">
-      <h1>Galerie</h1>
-      {photos.length === 0 ? (
-        <p>Aucune photo disponible.</p>
+    <div className="gallery">
+      {memories.length === 0 ? (
+        <p>Aucun souvenir disponible.</p>
       ) : (
         <div className="gallery-grid">
-          {photos.map((mem) => (
-            <div key={mem.id} className="photo-item">
+          {memories.map((mem) => (
+            <div key={mem.id} className="gallery-item">
               <img
-                src={`http://localhost:5000${mem.photoUrl}`}
-                alt={mem.description || "Photo utilisateur"}
+                src={
+                  import.meta.env.VITE_API_URL.replace(/\/api$/, "") +
+                  mem.photoUrl
+                }
+                alt={mem.description || "Souvenir utilisateur"}
               />
-              <div className="overlay">
-                <span className="owner">@{mem.owner}</span>
-                {mem.description && <p>{mem.description}</p>}
-              </div>
+              <p className="description">{mem.description}</p>
             </div>
           ))}
         </div>
       )}
-    </main>
+    </div>
   );
 };
 
