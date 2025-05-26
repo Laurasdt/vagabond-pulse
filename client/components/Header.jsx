@@ -48,7 +48,7 @@ function Header() {
             </li>
             {isAuthenticated && (
               <li>
-                <Link to="/profile">Profile</Link>
+                <Link to="/profile">Profil</Link>
               </li>
             )}
             {isAuthenticated ? (
