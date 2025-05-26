@@ -17,6 +17,7 @@ const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:5173",
   "https://vagabond-pulse-client-li5n4arre-lauras-projects-e43a85df.vercel.app",
+  "https://vagabond-pulse-client.vercel.app",
 ];
 
 app.use(
