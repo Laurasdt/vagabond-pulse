@@ -3,8 +3,8 @@ const express = require("express");
 const fs = require("fs");
 const cors = require("cors");
 const helmet = require("helmet");
-const rateLimit = require("express-rate-limit"); // limite le nombre de tentatives de connexion pour mitiger le bruteforce
-const hsts = require("hsts"); // force le navigateur à ne communiquer qu’en HTTPS et protège contre les attaques de downgrade
+const rateLimit = require("express-rate-limit");
+const hsts = require("hsts");
 const path = require("path");
 const authRouter = require("./routes/auth");
 const eventRoutes = require("./routes/events");
@@ -12,7 +12,6 @@ const memoryRoutes = require("./routes/memories");
 
 const app = express();
 
-// Origines autorisées, inclut maintenant votre domaine Vercel
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:5173",
@@ -39,7 +38,7 @@ app.use(
   })
 );
 
-// limite le nombre de requêtes : 10 requêtes en 15 minutes par IP
+// Limiteur d'authentification
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 10,
@@ -49,24 +48,10 @@ app.use("/api/auth", authLimiter);
 
 app.use(express.json());
 
-// routes
+// routes API
 app.use("/api/auth", authRouter);
 app.use("/api/events", eventRoutes);
 app.use("/api/memories", memoryRoutes);
-
-// Sert d’abord les fichiers statiques (si le dossier existe)
-const buildPath = path.join(__dirname, "../client/build");
-if (fs.existsSync(buildPath)) {
-  app.use(express.static(buildPath, { index: false }));
-}
-
-// Pour toute requête GET non-API, renvoie index.html
-app.use((req, res, next) => {
-  if (req.method === "GET" && !req.path.startsWith("/api/")) {
-    return res.sendFile(path.join(buildPath, "index.html"));
-  }
-  next();
-});
 
 app.use(
   "/uploads",
@@ -74,10 +59,20 @@ app.use(
     res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
     next();
   },
-  express.static(path.join(__dirname, "uploads"), {
-    index: false,
-  })
+  express.static(path.join(__dirname, "uploads"), { index: false })
 );
+
+const buildPath = path.join(__dirname, "../client/build");
+if (fs.existsSync(buildPath)) {
+  app.use(express.static(buildPath, { index: false }));
+}
+
+app.use((req, res, next) => {
+  if (req.method === "GET" && !req.path.startsWith("/api/")) {
+    return res.sendFile(path.join(buildPath, "index.html"));
+  }
+  next();
+});
 
 if (process.env.NODE_ENV === "production") {
   app.enable("trust proxy");
