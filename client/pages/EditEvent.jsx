@@ -31,7 +31,7 @@ const EditEvent = () => {
   useEffect(() => {
     if (!token) return;
     axios
-      .get(`http://localhost:5000/api/events/${eventId}`, {
+      .get(`${import.meta.env.VITE_API_URL}/events/${eventId}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(({ data }) => {
@@ -82,7 +82,7 @@ const EditEvent = () => {
 
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/events/${eventId}`,
+        `${import.meta.env.VITE_API_URL}/events/${eventId}`,
         payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );

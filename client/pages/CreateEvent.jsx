@@ -62,7 +62,7 @@ const CreateEvent = () => {
 
     // Envoi de la requête POST pour créer l'événement
     try {
-      await axios.post("http://localhost:5000/api/events", payload);
+      await axios.post(import.meta.env.VITE_API_URL + "/events", payload);
       alert("Super, l'événement a été créé avec succès !!");
       setEventData({
         title: "",

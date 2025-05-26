@@ -16,7 +16,7 @@ const Profile = () => {
   useEffect(() => {
     if (!userId) return;
     axios
-      .get(`http://localhost:5000/api/memories/${userId}`)
+      .get(`${import.meta.env.VITE_API_URL}/memories/${userId}`)
       .then((res) => setMemories(res.data))
       .catch((err) => console.error("Erreur fetch memories :", err));
   }, [userId]);
@@ -24,7 +24,7 @@ const Profile = () => {
   useEffect(() => {
     if (!userId) return;
     axios
-      .get("http://localhost:5000/api/events?page=1&limit=100")
+      .get(import.meta.env.VITE_API_URL + "/events?page=1&limit=100")
       .then(({ data }) => {
         // Récupère le tableau d'événements, quel que soit le format
         const list = Array.isArray(data)
@@ -55,7 +55,7 @@ const Profile = () => {
       formData.append("description", description);
       formData.append("userId", userId);
       const res = await axios.post(
-        "http://localhost:5000/api/memories",
+        import.meta.env.VITE_API_URL + "/memories",
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -72,7 +72,7 @@ const Profile = () => {
     if (!window.confirm("Voulez-vous vraiment supprimer cet événement ?"))
       return;
     try {
-      await axios.delete(`http://localhost:5000/api/events/${eventId}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/events/${eventId}`);
       setEvents((prev) => prev.filter((e) => e.id !== eventId));
       alert("Événement supprimé !");
     } catch (err) {

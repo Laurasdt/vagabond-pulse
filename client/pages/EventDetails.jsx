@@ -12,7 +12,7 @@ const EventDetails = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/events/${eventId}`)
+      .get(`${import.meta.env.VITE_API_URL}/events/${eventId}`)
       .then(({ data }) => setEvent(data))
       .catch((err) => {
         console.error("Erreur fetch event details :", err);

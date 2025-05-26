@@ -7,7 +7,7 @@ const Gallery = () => {
   // Fetch les photos de la galerie depuis l'API
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/memories")
+      .get(import.meta.env.VITE_API_URL + "/memories")
       .then(({ data }) => setPhotos(data))
       .catch((err) => console.error("Erreur fetch gallery :", err));
   }, []);

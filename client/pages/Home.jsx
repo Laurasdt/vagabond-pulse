@@ -16,7 +16,7 @@ const Home = () => {
     const fetchEvents = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:5000/api/events?page=${page}&limit=10`
+          `${import.meta.env.VITE_API_URL}/events?page=${page}&limit=10`
         );
         setEvents(data.events);
         setTotalPages(data.totalPages);
@@ -34,9 +34,12 @@ const Home = () => {
   const handleDelete = async (eventId) => {
     if (window.confirm("Voulez-vous vraiment supprimer cet événement ?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/events/${eventId}`, {
-          data: { userId: user.id },
-        });
+        await axios.delete(
+          `${import.meta.env.VITE_API_URL}/events/${eventId}`,
+          {
+            data: { userId: user.id },
+          }
+        );
         alert("Événement supprimé avec succès !");
         setEvents((prev) => prev.filter((e) => e.id !== eventId));
       } catch (error) {
