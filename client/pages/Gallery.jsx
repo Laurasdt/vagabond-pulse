@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
-import "../styles/components/gallery.scss";
+import "../styles/pages/Gallery.scss";
 
 const Gallery = () => {
   const { user } = useAuth();
@@ -16,8 +16,10 @@ const Gallery = () => {
       .catch((err) => console.error("Erreur fetch memories :", err));
   }, [userId]);
 
-  // Calcule la racine du backend sans "/api"
-  const backendRoot = import.meta.env.VITE_API_URL.replace(/\/api$/, "");
+  const backendRoot =
+    import.meta.env.MODE === "production"
+      ? "https://vagabond-pulse-production.up.railway.app"
+      : import.meta.env.VITE_API_URL.replace(/\/api$/, "");
 
   return (
     <div className="gallery">
