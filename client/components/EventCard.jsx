@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const EventCard = ({ event, currentUserId, currentUserRole }) => {
   const isOwner =
@@ -19,10 +20,23 @@ const EventCard = ({ event, currentUserId, currentUserRole }) => {
     minute: "2-digit",
   });
 
+  const handleDelete = () => {
+    if (!window.confirm("Supprimer cet événement ?")) return;
+
+    axios
+      .delete(`${import.meta.env.VITE_API_URL}/events/${event.id}`)
+      .then(() => window.location.reload())
+      .catch((err) => {
+        console.error("Erreur delete:", err.response || err);
+        alert(
+          err.response?.data?.error || "Impossible de supprimer l'événement"
+        );
+      });
+  };
+
   return (
     <li className="event-card">
       <h2 className="event-title">{event.title}</h2>
-
       <div className="event-info">
         <div>
           <strong>Date :</strong> {formattedDate}
@@ -34,7 +48,6 @@ const EventCard = ({ event, currentUserId, currentUserRole }) => {
           <strong>Lieu :</strong> {event.location}
         </div>
       </div>
-
       <div className="buttons">
         <Link to={`/event/${event.id}`} className="details-btn">
           Détails
@@ -44,18 +57,7 @@ const EventCard = ({ event, currentUserId, currentUserRole }) => {
             <Link to={`/edit-event/${event.id}`} className="update-btn">
               Modifier
             </Link>
-            <button
-              className="delete-btn"
-              onClick={() =>
-                window.confirm("Supprimer cet événement ?") &&
-                fetch(`/api/events/${event.id}`, { method: "DELETE" }).then(
-                  (res) => {
-                    if (res.ok) window.location.reload();
-                    else alert("Impossible de supprimer l'événement");
-                  }
-                )
-              }
-            >
+            <button className="delete-btn" onClick={handleDelete}>
               Supprimer
             </button>
           </>
