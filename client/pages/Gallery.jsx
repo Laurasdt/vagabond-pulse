@@ -1,47 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useAuth } from "../context/AuthContext";
 import "../styles/pages/Gallery.scss";
 
 const Gallery = () => {
-  const { user } = useAuth();
-  const userId = user?.id;
-  const [memories, setMemories] = useState([]);
+  const [photos, setPhotos] = useState([]);
 
   useEffect(() => {
-    if (!userId) return;
     axios
-      .get(`${import.meta.env.VITE_API_URL}/memories/${userId}`)
-      .then((res) => setMemories(res.data))
-      .catch((err) => console.error("Erreur fetch memories :", err));
-  }, [userId]);
-
-  const backendRoot =
-    import.meta.env.MODE === "production"
-      ? "https://vagabond-pulse-production.up.railway.app"
-      : import.meta.env.VITE_API_URL.replace(/\/api$/, "");
+      .get("http://localhost:5000/api/memories")
+      .then(({ data }) => setPhotos(data))
+      .catch((err) => console.error("Erreur fetch gallery :", err));
+  }, []);
 
   return (
-    <div className="gallery">
-      {memories.length === 0 ? (
-        <p>Aucun souvenir disponible.</p>
+    <main className="gallery-page">
+      <h1>Galerie</h1>
+      {photos.length === 0 ? (
+        <p>Aucune photo disponible.</p>
       ) : (
         <div className="gallery-grid">
-          {memories.map((mem) => (
-            <div key={mem.id} className="gallery-item">
+          {photos.map((mem) => (
+            <div key={mem.id} className="photo-item">
               <img
-                src={`${backendRoot}${mem.photoUrl}`}
-                alt={mem.description || "Souvenir utilisateur"}
-                onError={(e) => {
-                  e.target.style.display = "none";
-                }}
+                src={`http://localhost:5000${mem.photoUrl}`}
+                alt={mem.description || "Photo utilisateur"}
               />
-              <p className="description">{mem.description}</p>
+              <div className="overlay">
+                <span className="owner">@{mem.owner}</span>
+                {mem.description && <p>{mem.description}</p>}
+              </div>
             </div>
           ))}
         </div>
       )}
-    </div>
+    </main>
   );
 };
 
