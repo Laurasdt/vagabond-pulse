@@ -16,6 +16,9 @@ const Gallery = () => {
       .catch((err) => console.error("Erreur fetch memories :", err));
   }, [userId]);
 
+  // Calcule la racine du backend sans "/api"
+  const backendRoot = import.meta.env.VITE_API_URL.replace(/\/api$/, "");
+
   return (
     <div className="gallery">
       {memories.length === 0 ? (
@@ -25,10 +28,7 @@ const Gallery = () => {
           {memories.map((mem) => (
             <div key={mem.id} className="gallery-item">
               <img
-                src={
-                  import.meta.env.VITE_API_URL.replace(/\/api$/, "") +
-                  mem.photoUrl
-                }
+                src={`${backendRoot}${mem.photoUrl}`}
                 alt={mem.description || "Souvenir utilisateur"}
               />
               <p className="description">{mem.description}</p>
