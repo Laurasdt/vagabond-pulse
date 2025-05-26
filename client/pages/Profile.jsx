@@ -26,13 +26,11 @@ const Profile = () => {
     axios
       .get(import.meta.env.VITE_API_URL + "/events?page=1&limit=100")
       .then(({ data }) => {
-        // Récupère le tableau d'événements, quel que soit le format
         const list = Array.isArray(data)
           ? data
           : Array.isArray(data.events)
           ? data.events
           : [];
-        // Filtre par user_id ou userId selon ce que contient chaque objet
         const myEvents = list.filter(
           (e) => e.user_id === userId || e.userId === userId
         );
@@ -47,7 +45,6 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!file) return alert("Veuillez sélectionner une image.");
-    // Validation : description obligatoire
     if (!description.trim()) return alert("La description est obligatoire.");
     try {
       const formData = new FormData();
@@ -93,6 +90,7 @@ const Profile = () => {
   return (
     <main className="profile-page">
       <h1>Mon Profil</h1>
+
       <section className="memories-upload">
         <h2>Ajouter un souvenir</h2>
         <form className="memory-form" onSubmit={handleSubmit}>
@@ -110,7 +108,7 @@ const Profile = () => {
               placeholder="Petite description..."
               value={description}
               onChange={handleDescriptionChange}
-              required // description obligatoire
+              required
             />
           </label>
           <button type="submit" className="btn">
@@ -118,6 +116,7 @@ const Profile = () => {
           </button>
         </form>
       </section>
+
       <section className="memories-gallery">
         <h2>Mes Souvenirs</h2>
         {memories.length === 0 ? (
@@ -127,8 +126,10 @@ const Profile = () => {
             {memories.map((mem) => (
               <article key={mem.id} className="memory-item">
                 <img
-                  src={`http://localhost:5000${mem.photoUrl}`}
-                  alt={mem.description}
+                  src={`${import.meta.env.VITE_API_URL.replace(/\/api$/, "")}${
+                    mem.photoUrl
+                  }`}
+                  alt={mem.description || "Photo utilisateur"}
                 />
                 <div className="memory-info">
                   <p>{mem.description}</p>
@@ -138,6 +139,7 @@ const Profile = () => {
           </div>
         )}
       </section>
+
       <section className="user-events">
         <h2>Mes Événements</h2>
         {events.length === 0 ? (
