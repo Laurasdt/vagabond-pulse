@@ -62,3 +62,8 @@ router.post("/login", async (req, res) => {
 });
 
 module.exports = router;
+
+// kebabcase: nom-prenom;
+// snakecase: nom_prenom;
+// camelcase: nomPrenom;
+// pascalcase : NomPrenom;

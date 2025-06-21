@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../config/db");
-const { verifyToken } = require("../middleware/authMiddleware");
+const { verifyToken } = require("../middleware/authMiddleware"); // appel du middleware d'authentification
 
 // GET all events (public)
 router.get("/", (req, res) => {

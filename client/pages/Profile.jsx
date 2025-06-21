@@ -13,6 +13,7 @@ const Profile = () => {
   const [file, setFile] = useState(null);
   const [description, setDescription] = useState("");
 
+  // Récupération des souvenirs de l'utilisateur
   useEffect(() => {
     if (!userId) return;
     axios
@@ -21,6 +22,7 @@ const Profile = () => {
       .catch((err) => console.error("Erreur fetch memories :", err));
   }, [userId]);
 
+  // Récupération des événements de l'utilisateur
   useEffect(() => {
     if (!userId) return;
     axios
@@ -39,13 +41,15 @@ const Profile = () => {
       .catch((err) => console.error("Erreur fetch events :", err));
   }, [userId]);
 
+  // Handlers pour le formulaire de souvenir
   const handleFileChange = (e) => setFile(e.target.files[0]);
   const handleDescriptionChange = (e) => setDescription(e.target.value);
 
+  // Envoi du souvenir
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!file) return alert("Veuillez sélectionner une image.");
-    if (!description.trim()) return alert("La description est obligatoire.");
+    if (!file) return alert("Veuillez sélectionner une image."); // si aucun fichier selectionné
+    if (!description.trim()) return alert("La description est obligatoire."); // si pas de description
     try {
       const formData = new FormData();
       formData.append("file", file);

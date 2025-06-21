@@ -4,7 +4,7 @@ const fs = require("fs");
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
-const hsts = require("hsts");
+const hsts = require("hsts"); // indique aux navigateurs de toujours utiliser HTTPS
 const path = require("path");
 const authRouter = require("./routes/auth");
 const eventRoutes = require("./routes/events");
@@ -29,10 +29,11 @@ app.use(
   })
 );
 
+// Sécurité des en-têtes HTTP, attaques XSS, etc.
 app.use(helmet());
 app.use(
   hsts({
-    maxAge: 31536000,
+    maxAge: 31536000, // pendant 1 an le navigateur doit utiliser HTTPS
     includeSubDomains: true,
     preload: true,
   })

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom"; // Redirection si non authentifié
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import { format } from "date-fns";
@@ -20,6 +20,8 @@ const CreateEvent = () => {
     return <Navigate to="/login" />;
   }
 
+  // Fonction pour gérer les changements dans les champs du formulaire
+  // Met à jour l'état de l'événement en fonction des entrées de l'utilisateur
   const handleChange = (e) => {
     setEventData({ ...eventData, [e.target.name]: e.target.value });
   };

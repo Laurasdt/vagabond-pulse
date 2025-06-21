@@ -7,7 +7,6 @@ const EventCard = ({ event, currentUserId, currentUserRole }) => {
     currentUserId &&
     (event.user_id === currentUserId || event.userId === currentUserId);
   const isAdmin = currentUserRole === "admin";
-
   // Formatage date et heure
   const evtDate = new Date(event.date);
   const formattedDate = evtDate.toLocaleDateString("fr-FR", {
