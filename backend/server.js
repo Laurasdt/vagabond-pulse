@@ -9,6 +9,7 @@ const path = require("path");
 const authRouter = require("./routes/auth");
 const eventRoutes = require("./routes/events");
 const memoryRoutes = require("./routes/memories");
+const connexion = require("./config/db");
 
 const app = express();
 
@@ -82,6 +83,13 @@ if (process.env.NODE_ENV === "production") {
     res.redirect(301, `https://${req.headers.host}${req.url}`);
   });
 }
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT}`));
+connexion
+  .sync()
+  .then(() => {
+    console.log("Connexion à la base de données réussie");
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT}`));
+  })
+  .catch((err) => {
+    console.error("Erreur de connexion à la base de données :", err);
+  });
