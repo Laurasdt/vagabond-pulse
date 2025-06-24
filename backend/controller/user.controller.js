@@ -12,7 +12,34 @@ exports.getUser = async (req, res) => {
     attributes: ["id", "email", "pseudo", "role", "createAt"],
   });
   if (!user) {
-    return res.status(404).json({ error: "Utilisateur nonn trouvé" });
+    return res.status(404).json({ error: "Utilisateur non trouvé" });
   }
   res.json(user);
+};
+exports.updateUser = async (req, res) => {
+  const { email, pseudo, role, password } = req.body;
+  const targetId = req.params.id;
+  const data = { email, pseudo, role };
+  if (password) {
+    data.password = await bcrypt.hash(password, 9);
+  }
+  const [updated] = await User.updated(data, {
+    where: { id: targetId },
+  });
+  if (!updated) {
+    return res.status(404).json({ error: "Utilisateur introuvable" });
+  }
+  res.json({ message: "Utilisateur mis à jour" });
+};
+exports.deleteUser = async (req, res) => {
+  const userId = req.params.id;
+  const user = await User.destroy({
+    where: {
+      id: userId,
+    },
+  });
+  if (!user) {
+    return res.status(404).json({ error: "Suppression érronée" });
+  }
+  res.json({ message: "Utilisateur supprimé" });
 };
