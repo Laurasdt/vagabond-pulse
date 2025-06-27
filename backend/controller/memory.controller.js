@@ -24,7 +24,7 @@ exports.createMemory = async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ error: "Fichier manquant" });
     }
-    const urlPhoto = `/uploads/memories/${req.file.fileName}`;
+    const urlPhoto = `/uploads/memories/${req.file.filename}`;
     const memory = await Memory.create({
       userId,
       photoUrl: urlPhoto,
@@ -45,10 +45,10 @@ exports.getAllMemories = async (req, res) => {
   try {
     const memoriesData = await Memory.findAll({
       include: [{ model: User, as: "owner", attributes: ["pseudo"] }],
-      order: [["createAt", "DESC"]],
+      order: [["createdAt", "DESC"]],
     });
     const resultats = memoriesData.map((m) => ({
-      id: m.id,
+      id: mem.id,
       photoUrl: m.photoUrl,
       description: m.description,
       createdAt: m.createdAt,

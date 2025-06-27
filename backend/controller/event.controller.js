@@ -1,4 +1,4 @@
-const User = require("../models/user.model");
+const User = require("../model/user.model");
 const Event = require("../model/event.model");
 
 exports.list = async (req, res) => {
@@ -38,7 +38,7 @@ exports.create = async (req, res) => {
   });
   res.status(201).json({ id: event.id, message: "Evenement crée avec succès" });
 };
-exports.udpdate = async (req, res) => {
+exports.update = async (req, res) => {
   const { eventId } = req.params;
   const { title, date, location, description } = req.body;
   const condition =
@@ -54,7 +54,7 @@ exports.udpdate = async (req, res) => {
   }
   res.json({ message: "Evenement mis à jour" });
 };
-exports.destory = async (req, res) => {
+exports.destroy = async (req, res) => {
   const { eventId } = req.params;
   const preCondition =
     req.user.role === "admin"

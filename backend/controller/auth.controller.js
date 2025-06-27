@@ -50,7 +50,7 @@ exports.login = async (req, res) => {
     );
     return res.json({
       message: "connexion réussie",
-      token: token,
+      token: generatedToken,
       user: { id: user.id, pseudo: user.pseudo, role: user.role },
     });
   } catch (error) {
