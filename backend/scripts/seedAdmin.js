@@ -8,10 +8,6 @@ const User = require("../model/user.model");
     await sequelize.authenticate();
     console.log("Connexion BDD OK");
 
-    const email = process.env.ADMIN_EMAIL || "admin@admin.fr";
-    const password = process.env.ADMIN_PASSWORD || "SuperSecret123!";
-    const pseudo = process.env.ADMIN_PSEUDO || "Administrator";
-
     const [admin, created] = await User.findOrCreate({
       where: { email },
       defaults: {

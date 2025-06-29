@@ -33,11 +33,11 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      return res.status(400).json({ error: "email account not found" });
+      return res.status(404).json({ error: "email account not found" });
     }
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (!isPasswordMatch) {
-      return res.status(400).json({ error: "Mot de passe incorrect" });
+      return res.status(401).json({ error: "Mot de passe incorrect" });
     }
     const generatedToken = jwt.sign(
       {

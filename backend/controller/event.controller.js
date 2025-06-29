@@ -2,7 +2,7 @@ const User = require("../model/user.model");
 const Event = require("../model/event.model");
 
 exports.list = async (req, res) => {
-  const page = Math.max(1, parseInt(req.query.page) || 1);
+  const page = Math.max(1, parseInt(req.query.page) || 1); // Il faudra ajouter un try/catch
   const limit = Math.max(1, parseInt(req.query.limit) || 10);
   const offset = (page - 1) * limit;
   const { count, rows } = await Event.findAndCountAll({

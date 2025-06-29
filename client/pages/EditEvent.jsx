@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import "../styles/pages/EditEvent.scss";
 import Title from "../components/Title";
+import Button from "../components/Button";
 
 // Permet à l'utilisateur de modifier un événement existant à condition qu'il soit authentifié et qu'il ait les droits nécessaires (propriétaire ou admin)
 const EditEvent = () => {

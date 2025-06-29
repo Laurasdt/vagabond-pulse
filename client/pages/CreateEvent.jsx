@@ -63,6 +63,7 @@ const CreateEvent = () => {
     };
 
     // Envoi de la requête POST pour créer l'événement
+    // ajouter Token sinon n'importe qui peut créer un event sans être connecté
     try {
       await axios.post(import.meta.env.VITE_API_URL + "/events", payload);
       alert("Super, l'événement a été créé avec succès !!");
