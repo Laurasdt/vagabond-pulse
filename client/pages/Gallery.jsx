@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/pages/Gallery.scss";
+import Title from "../components/Title";
 
 const Gallery = () => {
   const [photos, setPhotos] = useState([]);
@@ -14,7 +15,7 @@ const Gallery = () => {
 
   return (
     <main className="gallery-page">
-      <h1>Galerie</h1>
+      <Title text="Galerie"></Title>
       {photos.length === 0 ? (
         <p>Aucune photo disponible.</p>
       ) : (

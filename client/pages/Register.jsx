@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/pages/Register.scss";
+import Title from "../components/Title";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -54,7 +55,7 @@ const Register = () => {
 
   return (
     <main className="register-page">
-      <h1>Inscription</h1>
+      <Title text="Inscription"></Title>
       <form onSubmit={handleSubmit} className="register-form">
         <label htmlFor="email">Email</label>
         <input

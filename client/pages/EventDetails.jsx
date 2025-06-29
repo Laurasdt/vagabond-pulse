@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import "../styles/pages/EventDetails.scss";
+import Title from "../components/Title";
 
 const EventDetails = () => {
   const { eventId } = useParams();
@@ -38,7 +39,7 @@ const EventDetails = () => {
 
   return (
     <main className="event-details">
-      <h1>{event.title}</h1>
+      <Title text="Détails de l'événement"></Title>
       <div className="event-meta">
         <div>
           <strong>Date :</strong> {formattedDate}

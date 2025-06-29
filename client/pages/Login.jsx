@@ -2,6 +2,8 @@ import React, { useState, useContext } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 import "../styles/pages/Login.scss";
+import Title from "../components/Title";
+import Button from "../components/Button";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -12,8 +14,12 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(email, password);
-      navigate("/");
+      const logged = await login(email, password);
+      if (logged.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       console.error("Échec du login :", err);
       // Gestion du message custom du rate-limit
@@ -54,7 +60,7 @@ const Login = () => {
 
   return (
     <main className="login-page">
-      <h1>Connexion</h1>
+      <Title text="Connexion"></Title>
 
       <form className="login-form" onSubmit={handleSubmit}>
         <div className="form-group">
@@ -79,9 +85,7 @@ const Login = () => {
           />
         </div>
 
-        <button type="submit" className="btn">
-          Se connecter
-        </button>
+        <Button buttonType="submit" className="btn" text="Se connecter" />
       </form>
 
       <p className="login-footer">

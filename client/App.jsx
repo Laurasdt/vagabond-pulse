@@ -11,11 +11,12 @@ import { useAuth } from "./context/AuthContext";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import Gallery from "./pages/Gallery";
+import Admin from "./pages/Admin";
 import "./App.scss";
+import { Navigate } from "react-router-dom";
 
 function App() {
-  const { isAuthenticated } = useAuth();
-
+  const { user, isAuthenticated } = useAuth();
   return (
     <Router>
       <Header />
@@ -31,6 +32,17 @@ function App() {
           element={isAuthenticated ? <Profile /> : <Login />}
         />
         <Route path="/gallery" element={<Gallery />} />
+
+        <Route
+          path="/admin"
+          element={
+            isAuthenticated && user.role === "admin" ? (
+              <Admin />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
       </Routes>
       <Footer />
     </Router>

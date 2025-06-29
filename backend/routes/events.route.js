@@ -1,9 +1,14 @@
 const router = require("express").Router();
-const authMiddleware = require("../middleware/auth.middleware");
-const eventController = require("../controller/event.controller");
-router.get("/", eventController.list);
-router.get("/:eventId", eventController.show);
-router.post("/", authMiddleware.verifyToken, eventController.create);
-router.put("/:eventId", authMiddleware.verifyToken, eventController.udpdate);
-router.delete("/:eventId", authMiddleware.verifyToken, eventController.destory);
+
+const { verifyToken } = require("../middleware/auth.middleware");
+
+const eventCtrl = require("../controller/event.controller");
+
+router.get("/", eventCtrl.list);
+router.get("/:eventId", eventCtrl.show);
+
+router.post("/", verifyToken, eventCtrl.create);
+router.put("/:eventId", verifyToken, eventCtrl.update);
+router.delete("/:eventId", verifyToken, eventCtrl.destroy);
+
 module.exports = router;

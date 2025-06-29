@@ -3,6 +3,7 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import EventCard from "../components/EventCard";
 import "../styles/pages/Home.scss";
+import Title from "../components/Title";
 
 const Home = () => {
   const { isAuthenticated, user } = useAuth();
@@ -11,7 +12,6 @@ const Home = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  // Récupération des événements depuis l'API
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -19,6 +19,8 @@ const Home = () => {
           `${import.meta.env.VITE_API_URL}/events?page=${page}&limit=10`
         );
         setEvents(data.events);
+        console.log(data.events);
+
         setTotalPages(data.totalPages);
       } catch (error) {
         console.error("Erreur lors de la récupération des événements :", error);
@@ -53,7 +55,7 @@ const Home = () => {
 
   return (
     <main className="home">
-      <h1>Événements</h1>
+      <Title text="Evénements"></Title>
       {events.length === 0 ? (
         <p>Aucun événement disponible</p>
       ) : (

@@ -2,14 +2,14 @@ const bcrypt = require("bcrypt");
 const User = require("../model/user.model");
 exports.listUsers = async (req, res) => {
   const users = await User.findAll({
-    attributes: ["id", "email", "pseudo", "role", "createAt"],
+    attributes: ["id", "email", "pseudo", "role"],
   });
   res.json(users);
 };
 exports.getUser = async (req, res) => {
   const { id } = req.params;
   const user = await User.findByPk(id, {
-    attributes: ["id", "email", "pseudo", "role", "createAt"],
+    attributes: ["id", "email", "pseudo", "role"],
   });
   if (!user) {
     return res.status(404).json({ error: "Utilisateur non trouvé" });

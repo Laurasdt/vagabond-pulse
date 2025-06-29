@@ -48,7 +48,7 @@ exports.getAllMemories = async (req, res) => {
       order: [["createdAt", "DESC"]],
     });
     const resultats = memoriesData.map((m) => ({
-      id: mem.id,
+      id: m.id,
       photoUrl: m.photoUrl,
       description: m.description,
       createdAt: m.createdAt,
@@ -66,7 +66,7 @@ exports.getUserMemoryData = async (req, res) => {
       where: { userId },
       order: [["createdAt", "DESC"]],
     });
-    const userMemoryData = memories.map((mem) => ({
+    const userMemoryData = memories.map((m) => ({
       id: m.id,
       photoUrl: m.photoUrl,
       description: m.description,

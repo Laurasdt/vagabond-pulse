@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Navigate } from "react-router-dom"; // Redirection si non authentifié
+import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import "../styles/pages/CreateEvent.scss";
+import Title from "../components/Title";
 
 const CreateEvent = () => {
   const { isAuthenticated, user } = useAuth();
@@ -20,8 +21,6 @@ const CreateEvent = () => {
     return <Navigate to="/login" />;
   }
 
-  // Fonction pour gérer les changements dans les champs du formulaire
-  // Met à jour l'état de l'événement en fonction des entrées de l'utilisateur
   const handleChange = (e) => {
     setEventData({ ...eventData, [e.target.name]: e.target.value });
   };
@@ -81,7 +80,7 @@ const CreateEvent = () => {
 
   return (
     <main className="create-event">
-      <h1>Créer un événement</h1>
+      <Title text="Créer un événement"></Title>
       <form onSubmit={handleSubmit} className="event-form">
         <label>
           Nom de l'événement :
@@ -137,7 +136,12 @@ const CreateEvent = () => {
             required
           />
         </label>
-        <button type="submit">Créer l'événement</button>
+        <Button
+          buttonType="submit"
+          className="logout-btn"
+          text="Créer l'événement"
+          onClick={null}
+        />
       </form>
     </main>
   );

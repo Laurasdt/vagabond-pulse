@@ -1,5 +1,5 @@
 const { DataTypes, Model } = require("sequelize");
-const connexion = require("../config/db");
+const sequelize = require("../config/db");
 const User = require("./user.model");
 class Event extends Model {}
 Event.init(
@@ -9,7 +9,7 @@ Event.init(
     location: { type: DataTypes.STRING, allowNull: true },
     description: { type: DataTypes.TEXT },
   },
-  { connexion, modelName: "events" }
+  { sequelize, modelName: "events" }
 );
 
 Event.belongsTo(User, { foreignKey: "userId", as: "owner" });

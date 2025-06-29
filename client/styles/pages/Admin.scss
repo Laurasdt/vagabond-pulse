@@ -1,0 +1,98 @@
+.admin-page {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+
+    h1 {
+        text-align: center;
+        color: #00efa5;
+        margin-bottom: 1.5rem;
+    }
+
+    .btn-logout {
+        background: #e53e3e;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        float: right;
+        transition: opacity 0.2s;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+
+    .admin-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #1e1e1e;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+
+        thead {
+            background: #2a2a2a;
+
+            th {
+                padding: 0.75rem 1rem;
+                text-align: left;
+                color: #00efa5;
+                font-weight: 600;
+            }
+        }
+
+        tbody {
+            tr {
+                border-bottom: 1px solid #333;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                &:hover {
+                    background: #2f2f2f;
+                }
+            }
+
+            td {
+                padding: 0.75rem 1rem;
+                color: #ddd;
+                vertical-align: middle;
+            }
+
+            .btn-edit,
+            .btn-delete {
+                padding: 0.25rem 0.75rem;
+                margin-right: 0.5rem;
+                border: none;
+                border-radius: 0.25rem;
+                font-size: 0.9rem;
+                font-weight: 500;
+                cursor: pointer;
+                transition: opacity 0.2s;
+            }
+
+            .btn-edit {
+                background: #48bb78;
+                color: #fff;
+
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+
+            .btn-delete {
+                background: #e53e3e;
+                color: #fff;
+
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+        }
+    }
+}

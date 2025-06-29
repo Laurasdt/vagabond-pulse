@@ -5,6 +5,7 @@ import axios from "axios";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import "../styles/pages/EditEvent.scss";
+import Title from "../components/Title";
 
 // Permet à l'utilisateur de modifier un événement existant à condition qu'il soit authentifié et qu'il ait les droits nécessaires (propriétaire ou admin)
 const EditEvent = () => {
@@ -104,7 +105,7 @@ const EditEvent = () => {
 
   return (
     <main className="edit-event">
-      <h1>Modifier l'événement</h1>
+      <Title text="Editer un événement"></Title>
       <form onSubmit={handleSubmit} className="event-form">
         <label>
           Nom de l'événement :
@@ -160,7 +161,12 @@ const EditEvent = () => {
             required
           />
         </label>
-        <button type="submit">Mettre à jour l'événement</button>
+        <Button
+          buttonType="submit"
+          className="logout-btn"
+          text="Mettre à jour l'événement"
+          onClick={null}
+        />
       </form>
     </main>
   );

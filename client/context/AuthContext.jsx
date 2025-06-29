@@ -34,6 +34,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("user", JSON.stringify(stored));
       setUser(stored);
       setIsAuthenticated(true);
+      return stored;
     } catch (err) {
       console.error("Échec du login :", err);
       if (err.response?.status === 429) {

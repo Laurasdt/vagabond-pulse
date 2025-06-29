@@ -3,6 +3,7 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import EventCard from "../components/EventCard";
 import "../styles/pages/profile.scss";
+import Title from "../components/Title";
 
 const Profile = () => {
   const { user, isAuthenticated } = useAuth();
@@ -93,7 +94,7 @@ const Profile = () => {
 
   return (
     <main className="profile-page">
-      <h1>Mon Profil</h1>
+      <Title text="Profil"></Title>
 
       <section className="memories-upload">
         <h2>Ajouter un souvenir</h2>
