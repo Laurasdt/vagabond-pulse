@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import "../styles/pages/CreateEvent.scss";
 import Title from "../components/Title";
+import Button from "../components/Button";
 
 const CreateEvent = () => {
   const { isAuthenticated, user } = useAuth();

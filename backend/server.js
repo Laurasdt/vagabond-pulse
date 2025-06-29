@@ -35,10 +35,10 @@ const corsOptions = {
 };
 
 app.use((req, res, next) => {
-  console.log(`🔍 ${req.method} ${req.path}`);
-  console.log(`   Origin: ${req.get("Origin") || "undefined"}`);
-  console.log(`   Host: ${req.get("Host")}`);
-  console.log(`   User-Agent: ${req.get("User-Agent")?.substring(0, 50)}...`);
+  console.log(`${req.method} ${req.path}`);
+  console.log(`Origin: ${req.get("Origin") || "undefined"}`);
+  console.log(`Host: ${req.get("Host")}`);
+  console.log(`User-Agent: ${req.get("User-Agent")?.substring(0, 50)}...`);
   console.log("---");
   next();
 });
@@ -55,18 +55,17 @@ app.use(
 
 app.use(
   hsts({
-    maxAge: 31_536_000, // 1 year in seconds
+    maxAge: 31_536_000,
     includeSubDomains: true,
     preload: true,
   })
 );
 
-// ─── BODY PARSER ────────────────────────────────────────────────────────────────
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
+  windowMs: 15 * 60 * 1000, // = 15 minutes
   max: 10,
   message: { error: "Trop de tentatives, réessaie plus tard." },
   standardHeaders: true,
@@ -114,14 +113,14 @@ if (fs.existsSync(buildDir)) {
 }
 
 app.use((req, res, next) => {
-  res.status(404).json({ error: "Route not found" });
+  res.status(404).json({ error: "La route n'a pas été trouvée" });
 });
 
 app.use((err, req, res, next) => {
   console.error("Error details:", err);
 
-  if (err.message === "Not allowed by CORS") {
-    return res.status(403).json({ error: "CORS policy violation" });
+  if (err.message === "Non autorisé par CORS") {
+    return res.status(403).json({ error: "Violation de politique CORS" });
   }
 
   if (err.status === 429) {
@@ -136,12 +135,12 @@ app.use((err, req, res, next) => {
 sequelize
   .sync()
   .then(() => {
-    console.log("✅ Database synced & connection OK");
+    console.log("Connexion et synchronisation BDD OK");
     const PORT = process.env.PORT || 3001;
     app.listen(PORT, () => {
-      console.log(`🚀 Server listening on port ${PORT}`);
+      console.log(`Le serveur tourne sur le port ${PORT}`);
     });
   })
   .catch((err) => {
-    console.error("❌ DB sync error:", err);
+    console.error("Erreur de synchronisation BDD", err);
   });

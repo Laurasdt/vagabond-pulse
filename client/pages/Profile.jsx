@@ -86,7 +86,7 @@ const Profile = () => {
   if (!isAuthenticated) {
     return (
       <main className="profile-page">
-        <h1>Mon Profil</h1>
+        <Title text="Mon profil"></Title>
         <p>Veuillez vous connecter pour voir votre profil.</p>
       </main>
     );
