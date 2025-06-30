@@ -1,11 +1,13 @@
 const bcrypt = require("bcrypt");
 const User = require("../model/user.model");
+
 exports.listUsers = async (req, res) => {
   const users = await User.findAll({
     attributes: ["id", "email", "pseudo", "role"],
   });
   res.json(users);
 };
+
 exports.getUser = async (req, res) => {
   const { id } = req.params;
   const user = await User.findByPk(id, {
@@ -16,6 +18,7 @@ exports.getUser = async (req, res) => {
   }
   res.json(user);
 };
+
 exports.updateUser = async (req, res) => {
   const { email, pseudo, role, password } = req.body;
   const targetId = req.params.id;
@@ -23,7 +26,7 @@ exports.updateUser = async (req, res) => {
   if (password) {
     data.password = await bcrypt.hash(password, 9);
   }
-  const [updated] = await User.updated(data, {
+  const [updated] = await User.update(data, {
     where: { id: targetId },
   });
   if (!updated) {
@@ -31,6 +34,7 @@ exports.updateUser = async (req, res) => {
   }
   res.json({ message: "Utilisateur mis à jour" });
 };
+
 exports.deleteUser = async (req, res) => {
   const userId = req.params.id;
   const user = await User.destroy({

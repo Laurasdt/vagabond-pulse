@@ -29,7 +29,7 @@ function Header() {
     navigate("/");
   };
 
-  // If admin, show only Users + Logout
+  // si admin, montrer "users"
   const renderAdminLinks = () => (
     <>
       <li>
@@ -49,8 +49,7 @@ function Header() {
   return (
     <header className="header">
       <Title text="Vagabond Pulse"></Title>
-
-      {/* DESKTOP NAV */}
+      {/* Nav desktop */}
       {!isMobile && (
         <nav className="nav-desktop">
           <ul>
@@ -105,7 +104,6 @@ function Header() {
           </ul>
         </nav>
       )}
-
       {/* MOBILE NAV */}
       {isMobile && (
         <>

@@ -19,6 +19,7 @@ exports.list = async (req, res) => {
     events: rows,
   });
 };
+
 exports.show = async (req, res) => {
   const eventId = req.params.eventId;
   const events = await Event.findByPk(eventId, {
@@ -26,6 +27,7 @@ exports.show = async (req, res) => {
   });
   res.json(events);
 };
+
 exports.create = async (req, res) => {
   const { title, date, location, description } = req.body;
   const userId = req.user.id;
@@ -38,6 +40,7 @@ exports.create = async (req, res) => {
   });
   res.status(201).json({ id: event.id, message: "Evenement crée avec succès" });
 };
+
 exports.update = async (req, res) => {
   const { eventId } = req.params;
   const { title, date, location, description } = req.body;
@@ -54,6 +57,7 @@ exports.update = async (req, res) => {
   }
   res.json({ message: "Evenement mis à jour" });
 };
+
 exports.destroy = async (req, res) => {
   const { eventId } = req.params;
   const preCondition =

@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../model/user.model");
+
 exports.register = async (req, res) => {
   try {
     const { email, password, pseudo } = req.body;
@@ -28,6 +29,7 @@ exports.register = async (req, res) => {
     return res.status(500).json({ error: "Erreur internale" });
   }
 };
+
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;

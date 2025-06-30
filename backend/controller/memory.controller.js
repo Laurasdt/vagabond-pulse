@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const Memory = require("../model/memory.model");
 const User = require("../model/user.model");
+
 const MemoryFolder = path.join(__dirname, "..", "uploads", "memories");
 if (!fs.existsSync(MemoryFolder)) {
   fs.mkdirSync(MemoryFolder, { recursive: true });
@@ -14,7 +15,9 @@ const storage = multer.diskStorage({
     cb(null, `mem_${Date.now()}${extension}`);
   },
 });
+
 exports.upload = multer({ storage }).single("file");
+
 exports.createMemory = async (req, res) => {
   try {
     const { userId, description } = req.body;
@@ -41,6 +44,7 @@ exports.createMemory = async (req, res) => {
     return res.status(500).json({ error: "Erreur du serveur" });
   }
 };
+
 exports.getAllMemories = async (req, res) => {
   try {
     const memoriesData = await Memory.findAll({
@@ -59,6 +63,7 @@ exports.getAllMemories = async (req, res) => {
     return res.status(500).json({ error: "Erreur du serveur" });
   }
 };
+
 exports.getUserMemoryData = async (req, res) => {
   try {
     const { userId } = req.params;
