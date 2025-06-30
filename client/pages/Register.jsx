@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/pages/Register.scss";
 import Title from "../components/Title";
+import Button from "../components/Button";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -57,55 +58,72 @@ const Register = () => {
     <main className="register-page">
       <Title text="Inscription"></Title>
       <form onSubmit={handleSubmit} className="register-form">
-        <label htmlFor="email">Email</label>
+        <label id="email">Email</label>
         <input
           id="email"
           type="email"
           name="email"
+          aria-labelledby="email"
+          aria-label="saisir votre email"
           value={formData.email}
           onChange={handleChange}
           required
+          aria-required="true"
         />
 
-        <label htmlFor="pseudo">Pseudo</label>
+        <label id="pseudo">Pseudo</label>
         <input
           id="pseudo"
           type="text"
           name="pseudo"
+          aria-labelledby="pseudo"
+          aria-label="saisir votre pseudo"
           value={formData.pseudo}
           onChange={handleChange}
           required
+          aria-required="true"
           minLength={5}
           maxLength={20}
           pattern="^[A-Za-z0-9]{5,20}$"
           title="5 à 20 caractères alphanumériques, sans espaces ni caractères spéciaux"
         />
 
-        <label htmlFor="password">Mot de passe</label>
+        <label id="password">Mot de passe</label>
         <input
           id="password"
           type="password"
           name="password"
+          aria-labelledby="password"
+          aria-label="saisir votre mot de passe"
           value={formData.password}
           onChange={handleChange}
           required
+          aria-required="true"
           minLength={6}
         />
 
-        <label htmlFor="confirmPassword">Confirmez le mot de passe</label>
+        <label id="confirmPassword">Confirmez le mot de passe</label>
         <input
           id="confirmPassword"
           type="password"
           name="confirmPassword"
+          aria-labelledby="confirm password"
+          aria-label="confirmez votre mot de passe"
           value={formData.confirmPassword}
           onChange={handleChange}
           required
+          aria-required="true"
           minLength={6}
         />
 
         {error && <p className="error-message">{error}</p>}
 
-        <button type="submit">S'inscrire</button>
+        <Button
+          onClick={null}
+          className="btn"
+          buttonType="submit"
+          text="S'inscrire"
+        ></Button>
       </form>
     </main>
   );

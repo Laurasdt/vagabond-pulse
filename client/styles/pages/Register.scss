@@ -36,7 +36,7 @@
             margin: -10px 0 10px;
         }
 
-        button[type="submit"] {
+        button[type=submit] {
             @include button-style(16px);
         }
     }

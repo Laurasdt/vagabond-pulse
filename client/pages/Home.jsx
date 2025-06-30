@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import EventCard from "../components/EventCard";
 import "../styles/pages/Home.scss";
 import Title from "../components/Title";
+import Button from "../components/Button";
 
 const Home = () => {
   const { isAuthenticated, user } = useAuth();
@@ -72,23 +73,23 @@ const Home = () => {
         </ul>
       )}
       <div className="pagination">
-        <button
+        <Button
           onClick={() => setPage((p) => p - 1)}
           disabled={page === 1}
           className="pagination-btn"
-        >
-          Précédent
-        </button>
+          type="button"
+          text="Précédent"
+        ></Button>
         <div className="pageNumber">
           Page {page} sur {totalPages}
         </div>
-        <button
+        <Button
           onClick={() => setPage((p) => p + 1)}
           disabled={page === totalPages}
           className="pagination-btn"
-        >
-          Suivant
-        </button>
+          type="button"
+          text="Suivant"
+        ></Button>
       </div>
     </main>
   );

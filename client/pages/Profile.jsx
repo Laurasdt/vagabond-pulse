@@ -119,6 +119,12 @@ const Profile = () => {
           <button type="submit" className="btn">
             Envoyer
           </button>
+          <Button
+            onClick={null}
+            className="btn"
+            type="submit"
+            text="Envoyer"
+          ></Button>
         </form>
       </section>
 

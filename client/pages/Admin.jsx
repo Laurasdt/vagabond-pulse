@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "../styles/pages/Admin.scss";
 import Title from "../components/Title";
+import Button from "../components/Button";
 
 const Admin = () => {
   const { user, logout } = useAuth();
@@ -72,15 +73,18 @@ const Admin = () => {
               <td>{u.pseudo}</td>
               <td>{u.role}</td>
               <td>
-                <button className="btn-edit" onClick={() => handleUpdate(u.id)}>
-                  Éditer
-                </button>
-                <button
-                  className="btn-delete"
+                <Button
+                  onClick={() => handleUpdate(u.id)}
+                  className="btn-edit"
+                  type="button"
+                  text="Editer"
+                ></Button>
+                <Button
                   onClick={() => handleDelete(u.id)}
-                >
-                  Supprimer
-                </button>
+                  className="btn-delete"
+                  type="button"
+                  text="Supprimer"
+                ></Button>
               </td>
             </tr>
           ))}

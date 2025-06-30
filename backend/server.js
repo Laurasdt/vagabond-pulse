@@ -11,10 +11,13 @@ const authRouter = require("./routes/auth.route");
 const eventRoutes = require("./routes/events.route");
 const memoryRoutes = require("./routes/memories.route");
 const userRoutes = require("./routes/user.route");
+const swaggerSpec = require("./swagger");
+const swaggerUi = require("swagger-ui-express");
 
 const sequelize = require("./config/db");
 
 const app = express();
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 const corsOptions = {
   origin: true,

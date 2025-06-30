@@ -36,6 +36,18 @@ function Header() {
         <Link to="/admin">Users</Link>
       </li>
       <li>
+        <Link to="/">Home</Link>
+      </li>
+      <li>
+        <Link to="/gallery">Galerie</Link>
+      </li>
+      <li>
+        <Link to="/profile">Profil</Link>
+      </li>
+      <li>
+        <Link to="/create-event">Créer un événement</Link>
+      </li>
+      <li>
         <Button
           buttonType="button"
           className="logout-btn"
