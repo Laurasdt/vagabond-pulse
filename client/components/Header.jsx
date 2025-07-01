@@ -30,29 +30,54 @@ function Header() {
   };
 
   // si admin, montrer "users"
-  const renderAdminLinks = () => (
+  const renderAdminLinks = (isMobileVersion = false) => (
     <>
       <li>
-        <Link to="/admin">Users</Link>
+        <Link
+          to="/admin"
+          aria-label="Gérer les utilisateurs"
+          onClick={isMobileVersion ? toggleMenu : undefined}
+        >
+          Users
+        </Link>
       </li>
       <li>
-        <Link to="/">Home</Link>
+        <Link to="/" onClick={isMobileVersion ? toggleMenu : undefined}>
+          Home
+        </Link>
       </li>
       <li>
-        <Link to="/gallery">Galerie</Link>
+        <Link to="/gallery" onClick={isMobileVersion ? toggleMenu : undefined}>
+          Galerie
+        </Link>
       </li>
       <li>
-        <Link to="/profile">Profil</Link>
+        <Link to="/profile" onClick={isMobileVersion ? toggleMenu : undefined}>
+          Profil
+        </Link>
       </li>
       <li>
-        <Link to="/create-event">Créer un événement</Link>
+        <Link
+          to="/create-event"
+          onClick={isMobileVersion ? toggleMenu : undefined}
+        >
+          Créer un événement
+        </Link>
       </li>
       <li>
         <Button
           buttonType="button"
           className="logout-btn"
           text="Se déconnecter"
-          onClick={handleLogoutClick}
+          onClick={
+            isMobileVersion
+              ? () => {
+                  handleLogoutClick();
+                  toggleMenu();
+                }
+              : handleLogoutClick
+          }
+          aria-label="Se déconnecter"
         />
       </li>
     </>
@@ -63,7 +88,11 @@ function Header() {
       <Title text="Vagabond Pulse"></Title>
       {/* Nav desktop */}
       {!isMobile && (
-        <nav className="nav-desktop">
+        <nav
+          className="nav-desktop"
+          role="navigation"
+          aria-label="Menu principal"
+        >
           <ul>
             {user?.role === "admin" ? (
               renderAdminLinks()
@@ -91,6 +120,7 @@ function Header() {
                         className="logout-btn"
                         text="Se déconnecter"
                         onClick={handleLogoutClick}
+                        aria-label="Se déconnecter"
                       />
                     </li>
                   </>
@@ -107,6 +137,7 @@ function Header() {
                         className="logout-btn"
                         text="Se connecter"
                         onClick={handleLoginClick}
+                        aria-label="Se connecter"
                       />
                     </li>
                   </>
@@ -122,34 +153,25 @@ function Header() {
           <button
             className="burger-icon"
             onClick={toggleMenu}
-            aria-label="Menu"
+            aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
           >
-            <span className="bar" />
-            <span className="bar" />
-            <span className="bar" />
+            <span className="bar" aria-hidden="true" />
+            <span className="bar" aria-hidden="true" />
+            <span className="bar" aria-hidden="true" />
           </button>
 
-          <nav className={`nav-mobile ${isMenuOpen ? "open" : ""}`}>
+          <nav
+            id="mobile-menu"
+            className={`nav-mobile ${isMenuOpen ? "open" : ""}`}
+            role="navigation"
+            aria-label="Menu mobile"
+            aria-hidden={!isMenuOpen}
+          >
             <ul>
               {user?.role === "admin" ? (
-                <>
-                  <li>
-                    <Link to="/admin" onClick={toggleMenu}>
-                      Users
-                    </Link>
-                  </li>
-                  <li>
-                    <Button
-                      buttonType="button"
-                      className="logout-btn"
-                      text="Se déconnecter"
-                      onClick={() => {
-                        handleLogoutClick();
-                        toggleMenu();
-                      }}
-                    />
-                  </li>
-                </>
+                renderAdminLinks(true)
               ) : (
                 <>
                   <li>

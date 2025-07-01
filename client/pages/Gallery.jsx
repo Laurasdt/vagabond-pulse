@@ -8,7 +8,7 @@ const Gallery = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/memories")
+      .get("http://localhost:3001/api/memories")
       .then(({ data }) => setPhotos(data))
       .catch((err) => console.error("Erreur fetch gallery :", err));
   }, []);
@@ -23,7 +23,7 @@ const Gallery = () => {
           {photos.map((mem) => (
             <div key={mem.id} className="photo-item">
               <img
-                src={`http://localhost:5000${mem.photoUrl}`}
+                src={`http://localhost:3001${mem.photoUrl}`}
                 alt={mem.description || "Photo utilisateur"}
               />
               <div className="overlay">
