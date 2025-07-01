@@ -14,9 +14,12 @@ body {
     }
 }
 
-button,
-a,
 input,
-textarea {
-    @include focus-style;
+textarea,
+select {
+    @include input-focus-style;
+}
+
+a {
+    @include link-focus-style;
 }

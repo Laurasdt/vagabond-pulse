@@ -86,9 +86,25 @@ $font-primary: 'Montserrat', sans-serif;
   font-family: $font-primary;
 }
 
-@mixin focus-style {
+@mixin input-focus-style {
   &:focus {
-    outline: 3px solid $primary-color;
-    outline-offset: 2px;
+    outline: none;
+    box-shadow: 0 0 0 3px $hover-color;
+    border-radius: 3px;
+  }
+
+  &:focus:not(:focus-visible) {
+    box-shadow: none;
+  }
+}
+
+@mixin link-focus-style {
+  &:focus {
+    outline: none;
+    color: $hover-color !important;
+  }
+
+  &:focus:not(:focus-visible) {
+    color: initial;
   }
 }
