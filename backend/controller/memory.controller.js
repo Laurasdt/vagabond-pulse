@@ -66,26 +66,20 @@ exports.createMemory = async (req, res) => {
 
 exports.getAllMemories = async (req, res) => {
   try {
-    console.log("Tentative de récupération de toutes les photos...");
     const memoriesData = await Memory.findAll({
       include: [{ model: User, as: "owner", attributes: ["pseudo"] }],
       order: [["createdAt", "DESC"]],
     });
-    console.log(`${memoriesData.length} photos trouvées`);
     const resultats = memoriesData.map((m) => ({
       id: m.id,
       photoUrl: m.photoUrl,
       description: m.description,
       createdAt: m.createdAt,
-      owner: m.owner.pseudo,
       owner: m.owner ? m.owner.pseudo : "Utilisateur inconnu",
     }));
     return res.json(resultats);
   } catch (error) {
-    console.error("Erreur dans getAllMemories:", error);
-    return res
-      .status(500)
-      .json({ error: "Erreur du serveur", details: error.message });
+    return res.status(500).json({ error: "Erreur du serveur" });
   }
 };
 

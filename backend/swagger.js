@@ -4,11 +4,17 @@ const path = require("path");
 const swaggerDefinition = {
   openapi: "3.0.0",
   info: {
-    title: "vagabond pulse API",
+    title: "API Vagabond Pulse",
     version: "1.0.0",
-    description: "complete API documented with swagger",
+    description:
+      "API complète pour l'application Vagabond Pulse - Gestion d'événements et de souvenirs",
   },
-  servers: [{ url: "http://localhost:3001", description: "local server" }],
+  servers: [
+    {
+      url: "http://localhost:3001/api",
+      description: "Serveur local de développement",
+    },
+  ],
   components: {
     securitySchemes: {
       bearerAuth: {
@@ -18,16 +24,43 @@ const swaggerDefinition = {
       },
     },
     schemas: {
+      AuthResponse: {
+        type: "object",
+        properties: {
+          message: {
+            type: "string",
+            example: "connexion réussie",
+          },
+          token: {
+            type: "string",
+            example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9…",
+          },
+          user: {
+            type: "object",
+            properties: {
+              id: { type: "integer", example: 1 },
+              pseudo: { type: "string", example: "Alice" },
+              role: { type: "string", example: "user" },
+            },
+          },
+        },
+      },
+
       Memory: {
         type: "object",
         properties: {
           id: { type: "integer", example: 123 },
-          description: { type: "string", example: "Summer vacation 2024" },
-          fileUrl: { type: "string", example: "https://…/abc.jpg" },
+          description: { type: "string", example: "Vacances d'été 2024" },
+          photoUrl: {
+            type: "string",
+            example: "/uploads/memories/mem_1234567890.jpg",
+          },
           userId: { type: "integer", example: 42 },
           createdAt: { type: "string", format: "date-time" },
+          owner: { type: "string", example: "Alice" },
         },
       },
+
       Event: {
         type: "object",
         properties: {
@@ -37,30 +70,26 @@ const swaggerDefinition = {
           },
           title: {
             type: "string",
-            example: "Quarterly Planning Meeting",
+            example: "Réunion de planification trimestrielle",
           },
           description: {
             type: "string",
-            example: "Discuss goals and roadmap for Q3",
+            example:
+              "Discuter des objectifs et de la feuille de route pour le Q3",
           },
-          startDate: {
+          date: {
             type: "string",
             format: "date-time",
             example: "2025-07-01T10:00:00Z",
           },
-          endDate: {
-            type: "string",
-            format: "date-time",
-            example: "2025-07-01T12:00:00Z",
-          },
           location: {
             type: "string",
-            example: "Conference Room A",
+            example: "Salle de conférence A",
           },
-          createdBy: {
+          userId: {
             type: "integer",
             example: 42,
-            description: "User ID of the event creator",
+            description: "ID de l'utilisateur créateur de l'événement",
           },
           createdAt: {
             type: "string",
@@ -72,114 +101,157 @@ const swaggerDefinition = {
             format: "date-time",
             example: "2025-06-26T14:15:00Z",
           },
+          owner: {
+            type: "object",
+            properties: {
+              pseudo: { type: "string", example: "Alice" },
+            },
+          },
         },
-        required: ["id", "title", "startDate", "endDate"],
+        required: ["id", "title", "date"],
       },
 
-      EventCreate: {
+      NewEvent: {
         type: "object",
         properties: {
           title: {
             type: "string",
-            example: "Quarterly Planning Meeting",
+            example: "Réunion de planification trimestrielle",
           },
           description: {
             type: "string",
-            example: "Discuss goals and roadmap for Q3",
+            example:
+              "Discuter des objectifs et de la feuille de route pour le Q3",
           },
-          startDate: {
+          date: {
             type: "string",
             format: "date-time",
             example: "2025-07-01T10:00:00Z",
           },
-          endDate: {
-            type: "string",
-            format: "date-time",
-            example: "2025-07-01T12:00:00Z",
-          },
           location: {
             type: "string",
-            example: "Conference Room A",
+            example: "Salle de conférence A",
           },
         },
-        required: ["title", "startDate", "endDate"],
+        required: ["title", "date"],
       },
 
-      EventUpdate: {
+      UpdateEvent: {
         type: "object",
         properties: {
           title: {
             type: "string",
-            example: "Updated Meeting Title",
+            example: "Titre de réunion mis à jour",
           },
           description: {
             type: "string",
-            example: "Updated description text",
+            example: "Description mise à jour",
           },
-          startDate: {
+          date: {
             type: "string",
             format: "date-time",
             example: "2025-07-01T11:00:00Z",
           },
-          endDate: {
-            type: "string",
-            format: "date-time",
-            example: "2025-07-01T13:00:00Z",
-          },
           location: {
             type: "string",
-            example: "Main Hall",
+            example: "Grand Hall",
           },
         },
       },
-      AuthResponse: {
-        type: "object",
-        properties: {
-          token: {
-            type: "string",
-            example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9…",
-          },
-          user: {
-            $ref: "#/components/schemas/User",
-          },
-        },
-      },
+
       User: {
         type: "object",
         properties: {
           id: { type: "integer", example: 1 },
-          name: { type: "string", example: "Alice" },
           email: { type: "string", example: "alice@example.com" },
-          // …etc
+          pseudo: { type: "string", example: "Alice" },
+          role: { type: "string", example: "user" },
         },
       },
+
       UserUpdate: {
         type: "object",
         properties: {
-          name: { type: "string", example: "Alice Smith" },
           email: { type: "string", example: "alice.smith@example.com" },
+          pseudo: { type: "string", example: "AliceSmith" },
+          role: { type: "string", example: "user" },
+          password: { type: "string", example: "nouveaumotdepasse123" },
         },
       },
     },
     responses: {
       Unauthorized: {
-        description: "Authentication token is missing or invalid",
+        description: "Le token d'authentification est manquant ou invalide",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                error: {
+                  type: "string",
+                  example: "Token manquant.",
+                },
+              },
+            },
+          },
+        },
       },
       Forbidden: {
-        description: "Not enough permissions to perform this action",
+        description: "Permissions insuffisantes pour effectuer cette action",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                error: {
+                  type: "string",
+                  example: "Accès refusé: admin only",
+                },
+              },
+            },
+          },
+        },
       },
       NotFound: {
-        description: "Resource not found",
+        description: "Ressource introuvable",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                error: {
+                  type: "string",
+                  example: "Introuvable",
+                },
+              },
+            },
+          },
+        },
       },
       BadRequest: {
-        description: "Invalid request parameters",
+        description: "Paramètres de requête invalides",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                error: {
+                  type: "string",
+                  example: "Données invalides",
+                },
+              },
+            },
+          },
+        },
       },
     },
   },
 };
+
 const options = {
   swaggerDefinition,
   apis: [path.join(__dirname, "routes", "*.js")],
 };
+
 const swaggerSpec = swaggerJSDoc(options);
 module.exports = swaggerSpec;
