@@ -3,12 +3,20 @@
 body {
     margin: 0;
     font-family: $font-primary;
-    background: $background-color; 
+    background: $background-color;
+
     main {
-    min-height: 100vh;
-    padding: 2rem;
-    color: $text-color;
-    font-family: $font-primary;
-    padding: 10px;
+        min-height: 100vh;
+        padding: 2rem;
+        color: $text-color;
+        font-family: $font-primary;
+        padding: 10px;
+    }
 }
+
+button,
+a,
+input,
+textarea {
+    @include focus-style;
 }
