@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import EventCard from "../components/EventCard";
 import "../styles/pages/profile.scss";
 import Title from "../components/Title";
+import Button from "../components/Button";
 
 const Profile = () => {
   const { user, isAuthenticated } = useAuth();
@@ -116,9 +117,6 @@ const Profile = () => {
               required
             />
           </label>
-          <button type="submit" className="btn">
-            Envoyer
-          </button>
           <Button
             onClick={null}
             className="btn"
