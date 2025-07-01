@@ -14,6 +14,7 @@ const Profile = () => {
   const [events, setEvents] = useState([]);
   const [file, setFile] = useState(null);
   const [description, setDescription] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
 
   // Récupération des souvenirs de l'utilisateur
   useEffect(() => {
@@ -52,6 +53,7 @@ const Profile = () => {
     e.preventDefault();
     if (!file) return alert("Veuillez sélectionner une image."); // si aucun fichier selectionné
     if (!description.trim()) return alert("La description est obligatoire."); // si pas de description
+    setIsUploading(true);
     try {
       const formData = new FormData();
       formData.append("file", file);
@@ -65,9 +67,12 @@ const Profile = () => {
       setMemories((prev) => [res.data, ...prev]);
       setFile(null);
       setDescription("");
+      e.target.reset();
     } catch (err) {
       console.error("Erreur upload memory :", err);
       alert("Échec de l’envoi. Réessaie plus tard.");
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -95,39 +100,61 @@ const Profile = () => {
 
   return (
     <main className="profile-page">
-      <Title text="Profil"></Title>
+      <Title text="Profil" />
 
-      <section className="memories-upload">
-        <h2>Ajouter un souvenir</h2>
+      <section
+        className="memories-upload"
+        aria-labelledby="memories-upload-heading"
+      >
+        <h2 id="memories-upload-heading">Ajouter un souvenir</h2>
+
         <form className="memory-form" onSubmit={handleSubmit}>
-          <label className="form-group">
+          <div className="form-group">
+            <label htmlFor="memory-file">Photo</label>
+
             <input
+              id="memory-file"
               type="file"
               accept="image/*"
               onChange={handleFileChange}
               required
+              aria-describedby="file-help"
+              disabled={isUploading}
             />
-          </label>
-          <label className="form-group">
+            <small id="file-help" className="form-help">
+              Formats acceptés : JPG, PNG, GIF (max 5MB)
+            </small>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="memory-description">Description</label>
             <input
+              id="memory-description"
               type="text"
               placeholder="Petite description..."
               value={description}
               onChange={handleDescriptionChange}
               required
+              maxLength={100}
+              aria-describedby="description-help"
+              disabled={isUploading}
             />
-          </label>
+            <small id="description-help" className="form-help">
+              Maximum 100 caractères ({description.length}/100)
+            </small>
+          </div>
           <Button
             onClick={null}
             className="btn"
-            type="submit"
-            text="Envoyer"
-          ></Button>
+            buttonType="submit"
+            text={isUploading ? "Envoi en cours..." : "Envoyer"}
+            disabled={isUploading}
+          />
         </form>
       </section>
 
-      <section className="memories-gallery">
-        <h2>Mes Souvenirs</h2>
+      <section className="memories-gallery" aria-labelledby="memories-heading">
+        <h2 id="memories-heading">Mes Souvenirs ({memories.length})</h2>
         {memories.length === 0 ? (
           <p>Aucun souvenir pour l’instant.</p>
         ) : (
@@ -149,8 +176,8 @@ const Profile = () => {
         )}
       </section>
 
-      <section className="user-events">
-        <h2>Mes Événements</h2>
+      <section className="user-events" aria-labelledby="events-heading">
+        <h2 id="events-heading">Mes Événements ({events.length})</h2>
         {events.length === 0 ? (
           <p>Vous n’avez pas encore créé d’événement.</p>
         ) : (
