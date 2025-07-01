@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 
 const AuthContext = createContext();
 
@@ -32,11 +33,13 @@ export const AuthProvider = ({ children }) => {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       const stored = { ...userData, token };
       localStorage.setItem("user", JSON.stringify(stored));
+      toast.success("authentification réussie" + stored.pseudo);
       setUser(stored);
       setIsAuthenticated(true);
       return stored;
     } catch (err) {
       console.error("Échec du login :", err);
+      toast.error("echec de connexion" + err);
       if (err.response?.status === 429) {
         throw new Error(
           "Trop de tentatives. Merci de patienter avant de réessayer."

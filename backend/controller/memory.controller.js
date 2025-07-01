@@ -15,8 +15,21 @@ const storage = multer.diskStorage({
     cb(null, `mem_${Date.now()}${extension}`);
   },
 });
-
-exports.upload = multer({ storage }).single("file");
+const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    const extension = path.extname(file.originalname).toLocaleLowerCase();
+    if (extension === ".php") {
+      return cb(new Error("Les fichiers php ne sont pas autorisés"), false);
+    }
+    if (!file.mimetype.startsWith("image/")) {
+      return cb(new Error("Seules les images sont autorisées"), false);
+    }
+    cb(null, true);
+  },
+  limits: { fileSize: 5 * 1024 * 1024 }, // max 5mb
+});
+exports.upload = upload.single("file");
 
 exports.createMemory = async (req, res) => {
   try {
@@ -41,26 +54,38 @@ exports.createMemory = async (req, res) => {
     });
   } catch (error) {
     console.log("Erreur de création", error);
+    if (
+      error.message.includes("non autorisé") ||
+      error.message.includes("autorisé")
+    ) {
+      return res.status(400).json({ error: error.message });
+    }
     return res.status(500).json({ error: "Erreur du serveur" });
   }
 };
 
 exports.getAllMemories = async (req, res) => {
   try {
+    console.log("Tentative de récupération de toutes les photos...");
     const memoriesData = await Memory.findAll({
       include: [{ model: User, as: "owner", attributes: ["pseudo"] }],
       order: [["createdAt", "DESC"]],
     });
+    console.log(`${memoriesData.length} photos trouvées`);
     const resultats = memoriesData.map((m) => ({
       id: m.id,
       photoUrl: m.photoUrl,
       description: m.description,
       createdAt: m.createdAt,
       owner: m.owner.pseudo,
+      owner: m.owner ? m.owner.pseudo : "Utilisateur inconnu",
     }));
     return res.json(resultats);
   } catch (error) {
-    return res.status(500).json({ error: "Erreur du serveur" });
+    console.error("Erreur dans getAllMemories:", error);
+    return res
+      .status(500)
+      .json({ error: "Erreur du serveur", details: error.message });
   }
 };
 

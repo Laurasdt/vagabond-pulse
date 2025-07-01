@@ -1,10 +1,16 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../model/user.model");
+const MIN_PASSWORD_LENGTH = 8;
 
 exports.register = async (req, res) => {
   try {
     const { email, password, pseudo } = req.body;
+    if (!password || password.length < MIN_PASSWORD_LENGTH) {
+      return res.status(400).json({
+        message: `le mot de passe doit contenir un minimum de ${MIN_PASSWORD_LENGTH}caractères`,
+      });
+    }
     const isUserExist = await User.findOne({ where: { email } });
     if (isUserExist) {
       return res.status(400).json({ error: "Account existe déjà" });

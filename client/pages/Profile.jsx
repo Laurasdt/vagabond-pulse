@@ -5,6 +5,7 @@ import EventCard from "../components/EventCard";
 import "../styles/pages/profile.scss";
 import Title from "../components/Title";
 import Button from "../components/Button";
+import { Toaster, toast } from "sonner";
 
 const Profile = () => {
   const { user, isAuthenticated } = useAuth();
@@ -51,8 +52,9 @@ const Profile = () => {
   // Envoi du souvenir
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!file) return alert("Veuillez sélectionner une image."); // si aucun fichier selectionné
-    if (!description.trim()) return alert("La description est obligatoire."); // si pas de description
+    if (!file) return toast.error("Veuillez sélectionner une image."); // si aucun fichier selectionné
+    if (!description.trim())
+      return toast.error("La description est obligatoire."); // si pas de description
     setIsUploading(true);
     try {
       const formData = new FormData();
@@ -70,7 +72,7 @@ const Profile = () => {
       e.target.reset();
     } catch (err) {
       console.error("Erreur upload memory :", err);
-      alert("Échec de l’envoi. Réessaie plus tard.");
+      toast.error(err.error);
     } finally {
       setIsUploading(false);
     }
@@ -82,10 +84,10 @@ const Profile = () => {
     try {
       await axios.delete(`${import.meta.env.VITE_API_URL}/events/${eventId}`);
       setEvents((prev) => prev.filter((e) => e.id !== eventId));
-      alert("Événement supprimé !");
+      toast.error("Événement supprimé !");
     } catch (err) {
       console.error("Erreur suppression event :", err);
-      alert("Erreur lors de la suppression.");
+      toast.error("Erreur lors de la suppression.");
     }
   };
 
@@ -101,7 +103,7 @@ const Profile = () => {
   return (
     <main className="profile-page">
       <Title text="Profil" />
-
+      <Toaster richColors></Toaster>
       <section
         className="memories-upload"
         aria-labelledby="memories-upload-heading"

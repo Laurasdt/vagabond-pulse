@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/pages/Register.scss";
 import Title from "../components/Title";
 import Button from "../components/Button";
+import { Toaster, toast } from "sonner";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -50,12 +51,14 @@ const Register = () => {
       navigate("/login");
     } catch (err) {
       console.error("Erreur lors de l'inscription :", err);
+      toast.error(err.message);
       setError(err.response?.data?.message || "Erreur lors de l'inscription.");
     }
   };
 
   return (
     <main className="register-page">
+      <Toaster richColors></Toaster>
       <Title text="Inscription"></Title>
       <form onSubmit={handleSubmit} className="register-form">
         {error && (
@@ -98,7 +101,6 @@ const Register = () => {
           onChange={handleChange}
           required
           aria-required="true"
-          minLength={6}
         />
 
         <label htmlFor="confirmPassword">Confirmez le mot de passe</label>
@@ -110,7 +112,6 @@ const Register = () => {
           onChange={handleChange}
           required
           aria-required="true"
-          minLength={6}
         />
 
         <Button

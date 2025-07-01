@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import "../styles/pages/Admin.scss";
 import Title from "../components/Title";
 import Button from "../components/Button";
+import { Toaster, toast } from "sonner";
 
 const Admin = () => {
   const { user, logout } = useAuth();
@@ -16,8 +17,9 @@ const Admin = () => {
       navigate("/login");
       return;
     }
+    toast.success("authentification réussie");
     fetchUsers();
-  }, [user]);
+  }, [user, toast]);
 
   const fetchUsers = async () => {
     try {
@@ -53,6 +55,7 @@ const Admin = () => {
 
   return (
     <main className="profile-page">
+      <Toaster></Toaster>
       <Title text="Tableau de bord administrateur"></Title>
 
       <table className="admin-table">

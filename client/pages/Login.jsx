@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import "../styles/pages/Login.scss";
 import Title from "../components/Title";
 import Button from "../components/Button";
+import { Toaster, toast } from "sonner";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -27,11 +28,13 @@ const Login = () => {
         err.message ===
         "Trop de tentatives. Merci de patienter avant de réessayer."
       ) {
-        alert(err.message);
+        toast.error(err.message);
       }
       // Gestion spécifique du status HTTP 429 (cache rare)
       else if (err.response?.status === 429) {
-        alert("Trop de tentatives. Merci de patienter avant de réessayer.");
+        toast.error(
+          "Trop de tentatives. Merci de patienter avant de réessayer."
+        );
       }
       // Gestion des erreurs réseau
       else if (
@@ -39,11 +42,13 @@ const Login = () => {
         err.code === "ERR_CONNECTION_REFUSED" ||
         err.message === "Network Error"
       ) {
-        alert("Impossible de contacter le serveur. Vérifiez votre connexion.");
+        toast.error(
+          "Impossible de contacter le serveur. Vérifiez votre connexion."
+        );
       }
       // Gestion des mauvaises requêtes (credentials invalides)
       else if (err.response?.status === 400) {
-        alert(
+        toast.error(
           err.response?.data?.message || "E-mail ou mot de passe incorrect."
         );
       } else if (
@@ -51,15 +56,18 @@ const Login = () => {
         err.code === "ERR_CONNECTION_REFUSED" ||
         err.message === "Network Error"
       ) {
-        alert("Impossible de contacter le serveur. Vérifiez votre connexion.");
+        toast.error(
+          "Impossible de contacter le serveur. Vérifiez votre connexion."
+        );
       } else {
-        alert(err.response?.data?.error || "Erreur lors de la connexion");
+        toast.error(err.response?.data?.error || "Erreur lors de la connexion");
       }
     }
   };
 
   return (
     <main className="login-page">
+      <Toaster richColors></Toaster>
       <Title text="Connexion"></Title>
 
       <form className="login-form" onSubmit={handleSubmit}>
