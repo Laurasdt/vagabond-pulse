@@ -84,60 +84,61 @@ const CreateEvent = () => {
     <main className="create-event">
       <Title text="Créer un événement"></Title>
       <form onSubmit={handleSubmit} className="event-form">
-        <label>
-          Nom de l'événement :
-          <input
-            type="text"
-            name="title"
-            value={eventData.title}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <label>
-          Date :
-          <input
-            type="date"
-            name="date"
-            value={eventData.date}
-            onChange={handleChange}
-            required
-            min={format(new Date(), "yyyy-MM-dd")} // La date minimum est aujourd'hui
-            max={format(
-              new Date().setFullYear(new Date().getFullYear() + 1),
-              "yyyy-MM-dd"
-            )} // La date maximum est un an après
-          />
-        </label>
-        <label>
-          Heure :
-          <input
-            type="time"
-            name="time"
-            value={eventData.time}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <label>
-          Lieu :
-          <input
-            type="text"
-            name="location"
-            value={eventData.location}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <label>
-          Description :
-          <textarea
-            name="description"
-            value={eventData.description}
-            onChange={handleChange}
-            required
-          />
-        </label>
+        <label htmlFor="event-title">Nom de l'événement :</label>
+        <input
+          id="event-title"
+          type="text"
+          name="title"
+          value={eventData.title}
+          onChange={handleChange}
+          aria-required="true"
+          required
+        />
+        <label htmlFor="event-date">Date :</label>
+        <input
+          id="event-date"
+          type="date"
+          name="date"
+          value={eventData.date}
+          onChange={handleChange}
+          aria-required="true"
+          required
+          min={format(new Date(), "yyyy-MM-dd")} // La date minimum est aujourd'hui
+          max={format(
+            new Date().setFullYear(new Date().getFullYear() + 1),
+            "yyyy-MM-dd"
+          )} // La date maximum est un an après
+        />
+        <label htmlFor="event-time">Heure :</label>
+        <input
+          id="event-time"
+          type="time"
+          name="time"
+          value={eventData.time}
+          onChange={handleChange}
+          aria-required="true"
+          required
+        />
+        <label htmlFor="event-location">Lieu :</label>
+        <input
+          id="event-location"
+          type="text"
+          name="location"
+          value={eventData.location}
+          onChange={handleChange}
+          aria-required="true"
+          required
+        />
+        <label htmlFor="event-description">Description :</label>
+
+        <textarea
+          id="event-description"
+          name="description"
+          value={eventData.description}
+          onChange={handleChange}
+          aria-required="true"
+          required
+        />
         <Button
           buttonType="submit"
           className="logout-btn"

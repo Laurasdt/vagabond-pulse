@@ -24,7 +24,9 @@ const Gallery = () => {
             <div key={mem.id} className="photo-item">
               <img
                 src={`http://localhost:3001${mem.photoUrl}`}
-                alt={mem.description || "Photo utilisateur"}
+                alt={`Photo de ${mem.owner} : ${
+                  mem.description || "souvenir partagé"
+                }`}
                 loading="lazy"
                 sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
               />

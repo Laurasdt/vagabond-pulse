@@ -167,7 +167,9 @@ const Profile = () => {
                   src={`${import.meta.env.VITE_API_URL.replace(/\/api$/, "")}${
                     mem.photoUrl
                   }`}
-                  alt={mem.description || "Photo utilisateur"}
+                  alt={`Photo de ${mem.owner} : ${
+                    mem.description || "souvenir"
+                  }`}
                   loading="lazy"
                   sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
                 />
