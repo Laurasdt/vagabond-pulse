@@ -25,6 +25,7 @@ const Gallery = () => {
               <img
                 src={`http://localhost:3001${mem.photoUrl}`}
                 alt={mem.description || "Photo utilisateur"}
+                loading="lazy"
               />
               <div className="overlay">
                 <span className="owner">@{mem.owner}</span>

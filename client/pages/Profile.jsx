@@ -103,7 +103,7 @@ const Profile = () => {
   return (
     <main className="profile-page">
       <Title text="Profil" />
-      <Toaster richColors></Toaster>
+      <Toaster richColors />
       <section
         className="memories-upload"
         aria-labelledby="memories-upload-heading"
@@ -168,6 +168,7 @@ const Profile = () => {
                     mem.photoUrl
                   }`}
                   alt={mem.description || "Photo utilisateur"}
+                  loading="lazy"
                 />
                 <div className="memory-info">
                   <p>{mem.description}</p>
