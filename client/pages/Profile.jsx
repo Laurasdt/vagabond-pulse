@@ -169,6 +169,7 @@ const Profile = () => {
                   }`}
                   alt={mem.description || "Photo utilisateur"}
                   loading="lazy"
+                  sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
                 />
                 <div className="memory-info">
                   <p>{mem.description}</p>

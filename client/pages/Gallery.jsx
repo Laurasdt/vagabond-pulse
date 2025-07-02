@@ -26,6 +26,7 @@ const Gallery = () => {
                 src={`http://localhost:3001${mem.photoUrl}`}
                 alt={mem.description || "Photo utilisateur"}
                 loading="lazy"
+                sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
               />
               <div className="overlay">
                 <span className="owner">@{mem.owner}</span>
