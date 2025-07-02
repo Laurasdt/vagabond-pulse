@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Button from "./Button";
 
 const EventCard = ({ event, currentUserId, currentUserRole }) => {
   const isOwner =
@@ -56,9 +57,12 @@ const EventCard = ({ event, currentUserId, currentUserRole }) => {
             <Link to={`/edit-event/${event.id}`} className="update-btn">
               Modifier
             </Link>
-            <button className="delete-btn" onClick={handleDelete}>
-              Supprimer
-            </button>
+            <Button
+              className="delete-btn"
+              text="Supprimer"
+              buttonType="button"
+              onClick={handleDelete}
+            />
           </>
         )}
       </div>

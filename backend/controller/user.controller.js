@@ -24,7 +24,7 @@ exports.updateUser = async (req, res) => {
   const targetId = req.params.id;
   const data = { email, pseudo, role };
   if (password) {
-    data.password = await bcrypt.hash(password, 9);
+    data.password = await bcrypt.hash(password, 10);
   }
   const [updated] = await User.update(data, {
     where: { id: targetId },
