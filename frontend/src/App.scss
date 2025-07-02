@@ -1,0 +1,25 @@
+@use "./styles/variables" as *;
+
+body {
+  margin: 0;
+  font-family: $font-primary;
+  background: $background-color;
+
+  main {
+    min-height: 100vh;
+    padding: 2rem;
+    color: $text-color;
+    font-family: $font-primary;
+    padding: 10px;
+  }
+}
+
+input,
+textarea,
+select {
+  @include input-focus-style;
+}
+
+a {
+  @include link-focus-style;
+}

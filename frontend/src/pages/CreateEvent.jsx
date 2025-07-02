@@ -7,6 +7,14 @@ import { fr } from "date-fns/locale";
 import "../styles/pages/CreateEvent.scss";
 import Title from "../components/Title";
 import Button from "../components/Button";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button as Btton
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const CreateEvent = () => {
   const { isAuthenticated, user } = useAuth();
@@ -17,7 +25,14 @@ const CreateEvent = () => {
     location: "",
     description: "",
   });
-
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const handleOpenDialog = () => {
+setOpen(true);
+  }
+const navigateTo = () => {
+navigate('/')
+}
   if (!isAuthenticated) {
     return <Navigate to="/login" />;
   }
@@ -66,7 +81,7 @@ const CreateEvent = () => {
     // ajouter Token sinon n'importe qui peut créer un event sans être connecté
     try {
       await axios.post(import.meta.env.VITE_API_URL + "/events", payload);
-      alert("Super, l'événement a été créé avec succès !!");
+      
       setEventData({
         title: "",
         date: "",
@@ -74,6 +89,7 @@ const CreateEvent = () => {
         location: "",
         description: "",
       });
+      setOpen(true);
     } catch (error) {
       console.error("Erreur lors de la création de l'événement :", error);
       alert("Erreur lors de la création de l'événement.");
@@ -146,6 +162,24 @@ const CreateEvent = () => {
           onClick={null}
         />
       </form>
+      <Dialog
+              open={open}
+              onClose={() => setOpen(false)}
+              aria-labelledby="confirm-dialog-title"
+            >
+              <DialogTitle id="confirm-dialog-title">
+                Evénement crée avec succès
+              </DialogTitle>
+              <DialogContent>
+                <p>Vous pouvez consulter tous les événements en cliquant sur le bouton voir</p>
+              </DialogContent>
+              <DialogActions>
+                <Btton onClick={() => setOpen(false)}>Annuler</Btton>
+                <Btton onClick={navigateTo} color="success" autoFocus>
+                  Voir
+                </Btton>
+              </DialogActions>
+            </Dialog>
     </main>
   );
 };

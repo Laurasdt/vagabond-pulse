@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const memoryController = require("../controller/memory.controller");
+const {verifyToken} = require('../middleware/auth.middleware')
 
 /**
  * @swagger
@@ -39,8 +40,8 @@ const memoryController = require("../controller/memory.controller");
  *       400:
  *         $ref: '#/components/responses/BadRequest'
  */
-router.post("/", memoryController.upload, memoryController.createMemory);
-
+router.post("/", verifyToken, memoryController.upload, memoryController.createMemory);
+router.delete('/:id', verifyToken, memoryController.deleteMemory)
 /**
  * @swagger
  * /memories:
@@ -58,7 +59,7 @@ router.post("/", memoryController.upload, memoryController.createMemory);
  *               items:
  *                 $ref: '#/components/schemas/Memory'
  */
-router.get("/", memoryController.getAllMemories);
+router.get("/", verifyToken, memoryController.getAllMemories);
 
 /**
  * @swagger

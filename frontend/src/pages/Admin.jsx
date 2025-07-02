@@ -6,6 +6,7 @@ import "../styles/pages/Admin.scss";
 import Title from "../components/Title";
 import Button from "../components/Button";
 import { Toaster, toast } from "sonner";
+import { TableContainer } from "@mui/material";
 
 const Admin = () => {
   const { user, logout } = useAuth();
@@ -57,17 +58,9 @@ const Admin = () => {
     <main className="profile-page">
       <Toaster></Toaster>
       <Title text="Tableau de bord administrateur"></Title>
-
+<TableContainer></TableContainer>
       <table className="admin-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>E-mail</th>
-            <th>Pseudo</th>
-            <th>Rôle</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
+        
         <tbody>
           {users.map((u) => (
             <tr key={u.id}>

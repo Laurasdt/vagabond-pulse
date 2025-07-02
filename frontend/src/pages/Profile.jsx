@@ -6,6 +6,13 @@ import "../styles/pages/profile.scss";
 import Title from "../components/Title";
 import Button from "../components/Button";
 import { Toaster, toast } from "sonner";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button as Btton
+} from "@mui/material";
 
 const Profile = () => {
   const { user, isAuthenticated } = useAuth();
@@ -15,7 +22,28 @@ const Profile = () => {
   const [events, setEvents] = useState([]);
   const [file, setFile] = useState(null);
   const [description, setDescription] = useState("");
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
+  const HandleDeleteMemoryClick = (id) => {
+    setDeleteId(id);
+    setConfirmOpen(true);
+  };
+  const handleConfimDelete = async () => {
+    try {
+      await axios.delete(
+        `${import.meta.env.VITE_API_URL}/memories/${deleteId}`
+      );
+      setMemories((prev) => prev.filter((m) => m.id !== deleteId));
+      toast.success("memory supprimée avec succès");
+    } catch (error) {
+      console.log("erreur de suppression du memory");
+      toast.error("Impossible de supprimer ce memory");
+    } finally {
+      setConfirmOpen(false);
+      setDeleteId(null);
+    }
+  };
 
   // Récupération des souvenirs de l'utilisateur
   useEffect(() => {
@@ -175,12 +203,37 @@ const Profile = () => {
                 />
                 <div className="memory-info">
                   <p>{mem.description}</p>
+                  <button
+                    className="btn-delete-memory"
+                    onClick={() => HandleDeleteMemoryClick(mem.id)}
+                    aria-label="supprimer ce memory"
+                  >
+                    Supprimer
+                  </button>
                 </div>
               </article>
             ))}
           </div>
         )}
       </section>
+      <Dialog
+        open={confirmOpen}
+        onClose={() => setConfirmOpen(false)}
+        aria-labelledby="confirm-dialog-title"
+      >
+        <DialogTitle id="confirm-dialog-title">
+          Supprimer ce memory ?
+        </DialogTitle>
+        <DialogContent>
+          <p>Etes-vous sûr de vouloir supprimer definitivement ce memory ?</p>
+        </DialogContent>
+        <DialogActions>
+          <Btton onClick={() => setConfirmOpen(false)}>Annuler</Btton>
+          <Btton onClick={handleConfimDelete} color="error" autoFocus>
+            Supprimer
+          </Btton>
+        </DialogActions>
+      </Dialog>
 
       <section className="user-events" aria-labelledby="events-heading">
         <h2 id="events-heading">Mes Événements ({events.length})</h2>

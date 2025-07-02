@@ -20,7 +20,6 @@ const Home = () => {
           `${import.meta.env.VITE_API_URL}/events?page=${page}&limit=10`
         );
         setEvents(data.events);
-        console.log(data.events);
 
         setTotalPages(data.totalPages);
       } catch (error) {
@@ -31,7 +30,7 @@ const Home = () => {
     };
 
     fetchEvents();
-  }, [page]);
+  }, [page, axios]);
 
   // Fonction pour supprimer un événement + vérifie si l'utilisateur a confirmé la suppression avant de procéder
   const handleDelete = async (eventId) => {

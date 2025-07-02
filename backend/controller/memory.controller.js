@@ -102,3 +102,23 @@ exports.getUserMemoryData = async (req, res) => {
     return res.status(500).json({ error: "Erreur internale" });
   }
 };
+
+exports.deleteMemory = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const memory = await Memory.findByPk(id);
+    if (!memory) {
+      return res.status(404).json({ error: "Memory introuvable" });
+    }
+    const filename = path.basename(memory.photoUrl);
+    const filePath = path.join(MemoryFolder, filename);
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+    await memory.destroy();
+    res.json({ message: "memory supprimée avec succés" });
+  } catch (error) {
+    console.log("erreur de la suppression de la memory", error);
+    res.status(500).json({ error: "erreur internale" });
+  }
+};
