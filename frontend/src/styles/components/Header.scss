@@ -18,6 +18,28 @@
     margin: 0;
   }
 
+  .logo {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+
+    &:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+
+    .logo-image {
+      height: 40px;
+      width: auto;
+      max-width: 200px;
+      object-fit: contain;
+      transition: all 0.3s ease;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+    }
+  }
+
   .nav-desktop {
     display: none;
   }

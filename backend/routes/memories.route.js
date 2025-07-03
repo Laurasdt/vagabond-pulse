@@ -59,7 +59,7 @@ router.delete('/:id', verifyToken, memoryController.deleteMemory)
  *               items:
  *                 $ref: '#/components/schemas/Memory'
  */
-router.get("/", verifyToken, memoryController.getAllMemories);
+router.get("/", memoryController.getAllMemories);
 
 /**
  * @swagger

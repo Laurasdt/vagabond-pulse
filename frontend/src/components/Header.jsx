@@ -5,6 +5,8 @@ import "../styles/components/Header.scss";
 import Button from "./Button";
 import Title from "./Title";
 
+import vpLogo from "../../assets/identity/VagabondPLogo.png";
+
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
@@ -85,7 +87,13 @@ function Header() {
 
   return (
     <header className="header">
-      <Title text="Vagabond Pulse"></Title>
+      <Link to="/" className="logo" aria-label="Vagabond Pulse - Retour à l'accueil">
+        <img 
+          src={vpLogo} 
+          alt="Vagabond Pulse Logo" 
+          className="logo-image"
+        />
+      </Link>
       {/* Nav desktop */}
       {!isMobile && (
         <nav
