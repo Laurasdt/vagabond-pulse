@@ -5,7 +5,7 @@ import EventCard from "../components/EventCard";
 import "../styles/pages/profile.scss";
 import Title from "../components/Title";
 import Button from "../components/Button";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 import {
   Dialog,
   DialogTitle,
@@ -35,9 +35,11 @@ const Profile = () => {
         `${import.meta.env.VITE_API_URL}/memories/${deleteId}`
       );
       setMemories((prev) => prev.filter((m) => m.id !== deleteId));
+      toast.dismiss();
       toast.success("memory supprimée avec succès");
     } catch (error) {
       console.log("erreur de suppression du memory");
+      toast.dismiss();
       toast.error("Impossible de supprimer ce memory");
     } finally {
       setConfirmOpen(false);
@@ -45,7 +47,6 @@ const Profile = () => {
     }
   };
 
-  // Récupération des souvenirs de l'utilisateur
   useEffect(() => {
     if (!userId) return;
     axios
@@ -133,17 +134,15 @@ const Profile = () => {
   return (
     <main className="profile-page">
       <Title text="Profil" />
-      <Toaster richColors />
+      {/* <Toaster richColors /> */}
       <section
         className="memories-upload"
         aria-labelledby="memories-upload-heading"
       >
         <h2 id="memories-upload-heading">Ajouter un souvenir</h2>
-        // formulaire d'ajout de souvenirs
         <form className="memory-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="memory-file">Photo</label>
-            // fichier du memory
             <input
               id="memory-file"
               type="file"
@@ -157,7 +156,6 @@ const Profile = () => {
               Formats acceptés : JPG, PNG, GIF (max 5MB)
             </small>
           </div>
-          // description du memory
           <div className="form-group">
             <label htmlFor="memory-description">Description</label>
             <input

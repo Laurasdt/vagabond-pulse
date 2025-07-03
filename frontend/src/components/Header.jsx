@@ -34,6 +34,12 @@ function Header() {
   // si admin, montrer "users"
   const renderAdminLinks = (isMobileVersion = false) => (
     <>
+      
+      <li>
+        <Link to="/" onClick={isMobileVersion ? toggleMenu : undefined}>
+          Home
+        </Link>
+      </li>
       <li>
         <Link
           to="/admin"
@@ -41,11 +47,6 @@ function Header() {
           onClick={isMobileVersion ? toggleMenu : undefined}
         >
           Users
-        </Link>
-      </li>
-      <li>
-        <Link to="/" onClick={isMobileVersion ? toggleMenu : undefined}>
-          Home
         </Link>
       </li>
       <li>

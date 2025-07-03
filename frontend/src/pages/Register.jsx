@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/pages/Register.scss";
 import Title from "../components/Title";
 import Button from "../components/Button";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -58,7 +58,7 @@ const Register = () => {
 
   return (
     <main className="register-page">
-      <Toaster richColors></Toaster>
+      {/* <Toaster richColors></Toaster> */}
       <Title text="Inscription"></Title>
       <form onSubmit={handleSubmit} className="register-form">
         {error && (

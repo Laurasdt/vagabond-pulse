@@ -14,38 +14,42 @@ import Gallery from "./pages/Gallery";
 import Admin from "./pages/Admin";
 import "./App.scss";
 import { Navigate } from "react-router-dom";
+import { Toaster } from "sonner";
 
 function App() {
   const { user, isAuthenticated } = useAuth();
   return (
-    <Router>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/create-event" element={<CreateEvent />} />
-        <Route path="/event/:eventId" element={<EventDetails />} />
-        <Route path="/edit-event/:eventId" element={<EditEvent />} />
-        <Route
-          path="/profile"
-          element={isAuthenticated ? <Profile /> : <Login />}
-        />
-        <Route path="/gallery" element={<Gallery />} />
+    <div>
+      <Toaster position="bottom-center" richColors />
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/create-event" element={<CreateEvent />} />
+          <Route path="/event/:eventId" element={<EventDetails />} />
+          <Route path="/edit-event/:eventId" element={<EditEvent />} />
+          <Route
+            path="/profile"
+            element={isAuthenticated ? <Profile /> : <Login />}
+          />
+          <Route path="/gallery" element={<Gallery />} />
 
-        <Route
-          path="/admin"
-          element={
-            isAuthenticated && user.role === "admin" ? (
-              <Admin />
-            ) : (
-              <Navigate to="/login" replace />
-            )
-          }
-        />
-      </Routes>
-      <Footer />
-    </Router>
+          <Route
+            path="/admin"
+            element={
+              isAuthenticated && user.role === "admin" ? (
+                <Admin />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            }
+          />
+        </Routes>
+        <Footer />
+      </Router>
+    </div>
   );
 }
 

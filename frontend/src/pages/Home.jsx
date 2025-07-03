@@ -5,6 +5,14 @@ import EventCard from "../components/EventCard";
 import "../styles/pages/Home.scss";
 import Title from "../components/Title";
 import Button from "../components/Button";
+import { toast } from "sonner";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button as Btton,
+} from "@mui/material";
 
 const Home = () => {
   const { isAuthenticated, user } = useAuth();
@@ -12,6 +20,14 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const HandleDeleteEventClick = (id) => {
+    setDeleteId(id);
+    setConfirmOpen(true);
+  };
+  
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -33,21 +49,17 @@ const Home = () => {
   }, [page, axios]);
 
   // Fonction pour supprimer un événement + vérifie si l'utilisateur a confirmé la suppression avant de procéder
-  const handleDelete = async (eventId) => {
-    if (window.confirm("Voulez-vous vraiment supprimer cet événement ?")) {
-      try {
-        await axios.delete(
-          `${import.meta.env.VITE_API_URL}/events/${eventId}`,
-          {
-            data: { userId: user.id },
-          }
-        );
-        alert("Événement supprimé avec succès !");
-        setEvents((prev) => prev.filter((e) => e.id !== eventId));
-      } catch (error) {
-        console.error("Erreur lors de la suppression de l'événement :", error);
-        alert("Erreur lors de la suppression de l'événement.");
-      }
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/events/${deleteId}`, {
+        data: { userId: user.id },
+      });
+      setConfirmOpen(false);
+      toast.success("Événement supprimé avec succès !");
+      setEvents((prev) => prev.filter((e) => e.id !== deleteId));
+    } catch (error) {
+      console.error("Erreur lors de la suppression de l'événement :", error);
+      toast.error("Erreur lors de la suppression de l'événement.");
     }
   };
 
@@ -66,7 +78,7 @@ const Home = () => {
               event={event}
               currentUserId={isAuthenticated ? user.id : null}
               currentUserRole={isAuthenticated ? user.role : null}
-              onDelete={handleDelete}
+              onDelete={HandleDeleteEventClick}
             />
           ))}
         </ul>
@@ -90,6 +102,26 @@ const Home = () => {
           text="Suivant"
         ></Button>
       </div>
+      <Dialog
+        open={confirmOpen}
+        onClose={() => setConfirmOpen(false)}
+        aria-labelledby="confirm-dialog-title"
+      >
+        <DialogTitle id="confirm-dialog-title">
+          Supprimer cet utilisateur ?
+        </DialogTitle>
+        <DialogContent>
+          <p>
+            Etes-vous sûr de vouloir supprimer definitivement cet utilisateur ?
+          </p>
+        </DialogContent>
+        <DialogActions>
+          <Btton onClick={() => setConfirmOpen(false)}>Annuler</Btton>
+          <Btton onClick={handleDelete} color="error" autoFocus>
+            Supprimer
+          </Btton>
+        </DialogActions>
+      </Dialog>
     </main>
   );
 };

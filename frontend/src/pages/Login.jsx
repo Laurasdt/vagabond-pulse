@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import "../styles/pages/Login.scss";
 import Title from "../components/Title";
 import Button from "../components/Button";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -67,7 +67,7 @@ const Login = () => {
 
   return (
     <main className="login-page">
-      <Toaster richColors></Toaster>
+      {/* <Toaster richColors></Toaster> */}
       <Title text="Connexion"></Title>
 
       <form className="login-form" onSubmit={handleSubmit}>

@@ -5,22 +5,36 @@ import { useAuth } from "../context/AuthContext";
 import "../styles/pages/Admin.scss";
 import Title from "../components/Title";
 import Button from "../components/Button";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 import { TableContainer } from "@mui/material";
+import UsersTable from "../components/UsersTable";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button as Btton,
+} from "@mui/material";
 
 const Admin = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [userId, setUserId] = useState(null);
+  const handleShowConfirmation = (id) => {
+    setConfirmOpen(true);
+    setUserId(id);
+  };
 
   useEffect(() => {
     if (!user || user.role !== "admin") {
       navigate("/login");
       return;
     }
-    toast.success("authentification réussie");
+    // toast.success("authentification réussie");
     fetchUsers();
-  }, [user, toast]);
+  }, [user]);
 
   const fetchUsers = async () => {
     try {
@@ -31,11 +45,12 @@ const Admin = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Supprimer cet utilisateur ?")) return;
+  const handleDelete = async () => {
     try {
-      await axios.delete(`${import.meta.env.VITE_API_URL}/users/${id}`);
-      setUsers((u) => u.filter((user) => user.id !== id));
+      await axios.delete(`${import.meta.env.VITE_API_URL}/users/${userId}`);
+      setUsers((u) => u.filter((user) => user.id !== userId));
+      setConfirmOpen(false);
+      toast.success("Utilisateur supprimé avec succès");
     } catch (err) {
       console.error("Error deleting user:", err);
     }
@@ -56,36 +71,31 @@ const Admin = () => {
 
   return (
     <main className="profile-page">
-      <Toaster></Toaster>
+      {/* <Toaster></Toaster> */}
       <Title text="Tableau de bord administrateur"></Title>
-<TableContainer></TableContainer>
-      <table className="admin-table">
-        
-        <tbody>
-          {users.map((u) => (
-            <tr key={u.id}>
-              <td>{u.id}</td>
-              <td>{u.email}</td>
-              <td>{u.pseudo}</td>
-              <td>{u.role}</td>
-              <td>
-                <Button
-                  onClick={() => handleUpdate(u.id)}
-                  className="btn-edit"
-                  type="button"
-                  text="Editer"
-                ></Button>
-                <Button
-                  onClick={() => handleDelete(u.id)}
-                  className="btn-delete"
-                  type="button"
-                  text="Supprimer"
-                ></Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {/* <TableContainer></TableContainer> */}
+      <UsersTable users={users} onDelete={handleShowConfirmation}></UsersTable>
+
+      <Dialog
+        open={confirmOpen}
+        onClose={() => setConfirmOpen(false)}
+        aria-labelledby="confirm-dialog-title"
+      >
+        <DialogTitle id="confirm-dialog-title">
+          Supprimer cet utilisateur ?
+        </DialogTitle>
+        <DialogContent>
+          <p>
+            Etes-vous sûr de vouloir supprimer definitivement cet utilisateur ?
+          </p>
+        </DialogContent>
+        <DialogActions>
+          <Btton onClick={() => setConfirmOpen(false)}>Annuler</Btton>
+          <Btton onClick={handleDelete} color="error" autoFocus>
+            Supprimer
+          </Btton>
+        </DialogActions>
+      </Dialog>
     </main>
   );
 };

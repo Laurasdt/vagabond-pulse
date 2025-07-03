@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Button from "./Button";
 
-const EventCard = ({ event, currentUserId, currentUserRole }) => {
+const EventCard = ({ event, currentUserId, currentUserRole, onDelete }) => {
   const isOwner =
     currentUserId &&
     (event.user_id === currentUserId || event.userId === currentUserId);
@@ -20,19 +20,7 @@ const EventCard = ({ event, currentUserId, currentUserRole }) => {
     minute: "2-digit",
   });
 
-  const handleDelete = () => {
-    if (!window.confirm("Supprimer cet événement ?")) return;
-
-    axios
-      .delete(`${import.meta.env.VITE_API_URL}/events/${event.id}`)
-      .then(() => window.location.reload())
-      .catch((err) => {
-        console.error("Erreur delete:", err.response || err);
-        alert(
-          err.response?.data?.error || "Impossible de supprimer l'événement"
-        );
-      });
-  };
+  
 
   return (
     <li className="event-card">
@@ -61,7 +49,7 @@ const EventCard = ({ event, currentUserId, currentUserRole }) => {
               className="delete-btn"
               text="Supprimer"
               buttonType="button"
-              onClick={handleDelete}
+              onClick={() => onDelete(event.id)}
             />
           </>
         )}
