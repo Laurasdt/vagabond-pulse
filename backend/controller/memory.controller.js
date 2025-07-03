@@ -4,10 +4,13 @@ const path = require("path");
 const Memory = require("../model/memory.model");
 const User = require("../model/user.model");
 
+// création du dossier uploads (si pas existant)
 const MemoryFolder = path.join(__dirname, "..", "uploads", "memories");
 if (!fs.existsSync(MemoryFolder)) {
   fs.mkdirSync(MemoryFolder, { recursive: true });
 }
+
+// config stockage fichiers avec Multer + renommage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, MemoryFolder),
   filename: (req, file, cb) => {
@@ -15,6 +18,8 @@ const storage = multer.diskStorage({
     cb(null, `mem_${Date.now()}${extension}`);
   },
 });
+
+// config de multer + de la sécurité
 const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
@@ -31,6 +36,7 @@ const upload = multer({
 });
 exports.upload = upload.single("file");
 
+// après upload, création de memory
 exports.createMemory = async (req, res) => {
   try {
     const { userId, description } = req.body;
@@ -41,6 +47,7 @@ exports.createMemory = async (req, res) => {
       return res.status(400).json({ error: "Fichier manquant" });
     }
     const urlPhoto = `/uploads/memories/${req.file.filename}`;
+    // sauvegardes de memory dans BDD
     const memory = await Memory.create({
       userId,
       photoUrl: urlPhoto,

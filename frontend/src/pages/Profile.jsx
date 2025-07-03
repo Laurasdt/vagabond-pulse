@@ -11,7 +11,7 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Button as Btton
+  Button as Btton,
 } from "@mui/material";
 
 const Profile = () => {
@@ -80,9 +80,9 @@ const Profile = () => {
   // Envoi du souvenir
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!file) return toast.error("Veuillez sélectionner une image."); // si aucun fichier selectionné
+    if (!file) return toast.error("Veuillez sélectionner une image.");
     if (!description.trim())
-      return toast.error("La description est obligatoire."); // si pas de description
+      return toast.error("La description est obligatoire.");
     setIsUploading(true);
     try {
       const formData = new FormData();
@@ -90,7 +90,8 @@ const Profile = () => {
       formData.append("description", description);
       formData.append("userId", userId);
       const res = await axios.post(
-        import.meta.env.VITE_API_URL + "/memories",
+        // requête POST
+        import.meta.env.VITE_API_URL + "/memories", // envoi des données à http://localhost:3001/api/memories
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -106,6 +107,7 @@ const Profile = () => {
     }
   };
 
+  // supprimer event
   const handleDeleteEvent = async (eventId) => {
     if (!window.confirm("Voulez-vous vraiment supprimer cet événement ?"))
       return;
@@ -137,11 +139,11 @@ const Profile = () => {
         aria-labelledby="memories-upload-heading"
       >
         <h2 id="memories-upload-heading">Ajouter un souvenir</h2>
-
+        // formulaire d'ajout de souvenirs
         <form className="memory-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="memory-file">Photo</label>
-
+            // fichier du memory
             <input
               id="memory-file"
               type="file"
@@ -155,7 +157,7 @@ const Profile = () => {
               Formats acceptés : JPG, PNG, GIF (max 5MB)
             </small>
           </div>
-
+          // description du memory
           <div className="form-group">
             <label htmlFor="memory-description">Description</label>
             <input
