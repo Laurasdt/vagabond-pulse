@@ -20,7 +20,7 @@ const Register = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const validatePseudo = (pseudo) => /^[A-Za-z0-9]{5,20}$/.test(pseudo);
+  const validatePseudo = (pseudo) => /^[A-Za-z0-9]{3,20}$/.test(pseudo);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,25 +29,23 @@ const Register = () => {
     // Validation du pseudo
     if (!validatePseudo(formData.pseudo)) {
       setError(
-        "Le pseudo doit faire entre 5 et 20 caractères alphanumériques, sans espaces ni caractères spéciaux."
+        "Le pseudo doit faire entre 3 et 20 caractères alphanumériques, sans espaces ni caractères spéciaux."
       );
       return;
     }
 
-    // Validation des mots de passe
     if (formData.password !== formData.confirmPassword) {
       setError("Les mots de passe ne correspondent pas.");
       return;
     }
 
     try {
-      // Appel vers la bonne route d'inscription
       await axios.post(import.meta.env.VITE_API_URL + "/auth/register", {
         email: formData.email,
         pseudo: formData.pseudo,
         password: formData.password,
       });
-      alert("Inscription réussie ! Vous pouvez maintenant vous connecter.");
+      toast.success("Inscription réussie ! Vous pouvez maintenant vous connecter.");
       navigate("/login");
     } catch (err) {
       console.error("Erreur lors de l'inscription :", err);
