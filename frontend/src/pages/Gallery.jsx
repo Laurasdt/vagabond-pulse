@@ -76,11 +76,11 @@ const [confirmOpen, setConfirmOpen] = useState(false);
               <div className="overlay">
                 {mem.description && <p>{mem.description}</p>}
                 <span className="owner">@{mem.owner}</span>
-              {user.role === "admin" || user?.pseudo == mem.owner ? (
-                <button onClick={() => HandleDeleteMemoryClick(mem.id)}>Supprimer</button>
-              ) : 
-                 ''
-              }
+              {isAuthenticated && (user?.role === "admin" || user?.pseudo === mem.owner) && (
+                  <button onClick={() => HandleDeleteMemoryClick(mem.id)}>
+                    Supprimer
+                  </button>
+                )}
               </div>
             </div>
           ))}

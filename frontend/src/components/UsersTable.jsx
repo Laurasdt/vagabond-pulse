@@ -13,46 +13,29 @@ import React from "react";
 import PropTypes from "prop-types";
 
 function UsersTable({ users, onDelete }) {
+  const headers = ["ID", "Email", "Pseudo", "Rôle", "Actions"];
+
   return (
-    <TableContainer component={Paper} aria-label={"UsersTable"}>
+    <TableContainer component={Paper} aria-label="UsersTable">
       <Table>
         <TableHead>
-          {["id", "email", "pseudo", "role", "actions"].map((header) => (
-            <TableCell>
-              <Typography
-                variant="subtitle2"
-                component={"span"}
-                sx={{ fontWeight: "bold", color: "primary.main" }}
-              >
-                {header}
-              </Typography>
-            </TableCell>
-          ))}
-        </TableHead>
-        <TableBody>
-          {users.map((user) => (
-            <TableRow key={user.id} hover>
-              <TableCell>{user.id}</TableCell>
-              <TableCell>{user.email}</TableCell>
-              <TableCell>{user.pseudo}</TableCell>
-              <TableCell>{user.role}</TableCell>
-              <TableCell>
+          <TableRow>
+            {headers.map((header, index) => (
+              <TableCell key={index}>
                 <Typography
-                  variant="body2"
-                  sx={{
-                    textTransform: "capitalize",
-                    color:
-                      user.role === "admin" ? "error.main" : "text.secondary",
-                  }}
+                  variant="subtitle2"
+                  component="span"
+                  sx={{ fontWeight: "bold", color: "primary.main" }}
                 >
-                  <TableCell>
-                    <Button onClick={() => onDelete(user.id)}>Supprimer</Button>
-                  </TableCell>
+                  {header}
                 </Typography>
               </TableCell>
-            </TableRow>
-          ))}
-          {users.length === 0 && (
+            ))}
+          </TableRow>
+        </TableHead>
+        
+        <TableBody>
+          {users.length === 0 ? (
             <TableRow>
               <TableCell colSpan={5} align="center">
                 <Typography variant="body2" color="text.secondary">
@@ -60,12 +43,43 @@ function UsersTable({ users, onDelete }) {
                 </Typography>
               </TableCell>
             </TableRow>
+          ) : (
+            users.map((user) => (
+              <TableRow key={user.id} hover>
+                <TableCell>{user.id}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.pseudo}</TableCell>
+                <TableCell>
+                  <Typography
+                    variant="body2"
+                    component="span"
+                    sx={{
+                      textTransform: "capitalize",
+                      color: user.role === "admin" ? "error.main" : "text.secondary",
+                    }}
+                  >
+                    {user.role}
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <Button 
+                    onClick={() => onDelete(user.id)}
+                    color="error"
+                    variant="outlined"
+                    size="small"
+                  >
+                    Supprimer
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))
           )}
         </TableBody>
       </Table>
     </TableContainer>
   );
 }
+
 UsersTable.propTypes = {
   users: PropTypes.arrayOf(
     PropTypes.shape({

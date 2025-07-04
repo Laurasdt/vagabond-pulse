@@ -40,7 +40,7 @@ const {verifyToken} = require('../middleware/auth.middleware')
  *       400:
  *         $ref: '#/components/responses/BadRequest'
  */
-router.post("/", verifyToken, memoryController.upload, memoryController.createMemory);
+router.post("/", verifyToken, memoryController.upload, memoryController.createMemory); // Route de création de memoriy, qui fait appel au controller 
 router.delete('/:id', verifyToken, memoryController.deleteMemory)
 /**
  * @swagger

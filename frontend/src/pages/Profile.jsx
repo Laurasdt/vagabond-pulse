@@ -90,9 +90,8 @@ const Profile = () => {
       formData.append("file", file);
       formData.append("description", description);
       formData.append("userId", userId);
-      const res = await axios.post(
-        // requête POST
-        import.meta.env.VITE_API_URL + "/memories", // envoi des données à http://localhost:3001/api/memories
+      const res = await axios.post( //envoi une requête POST vers api/memories
+        import.meta.env.VITE_API_URL + "/memories", 
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
