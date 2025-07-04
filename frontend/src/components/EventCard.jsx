@@ -49,7 +49,7 @@ const EventCard = ({ event, currentUserId, currentUserRole, onDelete }) => {
               className="delete-btn"
               text="Supprimer"
               buttonType="button"
-              onClick={() => onDelete(event.id)}
+              onClick={() => onDelete('event', event.id)}
             />
           </>
         )}

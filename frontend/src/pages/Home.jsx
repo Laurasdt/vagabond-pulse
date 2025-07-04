@@ -23,12 +23,11 @@ const Home = () => {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
-  const HandleDeleteEventClick = (id) => {
+  const HandleDeleteEventClick = (buttonType, id) => {
     setDeleteId(id);
     setConfirmOpen(true);
   };
   
-
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -112,7 +111,7 @@ const Home = () => {
         </DialogTitle>
         <DialogContent>
           <p>
-            Etes-vous sûr de vouloir supprimer definitivement cet utilisateur ?
+            Etes-vous sûr de vouloir supprimer definitivement cet événement ?
           </p>
         </DialogContent>
         <DialogActions>

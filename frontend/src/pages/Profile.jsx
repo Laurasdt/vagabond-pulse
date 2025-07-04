@@ -25,6 +25,19 @@ const Profile = () => {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [whichButtonClicked, setWhichButtonClicked] = useState(null);
+  const handleWichButtonClicked = (buttonClicked, id) => {
+    setWhichButtonClicked(buttonClicked);
+    if (buttonClicked==='memory') {
+      HandleDeleteMemoryClick(id)
+    } else {
+      handleDeleteEventClicked(id);
+    }
+  }
+  const handleDeleteEventClicked = (id) => {
+    setDeleteId(id);
+    setConfirmOpen(true);
+  }
   const HandleDeleteMemoryClick = (id) => {
     setDeleteId(id);
     setConfirmOpen(true);
@@ -108,13 +121,12 @@ const Profile = () => {
   };
 
   // supprimer event
-  const handleDeleteEvent = async (eventId) => {
-    if (!window.confirm("Voulez-vous vraiment supprimer cet événement ?"))
-      return;
+  const handleDeleteEvent = async () => {
     try {
-      await axios.delete(`${import.meta.env.VITE_API_URL}/events/${eventId}`);
-      setEvents((prev) => prev.filter((e) => e.id !== eventId));
-      toast.error("Événement supprimé !");
+      await axios.delete(`${import.meta.env.VITE_API_URL}/events/${deleteId}`);
+      setEvents((prev) => prev.filter((e) => e.id !== deleteId));
+      setConfirmOpen(false);
+      toast.success("Événement supprimé !");
     } catch (err) {
       console.error("Erreur suppression event :", err);
       toast.error("Erreur lors de la suppression.");
@@ -204,7 +216,7 @@ const Profile = () => {
                   <p>{mem.description}</p>
                   <button
                     className="btn-delete-memory"
-                    onClick={() => HandleDeleteMemoryClick(mem.id)}
+                    onClick={() => handleWichButtonClicked('memory', mem.id)}
                     aria-label="supprimer ce memory"
                   >
                     Supprimer
@@ -221,14 +233,14 @@ const Profile = () => {
         aria-labelledby="confirm-dialog-title"
       >
         <DialogTitle id="confirm-dialog-title">
-          Supprimer ce memory ?
+          Supprimer ce {whichButtonClicked==='memory'? 'memory' : 't événement'}  ?
         </DialogTitle>
         <DialogContent>
-          <p>Etes-vous sûr de vouloir supprimer definitivement ce memory ?</p>
+          <p>Etes-vous sûr de vouloir supprimer definitivement cet {whichButtonClicked==='memory'? 'memory' : 'événement'} ?</p>
         </DialogContent>
         <DialogActions>
           <Btton onClick={() => setConfirmOpen(false)}>Annuler</Btton>
-          <Btton onClick={handleConfimDelete} color="error" autoFocus>
+          <Btton onClick={whichButtonClicked==='memory' ? handleConfimDelete:handleDeleteEvent} color="error" autoFocus>
             Supprimer
           </Btton>
         </DialogActions>
@@ -245,7 +257,7 @@ const Profile = () => {
                 key={event.id}
                 event={event}
                 currentUserId={userId}
-                onDelete={handleDeleteEvent}
+                onDelete={handleWichButtonClicked}
               />
             ))}
           </ul>
