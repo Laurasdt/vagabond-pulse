@@ -13,6 +13,8 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@mui/material": "^7.2.0"
+    "@mui/material": "^7.2.0",
+    "react-loader-spinner": "^6.1.6",
+    "react-spinners": "^0.17.0"
   }
 }

@@ -5,9 +5,12 @@ import "../styles/pages/Register.scss";
 import Title from "../components/Title";
 import Button from "../components/Button";
 import { toast } from "sonner";
+import { BeatLoader } from "react-spinners";
+
 
 const Register = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     pseudo: "",
@@ -24,9 +27,9 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     setError("");
 
-    // Validation du pseudo
     if (!validatePseudo(formData.pseudo)) {
       setError(
         "Le pseudo doit faire entre 3 et 20 caractères alphanumériques, sans espaces ni caractères spéciaux."
@@ -46,6 +49,7 @@ const Register = () => {
         password: formData.password,
       });
       toast.success("Inscription réussie ! Vous pouvez maintenant vous connecter.");
+      setIsLoading(false);
       navigate("/login");
     } catch (err) {
       console.error("Erreur lors de l'inscription :", err);
@@ -84,10 +88,10 @@ const Register = () => {
           onChange={handleChange}
           required
           aria-required="true"
-          minLength={5}
+          minLength={3}
           maxLength={20}
-          pattern="^[A-Za-z0-9]{5,20}$"
-          title="5 à 20 caractères alphanumériques, sans espaces ni caractères spéciaux"
+          pattern="^[A-Za-z0-9]{3,20}$"
+          title="3 à 20 caractères alphanumériques, sans espaces ni caractères spéciaux"
         />
 
         <label htmlFor="password">Mot de passe</label>
@@ -111,13 +115,23 @@ const Register = () => {
           required
           aria-required="true"
         />
+{isLoading===true ? (
+  <>
+  
+  <BeatLoader size={15} color="#ffffff"/>
+  </>
+  
 
-        <Button
+): (
+
+  <Button
           onClick={null}
           className="btn"
           buttonType="submit"
           text="S'inscrire"
         ></Button>
+)}
+        
       </form>
     </main>
   );

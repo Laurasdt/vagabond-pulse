@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/pages/Gallery.scss";
 import Title from "../components/Title";
-import { BACKEND_URI_DEV } from "../Constante/constante";
+import { BACKEND_URI} from "../Constante/constante";
 import { useAuth } from "../context/AuthContext";
 import { Button } from "@mui/material";
 import {
@@ -49,7 +49,7 @@ const [confirmOpen, setConfirmOpen] = useState(false);
   const fetchData = async() => {
     try {
       const response = await axios
-      .get(`${BACKEND_URI_DEV}/api/memories`)
+      .get(`${BACKEND_URI}/api/memories`)
       setPhotos(response.data)
     } catch (error) {
       toast.error('Erreur lors de la récupération des memories')
