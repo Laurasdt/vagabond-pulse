@@ -66,7 +66,7 @@ const [confirmOpen, setConfirmOpen] = useState(false);
           {photos.map((mem) => (
             <div key={mem.id} className="photo-item">
               <img
-                src={`${BACKEND_URI_DEV}${mem.photoUrl}`}
+                src={`${BACKEND_URI}${mem.photoUrl}`}
                 alt={`Photo de ${mem.owner} : ${
                   mem.description || "souvenir partagé"
                 }`}

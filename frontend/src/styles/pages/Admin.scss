@@ -1,3 +1,5 @@
+@use "../variables" as *;
+
 .admin-page {
     max-width: 900px;
     margin: 2rem auto;
@@ -7,6 +9,10 @@
         text-align: center;
         color: #00efa5;
         margin-bottom: 1.5rem;
+    }
+
+    .update-input {
+        @include input-style;
     }
 
     .btn-logout {

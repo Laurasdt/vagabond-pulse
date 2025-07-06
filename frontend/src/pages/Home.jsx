@@ -13,6 +13,7 @@ import {
   DialogActions,
   Button as Btton,
 } from "@mui/material";
+import { BeatLoader } from "react-spinners";
 
 const Home = () => {
   const { isAuthenticated, user } = useAuth();
@@ -62,16 +63,16 @@ const Home = () => {
     }
   };
 
-  if (loading) return <p>Chargement des événements...</p>;
 
   return (
     <main className="home">
       <Title text="Evénements"></Title>
-      {events.length === 0 ? (
-        <p>Aucun événement disponible</p>
+      {loading ? (
+        <BeatLoader color="#ffffff" size={15}/>
       ) : (
-        <ul className="events-list">
-          {events.map((event) => (
+           <ul className="events-list">
+            {events.length==0?('Aucun événement disponible.'):(
+events.map((event) => (
             <EventCard
               key={event.id}
               event={event}
@@ -79,7 +80,9 @@ const Home = () => {
               currentUserRole={isAuthenticated ? user.role : null}
               onDelete={HandleDeleteEventClick}
             />
-          ))}
+          ))
+            )}
+          
         </ul>
       )}
       <div className="pagination">

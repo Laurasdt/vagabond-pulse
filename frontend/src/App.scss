@@ -5,12 +5,18 @@ body {
   font-family: $font-primary;
   background: $background-color;
 
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
   main {
-    min-height: 100vh;
+    min-height: 80vh;
     padding: 2rem;
     color: $text-color;
     font-family: $font-primary;
     padding: 10px;
+    flex: 1;
   }
 }
 

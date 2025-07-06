@@ -19,7 +19,7 @@ import { Toaster } from "sonner";
 function App() {
   const { user, isAuthenticated } = useAuth();
   return (
-    <div>
+    <div className="wrapper">
       <Toaster position="bottom-center" richColors />
       <Router>
         <Header />

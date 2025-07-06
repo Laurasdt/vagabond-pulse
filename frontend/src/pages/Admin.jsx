@@ -15,6 +15,7 @@ import {
   DialogActions,
   Button as Btton,
 } from "@mui/material";
+import { BACKEND_URI } from "../Constante/constante";
 
 const Admin = () => {
   const { user, logout } = useAuth();
@@ -22,6 +23,33 @@ const Admin = () => {
   const [users, setUsers] = useState([]);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [userToUpdate, setUserToUpdate] = useState(null);
+  const [confirmUpdateOpen, setConfirmUpdateOpen] = useState(false);
+  const [newRole, setNewRole] = useState('');
+  const handleShowUpdateConfirmation = (id) => {
+    setConfirmUpdateOpen(true);
+    setUserToUpdate(id);
+  }
+  const handleUpdateUserRole = async () => {
+    try {
+
+      if (newRole!=="admin" && newRole!=="user") {
+        toast.error('Vous devez choisir user ou admin.')
+        setConfirmUpdateOpen(false);
+        return;
+      }
+      await axios.put(BACKEND_URI + "/api/users/" + userToUpdate, {
+        role: newRole
+      })
+      setConfirmUpdateOpen(false);
+      fetchUsers();
+toast.success('Utilisateur modifié avec succès !')
+    } catch (error) {
+      toast.error('Erreur lors de la modification de l\'utilisateur')
+      console.log(error);
+      
+    }
+  }
   const handleShowConfirmation = (id) => {
     setConfirmOpen(true);
     setUserId(id);
@@ -74,7 +102,7 @@ const Admin = () => {
       {/* <Toaster></Toaster> */}
       <Title text="Tableau de bord administrateur"></Title>
       {/* <TableContainer></TableContainer> */}
-      <UsersTable users={users} onDelete={handleShowConfirmation}></UsersTable>
+      <UsersTable users={users} onEdit={handleShowUpdateConfirmation} onDelete={handleShowConfirmation}></UsersTable>
 
       <Dialog
         open={confirmOpen}
@@ -93,6 +121,27 @@ const Admin = () => {
           <Btton onClick={() => setConfirmOpen(false)}>Annuler</Btton>
           <Btton onClick={handleDelete} color="error" autoFocus>
             Supprimer
+          </Btton>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={confirmUpdateOpen}
+        onClose={() => setConfirmUpdateOpen(false)}
+        aria-labelledby="confirm-dialog-title"
+      >
+        <DialogTitle id="confirm-dialog-title">
+          Modifier le rôle d'un utilisateur
+        </DialogTitle>
+        <DialogContent>
+          <p>
+            Etes-vous sûr de vouloir modifier le rôle de cet utilisateur ?
+          </p>
+          <input className="update-input" type="text" value={newRole} onChange={(e) => setNewRole(e.target.value)} />
+        </DialogContent>
+        <DialogActions>
+          <Btton onClick={() => setConfirmUpdateOpen(false)}>Annuler</Btton>
+          <Btton onClick={handleUpdateUserRole} color="info" autoFocus>
+            Modifier
           </Btton>
         </DialogActions>
       </Dialog>

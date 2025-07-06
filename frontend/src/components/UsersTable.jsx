@@ -12,7 +12,7 @@ import {
 import React from "react";
 import PropTypes from "prop-types";
 
-function UsersTable({ users, onDelete }) {
+function UsersTable({ users, onDelete, onEdit }) {
   const headers = ["ID", "Email", "Pseudo", "Rôle", "Actions"];
 
   return (
@@ -70,6 +70,14 @@ function UsersTable({ users, onDelete }) {
                   >
                     Supprimer
                   </Button>
+                     <Button 
+                    onClick={() => onEdit(user.id)}
+                    color="succes"
+                    variant="outlined"
+                    size="small"
+                  >
+                    Modifier
+                  </Button>
                 </TableCell>
               </TableRow>
             ))
@@ -90,6 +98,7 @@ UsersTable.propTypes = {
     })
   ).isRequired,
   onDelete: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired
 };
 
 export default UsersTable;

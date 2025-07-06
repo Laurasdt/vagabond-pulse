@@ -5,17 +5,21 @@ import "../styles/pages/Login.scss";
 import Title from "../components/Title";
 import Button from "../components/Button";
 import { toast } from "sonner";
+import {BeatLoader} from 'react-spinners';
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [isLoging, setIsLoging] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoging(true);
     try {
       const logged = await login(email, password);
+      setIsLoging(false);
       if (logged.role === "admin") {
         navigate("/admin");
       } else {
@@ -23,6 +27,7 @@ const Login = () => {
       }
     } catch (err) {
       console.error("Échec du login :", err);
+      setIsLoging(false);
       // Gestion du message custom du rate-limit
       if (
         err.message ===
@@ -92,8 +97,12 @@ const Login = () => {
             required
           />
         </div>
-
-        <Button buttonType="submit" className="btn" text="Se connecter" />
+{isLoging===true ? (
+  <BeatLoader color="#ffffff" size={15}></BeatLoader>
+):(
+  <Button buttonType="submit" className="btn" text="Se connecter" />
+)} 
+        
       </form>
 
       <p className="login-footer">

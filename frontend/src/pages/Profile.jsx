@@ -13,6 +13,7 @@ import {
   DialogActions,
   Button as Btton,
 } from "@mui/material";
+import { BeatLoader } from "react-spinners";
 
 const Profile = () => {
   const { user, isAuthenticated } = useAuth();
@@ -26,6 +27,8 @@ const Profile = () => {
   const [deleteId, setDeleteId] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [whichButtonClicked, setWhichButtonClicked] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleWichButtonClicked = (buttonClicked, id) => {
     setWhichButtonClicked(buttonClicked);
     if (buttonClicked==='memory') {
@@ -62,10 +65,18 @@ const Profile = () => {
 
   useEffect(() => {
     if (!userId) return;
-    axios
-      .get(`${import.meta.env.VITE_API_URL}/memories/${userId}`)
-      .then((res) => setMemories(res.data))
-      .catch((err) => console.error("Erreur fetch memories :", err));
+    const fetchDataMemories = async() => {
+      setIsLoading(true)
+      try {
+        const memData = await axios.get(`${import.meta.env.VITE_API_URL}/memories/${userId}`)
+        setIsLoading(false)
+        setMemories(memData.data)
+      } catch (error) {
+        console.log('erreur lors de la récupération');
+        
+      }
+    }
+    fetchDataMemories()
   }, [userId]);
 
   // Récupération des événements de l'utilisateur
@@ -196,36 +207,35 @@ const Profile = () => {
 
       <section className="memories-gallery" aria-labelledby="memories-heading">
         <h2 id="memories-heading">Mes Souvenirs ({memories.length})</h2>
-        {memories.length === 0 ? (
-          <p>Aucun souvenir pour l’instant.</p>
-        ) : (
-          <div className="gallery-grid">
-            {memories.map((mem) => (
-              <article key={mem.id} className="memory-item">
-                <img
-                  src={`${import.meta.env.VITE_API_URL.replace(/\/api$/, "")}${
-                    mem.photoUrl
-                  }`}
-                  alt={`Photo de ${mem.owner} : ${
-                    mem.description || "souvenir"
-                  }`}
-                  loading="lazy"
-                  sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
-                />
-                <div className="memory-info">
-                  <p>{mem.description}</p>
-                  <button
-                    className="btn-delete-memory"
-                    onClick={() => handleWichButtonClicked('memory', mem.id)}
-                    aria-label="supprimer ce memory"
-                  >
-                    Supprimer
-                  </button>
-                </div>
-              </article>
-            ))}
-          </div>
-        )}
+        {isLoading ? (
+<BeatLoader color={'#ffffff'} size={15}></BeatLoader>
+) : memories.length === 0 ? (
+  <p>Aucun souvenir pour l’instant.</p>
+) : (
+  <div className="gallery-grid">
+    {memories.map((mem) => (
+      <article key={mem.id} className="memory-item">
+        <img
+          src={`${import.meta.env.VITE_API_URL.replace(/\/api$/, "")}${mem.photoUrl}`}
+          alt={`Photo de ${mem.owner} : ${mem.description || "souvenir"}`}
+          loading="lazy"
+          sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
+        />
+        <div className="memory-info">
+          <p>{mem.description}</p>
+          <button
+            className="btn-delete-memory"
+            onClick={() => handleWichButtonClicked('memory', mem.id)}
+            aria-label="supprimer ce memory"
+          >
+            Supprimer
+          </button>
+        </div>
+      </article>
+    ))}
+  </div>
+)}
+       
       </section>
       <Dialog
         open={confirmOpen}

@@ -20,14 +20,14 @@ exports.register = async (req, res) => {
     const createdUser = await User.create({
       email,
       pseudo,
-      password: passwordCrypted,
+      password: passwordCrypted
     });
     return res.status(201).json({
       message: "Inscription réussie",
       user: {
         id: createdUser.id,
         email: createdUser.email,
-        pseudo: createdUser.pseudo,
+        pseudo: createdUser.pseudo
       },
     });
   } catch (error) {
