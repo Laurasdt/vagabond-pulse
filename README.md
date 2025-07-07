@@ -54,6 +54,54 @@ Se readme décrit l'architecture mise en place dans ce projet, la configuration,
 
 ```
 vagabond-pulse/
+├── backend/
+│   ├── config/
+│   │   └── database.js      # instance Sequelize
+│   ├── controllers/
+│   │   ├── auth.controller.js
+│   │   ├── event.controller.js
+│   │   ├── memory.controller.js
+│   │   ├── user.controller.js
+│   │   └── admin/           # contrôleurs admin
+│   ├── middleware/
+│   │   ├── auth.middleware.js
+│   │   └── role.middleware.js
+│   ├── models/              # modèles Sequelize + associations
+│   ├── routes/
+│   │   ├── auth.route.js
+│   │   ├── events.route.js
+│   │   ├── memories.route.js
+│   │   ├── users.route.js
+│   │ 
+│   ├── uploads/             # stockage statique
+│   ├── server.js
+│   └── .env
+└── client/
+    ├── src/
+    │   ├── components/
+    │   │   ├── Header.jsx
+    │   │   ├── Footer.jsx
+    │   │   └── UsersTable.jsx   # interface admin
+    │   ├── context/
+    │   │   └── AuthContext.jsx
+    │   ├── pages/
+    │   │   ├── Home.jsx
+    │   │   ├── Login.jsx
+    │   │   ├── Register.jsx
+    │   │   ├── Profile.jsx
+    │   │   ├── Gallery.jsx
+    │   │   ├── CreateEvent.jsx
+    │   │   ├── EventDetails.jsx
+    │   │   ├── EditEvent.jsx
+    │   │   ├── Admin.jsx
+    │   │   ├── AdminEvents.jsx
+    │   │   └── AdminMemories.jsx
+    │   ├── styles/            # fichiers SCSS
+    │   ├── App.jsx
+    │   ├── main.jsx
+    │   └── .env
+    ├── package.json
+    └── vite.config.js
 ```
 ---
 ## Démarrage :
