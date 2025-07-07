@@ -62,7 +62,7 @@ vagabond-pulse/
 │   │   ├── event.controller.js
 │   │   ├── memory.controller.js
 │   │   ├── user.controller.js
-│   │   └── admin/           # contrôleurs admin
+│   │   
 │   ├── middleware/
 │   │   ├── auth.middleware.js
 │   │   └── role.middleware.js
