@@ -22,7 +22,7 @@ const authController = require("../controller/auth.controller");
  *           schema:
  *             type: object
  *             required:
- *               - name
+ *               - pseudo
  *               - email
  *               - password
  *             properties:
