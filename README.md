@@ -56,7 +56,7 @@ Se readme décrit l'architecture mise en place dans ce projet, la configuration,
 vagabond-pulse/
 ├── backend/
 │   ├── config/
-│   │   └── database.js      # instance Sequelize
+│   │   └── database.js      
 │   ├── controllers/
 │   │   ├── auth.controller.js
 │   │   ├── event.controller.js
@@ -66,14 +66,14 @@ vagabond-pulse/
 │   ├── middleware/
 │   │   ├── auth.middleware.js
 │   │   └── role.middleware.js
-│   ├── models/              # modèles Sequelize + associations
+│   ├── models/              
 │   ├── routes/
 │   │   ├── auth.route.js
 │   │   ├── events.route.js
 │   │   ├── memories.route.js
 │   │   ├── users.route.js
 │   │ 
-│   ├── uploads/             # stockage statique
+│   ├── uploads/            
 │   ├── server.js
 │   └── .env
 └── client/
@@ -81,7 +81,7 @@ vagabond-pulse/
     │   ├── components/
     │   │   ├── Header.jsx
     │   │   ├── Footer.jsx
-    │   │   └── UsersTable.jsx   # interface admin
+    │   │   └── UsersTable.jsx  
     │   ├── context/
     │   │   └── AuthContext.jsx
     │   ├── pages/
@@ -96,7 +96,7 @@ vagabond-pulse/
     │   │   ├── Admin.jsx
     │   │   ├── AdminEvents.jsx
     │   │   └── AdminMemories.jsx
-    │   ├── styles/            # fichiers SCSS
+    │   ├── styles/            
     │   ├── App.jsx
     │   ├── main.jsx
     │   └── .env
