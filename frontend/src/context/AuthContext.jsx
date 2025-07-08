@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!user);
 
   // À l'initialisation, si on a un token, on le met dans les headers Axios
-  useEffect(() => {
+ useEffect(() => {
     if (user && user.token) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
     }
@@ -30,6 +30,7 @@ export const AuthProvider = ({ children }) => {
         { withCredentials: true }
       );
       const { token, user: userData } = res.data;
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       const stored = { ...userData, token };
       localStorage.setItem("user", JSON.stringify(stored));

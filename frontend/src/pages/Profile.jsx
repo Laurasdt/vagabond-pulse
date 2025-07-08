@@ -72,7 +72,8 @@ const Profile = () => {
         setIsLoading(false)
         setMemories(memData.data)
       } catch (error) {
-        console.log('erreur lors de la récupération');
+        setIsLoading(false)
+        toast.error('Erreur lors de la récupération des memories');
         
       }
     }

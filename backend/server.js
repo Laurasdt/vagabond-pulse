@@ -20,7 +20,9 @@ const app = express();
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 const corsOptions = {
-  origin: true,
+  origin: [ "http://localhost:5173", 
+    "http://localhost:3000",
+    "https://vagabond-pulse.vercel.app"],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
   allowedHeaders: [
