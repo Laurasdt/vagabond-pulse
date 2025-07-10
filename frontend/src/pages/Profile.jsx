@@ -112,10 +112,10 @@ const Profile = () => {
     setIsUploading(true);
     try {
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append("file", file); // formData est un tableau temporaire qui contient clé, valeur
       formData.append("description", description);
       formData.append("userId", userId);
-      const res = await axios.post( //envoi une requête POST vers api/memories
+      const res = await axios.post( //envoi une requête POST vers route api/memories
         import.meta.env.VITE_API_URL + "/memories", 
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }

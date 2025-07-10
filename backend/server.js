@@ -3,8 +3,8 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const cors = require("cors");
-const helmet = require("helmet");
-const hsts = require("hsts");
+const helmet = require("helmet"); // middleware pour serveur express. permet de sécuriser header http.
+const hsts = require("hsts"); // mécanisme qui force le protocole HTTPS. Evite maninthemiddle. Bloque les connexions http vers notre domaine. 
 const rateLimit = require("express-rate-limit");
 
 const authRouter = require("./routes/auth.route");

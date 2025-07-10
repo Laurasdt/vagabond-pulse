@@ -5,7 +5,7 @@ exports.list = async (req, res) => {
   const page = Math.max(1, parseInt(req.query.page) || 1); // Il faudra ajouter un try/catch
   const limit = Math.max(1, parseInt(req.query.limit) || 10);
   const offset = (page - 1) * limit;
-  const { count, rows } = await Event.findAndCountAll({
+  const { count, rows } = await Event.findAndCountAll({ //.findAndCountAll est natif à Sequelize
     include: [{ model: User, as: "owner", attributes: ["pseudo"] }],
     order: [["date", "DESC"]],
     limit,
@@ -31,7 +31,7 @@ exports.show = async (req, res) => {
 exports.create = async (req, res) => {
   const { title, date, location, description } = req.body;
   const userId = req.user.id;
-  const event = await Event.create({
+  const event = await Event.create({ // insère des données dans la table event
     title: title,
     date: date,
     location: location,

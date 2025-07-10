@@ -1,0 +1,30 @@
+UseEffect : hook => fonction personnalisée, dédiée pour quelque chose de spécifique. Exécute un bloc de code lors du chargement de la page. Ex. Home.jsx l.32 = récup tous les events au moment du chargement de la page. Récup à partir du Back. 
+
+UseState : Hook qui permet de gérer le statut d'une variable au niveau du composant. On peut dire son équivalent c'est useReducer (Hook qui permet la gestion du statut mais au niveau de l'application (Redux version améliorée)).
+
+Const [name, setName] = useState(''); // première valeur que prend name. 
+
+setName('Laura'); // Après l'exécution de cette ligne name devient Laura.
+
+La différence entre useState et let est que let permet de déclarer les valiables et useState contient une fonction associée à la variable name. 
+
+Sécurité : 
+
+UseContext = on a assuré la sécurité de l'application en utulisant le hook useContext (hook qui nous permet de récupérer une valeur d'une variable dans notre composant). Grâce au context.provider on a assuré la sécurité parce que le context.provider permet de distribuer la valeur d'authentification pour toutes les pages et par la suite on peut vérifier si un user est connecté ou non. S'il est connecté alors il peut tester toutes les pages de l'appli protégées sinon il  va être redirigé vers la page login.
+
+Injections SQL : (communique avec BDD)
+- ORM (Object relational mapping) sequelize. Sequelize ajoute un layer de sécurité (layer middleware). Un orm permet de communiquer avec la BDD sans aucune requête SQL. 
+- 
+
+
+XSS (injections par les inputs)
+- React évite par défaut tous les codes js par les inputs 
+- <div dangerouslySetInnerHTML={{ __html: userInput }} />
+
+C'est quoi un middleware : fonction qui permet d'intercepter une requête et vérifier son contenu. Si le contenu est bon alors on autorise la requete pour entrer dans le backend, sinon on la rejete directement car pas sécurisé. 
+
+
+Si l'appli grandi : 
+Dockeriser appli : met l'appli dans un conteneur et on la dupplique. Load balancing => distribution des requêtes par equivalence. 
+C'est à dire, après la dupplication,on envoie la moitié des requ^te vers le premier conteneur et le reste vers le deuxième conteneur. Et si la charge augmente alors on duplplique plusieurs conteneurs et on distribue les requête par equivalence. 
+Pour la gestion de ces conteneur, si un tombe en panne, on a besoin d'un outil qui va créer un nouveau conteneur. Cet outil là s'appelle kubernetes. 

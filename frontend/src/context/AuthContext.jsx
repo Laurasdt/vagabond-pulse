@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{ user, isAuthenticated, login, register, logout }}
     >
-      {children}
+      {children} // toutes les autres pages ou composants, ils ont accès à la valeur de retour de la fonction register, login, logout...
     </AuthContext.Provider>
   );
 };
